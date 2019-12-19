@@ -7,18 +7,22 @@ import java.util.UUID;
 
 public interface UUIDFetcher {
 
-    public Map<String, UUID> call();
+    Map<String, UUID> call();
 
-    public void writeBody(HttpURLConnection connection, String body);
+    void writeBody(HttpURLConnection connection, String body);
 
-    public HttpURLConnection createConnection();
+    HttpURLConnection createConnection();
 
-    public UUID getUUID(String id);
+    UUID getUUID(String id);
 
-    public byte[] toBytes(UUID uuid);
+    byte[] toBytes(UUID uuid);
 
-    public UUID fromBytes(byte[] array);
+    UUID fromBytes(byte[] array);
 
-    public UUID getUUIDOf(String name);
+    UUID getUUIDOf(String name);
+
+    void setUsernames(List<String> usernames);
+
+    void setRateLimited(boolean rateLimited);
 
 }

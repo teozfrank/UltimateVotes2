@@ -2,7 +2,6 @@ package net.teozfrank.ultimatevotes.uuidfetcher.latest;
 
 import net.teozfrank.ultimatevotes.api.UUIDFetcher;
 
-import com.google.common.collect.ImmutableList;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -16,34 +15,29 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.util.*;
-import java.util.concurrent.Callable;
 
 public class UUIDFetcherLatest implements UUIDFetcher {
 
     private static final double PROFILES_PER_REQUEST = 100;
     private static final String PROFILE_URL = "https://api.mojang.com/profiles/minecraft";
-    private final JsonParser jsonParser = new JsonParser();
-    private final List<String> names;
-    private final boolean rateLimiting;
+    private JsonParser jsonParser = new JsonParser();
+    private List<String> usernames;
+    private boolean rateLimited;
 
-    public UUIDFetcherLatest(List<String> names, boolean rateLimiting) {
-        this.names = ImmutableList.copyOf(names);
-        this.rateLimiting = rateLimiting;
-    }
-
-    public UUIDFetcherLatest(List<String> names) {
-        this(names, true);
+    public UUIDFetcherLatest() {
+        this.usernames = new ArrayList<String>();
+        this.rateLimited = true;
     }
 
 
     @Override
     public Map<String, UUID> call() {
         Map<String, UUID> uuidMap = new HashMap<String, UUID>();
-        int requests = (int) Math.ceil(names.size() / PROFILES_PER_REQUEST);
+        int requests = (int) Math.ceil(usernames.size() / PROFILES_PER_REQUEST);
         for (int i = 0; i < requests; i++) {
             HttpURLConnection connection = createConnection();
 
-            String body = new Gson().toJson(names.subList(i * 100, Math.min((i + 1) * 100, names.size())));
+            String body = new Gson().toJson(usernames.subList(i * 100, Math.min((i + 1) * 100, usernames.size())));
             writeBody(connection, body);
             JsonArray array = new JsonArray();
             try {
@@ -60,7 +54,7 @@ public class UUIDFetcherLatest implements UUIDFetcher {
                 UUID uuid = getUUID(id);
                 uuidMap.put(name, uuid);
             }
-            if (rateLimiting && i != requests - 1) {
+            if (rateLimited && i != requests - 1) {
                 try {
                     Thread.sleep(100L);
                 } catch (InterruptedException e) {
@@ -135,5 +129,15 @@ public class UUIDFetcherLatest implements UUIDFetcher {
     public UUID getUUIDOf(String name) {
         //return new UUIDFetcher(Arrays.asList(name)).call().get(name);
         return null;
+    }
+
+    @Override
+    public void setUsernames(List<String> usernames) {
+        this.usernames = usernames;
+    }
+
+    @Override
+    public void setRateLimited(boolean rateLimited) {
+        this.rateLimited = rateLimited;
     }
 }

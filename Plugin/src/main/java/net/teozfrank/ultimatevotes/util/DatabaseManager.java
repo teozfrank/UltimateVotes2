@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import net.teozfrank.ultimatevotes.api.UUIDFetcher;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -713,6 +714,8 @@ public class DatabaseManager {
     }
 
     public void convertNamesToUUID(CommandSender sender, String tablename, boolean onlineMode) {
+        UUIDFetcher uuidFetcher = plugin.getUUIDFetcher();
+
         List<String> usernames = new ArrayList<String>();
 
         String allVotesQuery = "SELECT PLAYER FROM `" + tablename + "` WHERE `UUID` IS NULL";
@@ -738,7 +741,8 @@ public class DatabaseManager {
             Util.sendMsg(sender, ChatColor.GREEN + "Now attempting to contact mojang to retrieve UUID's");
             Map<String, UUID> playerData = new HashMap<String, UUID>();
             if(onlineMode) {
-                UUIDFetcher uuidFetcher = new UUIDFetcher(usernames, true);
+                uuidFetcher.setUsernames(usernames);
+                uuidFetcher.setRateLimited(true);
                 playerData = uuidFetcher.call();
             } else {
                 for(String username: usernames) {
@@ -867,6 +871,7 @@ public class DatabaseManager {
     }
 
     public UUID getUUIDFromUsername(String username) {
+        UUIDFetcher uuidFetcher = plugin.getUUIDFetcher();
         if(plugin.isDebugEnabled()) {
             SendConsoleMessage.debug("Get uuid from username: " + username);
         }
@@ -932,7 +937,8 @@ public class DatabaseManager {
                 }
                 List<String> names = new ArrayList<String>();
                 names.add(username);
-                UUIDFetcher uuidFetcher = new UUIDFetcher(names, true);
+                uuidFetcher.setUsernames(names);
+                uuidFetcher.setRateLimited(true);
                 try {
                     Map<String, UUID> returnedUUID = uuidFetcher.call();
                     if (returnedUUID.size() == 0) {
@@ -960,7 +966,8 @@ public class DatabaseManager {
                 }
                 List<String> names = new ArrayList<String>();
                 names.add(username);
-                UUIDFetcher uuidFetcher = new UUIDFetcher(names, true);
+                uuidFetcher.setUsernames(names);
+                uuidFetcher.setRateLimited(true);
                 try {
                     Map<String, UUID> returnedUUID = uuidFetcher.call();
                     if (returnedUUID.size() == 0) {
@@ -986,7 +993,7 @@ public class DatabaseManager {
                     cachedUUIDs.put(username, uuid);
                 }
                 if(plugin.isDebugEnabled()) {
-                    SendConsoleMessage.debug("Using offline uuid.");
+                    SendConsoleMessage.debug("Using offline uuid server is in offline mode.");
                 }
                 return Util.getOfflineUUID(username);
             }

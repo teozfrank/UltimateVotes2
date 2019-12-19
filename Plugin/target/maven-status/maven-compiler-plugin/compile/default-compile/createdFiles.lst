@@ -1,5 +1,4 @@
 net\teozfrank\ultimatevotes\commands\SubCmd.class
-net\teozfrank\ultimatevotes\util\UUIDFetcher.class
 net\teozfrank\ultimatevotes\util\DatabaseManager$2.class
 net\teozfrank\ultimatevotes\util\UUIDFetcherPre_1_14.class
 net\teozfrank\ultimatevotes\commands\vote\ClaimCmd$2$2.class

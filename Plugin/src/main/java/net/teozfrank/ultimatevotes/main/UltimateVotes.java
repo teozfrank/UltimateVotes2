@@ -2,6 +2,7 @@ package net.teozfrank.ultimatevotes.main;
 
 import com.vexsoftware.votifier.model.VotifierEvent;
 import net.teozfrank.ultimatevotes.api.TitleActionbar;
+import net.teozfrank.ultimatevotes.api.UUIDFetcher;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -39,6 +40,7 @@ public class UltimateVotes extends JavaPlugin {
     private boolean isTrail;
     public static final String INCOMING_CHANNEL_NAME = "uv:rewards";
     private TitleActionbar titleActionbar;
+
     private UUIDFetcher uuidFetcher;
 
     public UltimateVotes() {
@@ -77,6 +79,7 @@ public class UltimateVotes extends JavaPlugin {
         if(errorCount != 0) {
             SendConsoleMessage.warning(errorCount + " of your config files are outdated, please check the above log to see were they updated correctly.");
         }
+        this.setupUUIDFetcher();
         this.databaseManager = new DatabaseManager(this);
         this.voteManager = new VoteManager(this);
 
@@ -161,6 +164,32 @@ public class UltimateVotes extends JavaPlugin {
             errorCount++;
         }
 
+    }
+
+    private boolean setupUUIDFetcher() {
+        String packageName = this.getServer().getClass().getPackage().getName();
+        // Get full package string of CraftServer.
+        // org.bukkit.craftbukkit.version
+        String version = packageName.substring(packageName.lastIndexOf('.') + 1);
+        SendConsoleMessage.info("Server NMS Version: " + version);
+        // Get the last element of the package
+
+        //TODO check for older then load older class.
+
+        try {
+            final Class<?> clazz = Class.forName("net.teozfrank.ultimatevotes.uuidfetcher.latest.UUIDFetcherLatest");
+            // Check if we have a NMSHandler class at that location.
+            if (UUIDFetcher.class.isAssignableFrom(clazz)) { // Make sure it actually implements NMS
+                this.uuidFetcher = (UUIDFetcher) clazz.getConstructor().newInstance(); // Set our handler
+            }
+            SendConsoleMessage.info("UUID Fetcher setup complete.");
+        } catch (final Exception e) {
+            if(isDebugEnabled()) {
+                SendConsoleMessage.warning("Error setting up UUID Fetcher. " + e.getMessage());
+            }
+            return false;
+        }
+        return true;
     }
 
     private boolean setupTitleActionBar() {
@@ -631,5 +660,9 @@ public class UltimateVotes extends JavaPlugin {
 
     public GUIManager getGUIManager() {
         return guiManager;
+    }
+
+    public UUIDFetcher getUUIDFetcher() {
+        return uuidFetcher;
     }
 }
