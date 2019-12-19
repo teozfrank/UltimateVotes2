@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="UltimateVotes" />
+        <module name="UUIDFetcherLatest" />
+        <module name="ultimatevotes-api" />
+        <module name="ultimatevotes-v1_8_R3" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="plugin" target="1.8" />
+      <module name="ultimatevotes" target="1.8" />
+      <module name="UltimateVotes" target="1.8" />
+      <module name="ultimatevotes-api" target="1.8" />
+      <module name="ultimatevotes-parent" target="1.8" />
+      <module name="ultimatevotes-v1_8_R3" target="1.8" />
+      <module name="UUIDFetcherLatest" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

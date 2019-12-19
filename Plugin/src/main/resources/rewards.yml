@@ -1,0 +1,66 @@
+# --------------------------------------------------------------------
+# Copyright (c) teozfrank 2014 ,All Rights Reserved
+# This plugin is a purchase from SpigotMC
+# If you did not purchase this please contact the plugin owner
+# Distribution of this plugin is against the terms of this plugin.
+# --------------------------------------------------------------------
+# each number is the amount of votes for that command to be performed, you may change this
+# to your own liking and there can be unlimited rewards.
+# example rewards
+# there are three types; normal, delayed and percentage chance rewards.
+#
+##############################################################
+# normal commands are ran as normal and look like this
+#
+# 'fly %player%'
+#
+##############################################################
+# delayed rewards look like this
+#
+# '1;fly %player%'
+#
+# 1 means the time in minutes when this command will be ran
+# this is seperated with a ';' where the command is put on the right
+# it can be any command you could add / remove a permission too
+# note this command will be forced to run if the server is restarted
+# it does not persist.
+##############################################################
+# percentage chance rewards look like this
+#
+# '1/100;fly %player%'
+#
+# the above example has a 1 in 100 chance if being ran
+##############################################################
+# multiple commands can be used for both delayed rewards and percentage rewards
+#
+# '1/100;fly %player%;msg %player% you have been given fly!'
+# '1;fly %player%; msg %player% you have been given fly
+#
+##############################################################
+# Please do not touch the config version or you will break the plugin!
+configversion: 1.4
+repeatingrewards:
+# default repeating reward used if reward by world is disabled
+   default:
+     - 'give %player% COBBLESTONE 1'
+     - 'give %player% COOKIE 1'
+# repeating rewards by world "world" is just an example world name
+   world:
+     - 'give %player% GRASS 1'
+rewards:
+# these rewards are when a player reaches a certain amount of votes
+  '10':
+     - 'say %player% has reached 10 votes'
+  '21':
+     - 'give %player% WOODEN_AXE 1'
+  '29':
+     - 'give %player% COOKIE 1'
+# these rewards are the same as above but per world if rewards by world are enabled
+  world:
+     '10':
+        - 'give %player% WOODEN_AXE 1'
+        - 'say %player% has reached 10 votes'
+     '21':
+        - 'give %player% STONE_AXE 1'
+     '29':
+        - 'give %player% COOKIE 1'

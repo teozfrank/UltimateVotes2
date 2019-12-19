@@ -1,0 +1,120 @@
+# --------------------------------------------------------------------
+# Copyright (c) teozfrank 2014 ,All Rights Reserved
+# This plugin is a purchase from SpigotMC
+# If you did not purchase this please contact the plugin owner
+# Distribution of this plugin is against the terms of this plugin.
+# --------------------------------------------------------------------
+# variables you can use for announcement message
+# %player% - vote players name
+# %service% - the service name from where the player voted from
+configversion: 2.7
+messages:
+# the plugin prefix, shown when players are notified
+    prefix: '&6[UltimateVotes] '
+# the vote announcement when a player votes (only applies to non bungeecord servers)
+    announcement: '&b%player% &6voted for the server from &b%service% &6, use /vote!'
+    reward:
+        message: '&aHere is your reward for voting, thanks!'
+        disabled: '&cRewards have been disabled on this server, please try on another server.'
+    linebreak: '&c----------------------------------------------------'
+# vote, vote top, mtop, alltime and malltime messages
+    vote:
+        commandlist:
+            - '&a/vote - &aBrings up this message.'
+            - '&a/vote claim - &aClaim your vote rewards.'
+            - '&a/vote top - &aView the top voters this month.'
+            - '&a/vote alltime - &aView the top voters of all time.'
+            - '&a/vote mtop - &aView your vote count for this month.'
+            - '&a/vote malltime - "&aView your vote count for all time.'
+            - '&a/vote sites - &aView the voting website(s).'
+            - '&a/vote rewards [page] - &aList the rewards for voting'
+            - '&a/vote about - &aMore about this plugin.'
+        title: '&6            UltimateVotes Command list              '
+    top:
+        title: '&6             Top 10 Voters this month               '
+    mtop:
+        title: '&6          Your monthly votes this month             '
+        message: '&6   You have a total of &b%votecount% &6 votes this month '
+    alltime:
+        title: '&6              Top 10 All time voters                '
+    malltime:
+        title: '&6             Your all time votes                    '
+        message: '&6  You have a total of &b%votecount% &6votes alltogether'
+# last updated format %mins$ shows time in minutes, %seconds% shows the seconds count (does not go above 60)
+    lastupdatedformat: '&6Last updated &b%mins% &6mins and &b%seconds% &6seconds ago.'
+# the top list format, used for vote top and vote all time
+    toplistformat: '&d%position%. &b%player% &dhas &b%votecount% &dvotes'
+# vote reminder, sent to all players that have not voted at the set interval
+    reminder:
+       - '&b====================================================='
+       - '&9We have noticed you have not voted for our server today'
+       - '&9Voting is a quick process and helps the server'
+       - '&9You will be rewarded with free items and the top 3 players'
+       - '&9every month get free prizes! use /vote sites to get started'
+       - '&b====================================================='
+       - '&aThis month you have a total of &6%votecount% votes.'
+       - '&b====================================================='
+# vote sites, shown when /vote sites or /v is run
+    sites:
+       - '&b====================================================='
+       - '                   &aHere are list of voting sites.'
+       - '   &aSimply click a link and follow its instructions to vote.'
+       - '&b====================================================='
+       - '&6PlanetMinecraft: http://www.planetminecrat.com/server/example'
+       - '&b====================================================='
+       - '     &aThis month you have a total of &6%votecount% vote(s).'
+       - '&b====================================================='
+# messages shown related to claims
+    claim:
+       message: '&6%player% has claimed their vote rewards for voting!'
+       disabled: '&cThe Claim command has been disabled for this server.'
+       success: '&6You have successfully claimed &b%claimamount% &6unclaimed vote(s)!'
+       nounclaimedvotes: '&cYou do not have any unclaimed votes to claim!'
+       notenoughvotes: '&cYou do not have enough unclaimed votes to claim that much!'
+       invalidamount: '&cYou cannot claim that many votes!'
+       notnumber: '&cYou must input a number or /claim all for this command!'
+       commandlist:
+       - '      &6Claim commands          '
+       - ''
+       - '&a/claim all - &6Use all your claims on this server.'
+       - '&a/claim <amount> - &6Claim a certain amount on this server.'
+       - ''
+       - '&a You have a total of %unclaimedvotes% unclaimed votes.'
+# the join message shown to all players when they join who have not voted
+    joinmessage:
+       - '&b====================================================='
+       - '                   &aWelcome to our server.'
+       - '   &aDid you know you can vote and get free rewards?'
+       - '&b====================================================='
+       - '     &aThis month you have a total of &6%votecount% vote(s).'
+       - '&b====================================================='
+# signwall related messages
+    signwall:
+       topvoterslayout: '%position%.&b%player%'
+       title:
+         '1': 'Top 10'
+         '2': 'Voters'
+       lastupdated:
+         '1': 'Last'
+         '2': 'Updated'
+# rewards, a list of human readable rewards displayed to players when using /vote rewards
+    rewardlist:
+        title: '                &6Vote Rewards Page &b%page%             '
+        pages:
+            '1':
+               - '     &aEvery time you vote you get the following rewards:'
+               - '     &b2 &6bread, &b5000 &6cash and &b20 &6exp bottles   '
+               - '           The above are example vote rewards            '
+            '2':
+               - '&6You can get the following rewards when you reach a milestone'
+               - '&6 1 Vote - &b 10 god apples'
+               - '&6 5 Votes - &b 5000 in game cash.'
+        footer: '&6use &b/vote rewards %nextpage% &6to go to the next page of rewards.'
+        notnumber: '&cYou must enter a number for this command!'
+        lastpage: '&6This is the last page of the reward list.'
+# claim gui messages, these messages are used when the vote claim gui is shown to players
+    claimgui:
+        title: 'Claim Rewards GUI'
+    errors:
+        subcmdnotvalid: '&c"%subcmd%" is not valid for the %cmd% command!'
+        unknowncmd: '&cUnknown command!'
