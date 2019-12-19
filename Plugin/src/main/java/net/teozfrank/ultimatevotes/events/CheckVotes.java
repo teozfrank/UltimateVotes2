@@ -68,6 +68,8 @@ public class CheckVotes implements Listener {
                 }
             }*/
 
+            //TODO get better way of getting block data information
+
         }
 
 
