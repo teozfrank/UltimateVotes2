@@ -143,8 +143,8 @@ public class UltimateVotes extends JavaPlugin {
 
         // Get the last element of the package
 
-        String[] legacyVersions =  { "1_8_R1", "1_8_R2", "1_8_R3", "1_9_R1", "1_9_R2", "1_10_R1", "1_10_R1", "1_11_R1", "1_11_R1", "1_12_R1"};
-        String[] latestVersions = { "1_13_R1", "1_13_R2", "1_14_R1", "1_15_R1"};
+        String[] legacyVersions =  { "1_8_R1", "1_8_R2", "1_8_R3", "1_9_R1", "1_9_R2", "1_10_R1", "1_10_R1", "1_11_R1", "1_11_R1", "1_12_R1", "1_13_R1",  "1_13_R2" };
+        String[] latestVersions = {"1_14_R1", "1_15_R1"};
 
         //TODO check for older then load older class.
 
