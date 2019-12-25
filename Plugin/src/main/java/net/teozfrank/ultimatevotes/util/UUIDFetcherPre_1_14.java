@@ -44,7 +44,7 @@ public class UUIDFetcherPre_1_14 implements Callable<Map<String, UUID>> {
                 JSONObject jsonProfile = (JSONObject) profile;
                 String id = (String) jsonProfile.get("id");
                 String name = (String) jsonProfile.get("name");
-                UUID uuid = UUIDFetcherPre_1_14.getUUID(id);
+                UUID uuid = getUUID(id);
                 uuidMap.put(name, uuid);
             }
             if (rateLimiting && i != requests - 1) {

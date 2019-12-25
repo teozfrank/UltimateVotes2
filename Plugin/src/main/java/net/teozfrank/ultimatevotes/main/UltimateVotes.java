@@ -49,14 +49,8 @@ public class UltimateVotes extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        this.isTrail = false;
         errorCount = 0;
         version = this.getDescription().getVersion();
-        if(isTrail) {
-            if(!this.checkTrial()) {
-                return;
-            }
-        }
         if(this.getDescription().getVersion().contains("dev")) {
             SendConsoleMessage.warning("---------------------------------------------");
             SendConsoleMessage.warning("This is a development version of UltimateVotes, "
@@ -105,34 +99,6 @@ public class UltimateVotes extends JavaPlugin {
         }
     }
 
-    public boolean checkTrial() {
-        Date todaysDate = new Date(System.currentTimeMillis());
-        SimpleDateFormat myFormat = new SimpleDateFormat("dd MM yyyy");
-        String inputString1 = "10 06 2015";
-        Date expiryDate = null;
-        try {
-            expiryDate = myFormat.parse(inputString1);
-        } catch (ParseException e) {
-            this.onDisable();
-            this.getServer().getPluginManager().disablePlugin(this);
-            SendConsoleMessage.warning("Date parse failed, disabling plugin!");
-            return false;
-        }
-        long diff = expiryDate.getTime() - todaysDate.getTime();
-        long daysLeft = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-        SendConsoleMessage.severe("This is a trial version of Ultimatevotes, it will expire in " + daysLeft + " day(s), after that you must purchase a full copy.");
-        if(daysLeft <= 0) {
-            SendConsoleMessage.severe("Trial has expired, Disabling plugin.");
-            getServer().getPluginManager().disablePlugin(this);
-            if(new File("plugins/UltimateVotes.jar").exists()) {
-                File file = new File("plugins/UltimateVotes.jar");
-                file.deleteOnExit();
-            }
-            return false;
-        }
-        return true;
-    }
-
 
     public void registerChannels() {
         getServer().getMessenger().registerIncomingPluginChannel(this, INCOMING_CHANNEL_NAME, new ChannelListener(this));
@@ -171,25 +137,69 @@ public class UltimateVotes extends JavaPlugin {
         // Get full package string of CraftServer.
         // org.bukkit.craftbukkit.version
         String version = packageName.substring(packageName.lastIndexOf('.') + 1);
-        SendConsoleMessage.info("Server NMS Version: " + version);
+        if(isDebugEnabled()) {
+            SendConsoleMessage.info("Server NMS Version: " + version);
+        }
+
         // Get the last element of the package
+
+        String[] legacyVersions =  { "1_8_R1", "1_8_R2", "1_8_R3", "1_9_R1", "1_9_R2", "1_10_R1", "1_10_R1", "1_11_R1", "1_11_R1", "1_12_R1"};
+        String[] latestVersions = { "1_13_R1", "1_13_R2", "1_14_R1", "1_15_R1"};
 
         //TODO check for older then load older class.
 
-        try {
-            final Class<?> clazz = Class.forName("net.teozfrank.ultimatevotes.uuidfetcher.latest.UUIDFetcherLatest");
-            // Check if we have a NMSHandler class at that location.
-            if (UUIDFetcher.class.isAssignableFrom(clazz)) { // Make sure it actually implements NMS
-                this.uuidFetcher = (UUIDFetcher) clazz.getConstructor().newInstance(); // Set our handler
+        boolean legacy = false;
+        boolean latest = false;
+
+        for(String legacyVersion: legacyVersions) {
+            if(version.equals(legacyVersion)) {
+                legacy = true;
+                SendConsoleMessage.info("UUID Fetcher identified as legacy.");
             }
-            SendConsoleMessage.info("UUID Fetcher setup complete.");
-        } catch (final Exception e) {
-            if(isDebugEnabled()) {
-                SendConsoleMessage.warning("Error setting up UUID Fetcher. " + e.getMessage());
-            }
-            return false;
         }
-        return true;
+        if(! legacy) {
+            for(String latestVersion: latestVersions) {
+                latest = true;
+                SendConsoleMessage.info("UUID Fetcher identified as latest.");
+            }
+        }
+
+        if(! legacy && ! latest) {
+            SendConsoleMessage.info("NMS version not identified as legacy or latest, defaulting to latest. This can usually happen if you are using a newer version of spigot.");
+            latest = true;
+        }
+
+        if(legacy) {
+            try {
+                final Class<?> latestClazz = Class.forName("net.teozfrank.ultimatevotes.uuidfetcher.legacy.UUIDFetcherLegacy");
+                // Check if we have a NMSHandler class at that location.
+                if (UUIDFetcher.class.isAssignableFrom(latestClazz)) { // Make sure it actually implements NMS
+                    this.uuidFetcher = (UUIDFetcher) latestClazz.getConstructor().newInstance(); // Set our handler
+                }
+                SendConsoleMessage.info("UUID Fetcher setup complete.");
+            } catch (final Exception e) {
+                if(isDebugEnabled()) {
+                    SendConsoleMessage.warning("Error setting up UUID Fetcher. " + e.getMessage());
+                }
+                return false;
+            }
+            return true;
+        } else {
+            try {
+                final Class<?> latestClazz = Class.forName("net.teozfrank.ultimatevotes.uuidfetcher.latest.UUIDFetcherLatest");
+                // Check if we have a NMSHandler class at that location.
+                if (UUIDFetcher.class.isAssignableFrom(latestClazz)) { // Make sure it actually implements NMS
+                    this.uuidFetcher = (UUIDFetcher) latestClazz.getConstructor().newInstance(); // Set our handler
+                }
+                SendConsoleMessage.info("UUID Fetcher setup complete.");
+            } catch (final Exception e) {
+                if(isDebugEnabled()) {
+                    SendConsoleMessage.warning("Error setting up UUID Fetcher. " + e.getMessage());
+                }
+                return false;
+            }
+            return true;
+        }
     }
 
     private boolean setupTitleActionBar() {

@@ -1,11 +1,12 @@
-package net.teozfrank.ultimatevotes.uuidfetcher.latest;
+package net.teozfrank.ultimatevotes.uuidfetcher.legacy;
 
-import net.teozfrank.ultimatevotes.api.UUIDFetcher;
-
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import net.teozfrank.ultimatevotes.api.UUIDFetcher;
+import com.google.common.collect.ImmutableList;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,19 +16,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.util.*;
+import java.util.concurrent.Callable;
 
-public class UUIDFetcherLatest implements UUIDFetcher {
+public class UUIDFetcherLegacy implements UUIDFetcher {
 
     private static final double PROFILES_PER_REQUEST = 100;
     private static final String PROFILE_URL = "https://api.mojang.com/profiles/minecraft";
-    private JsonParser jsonParser = new JsonParser();
+    private final JSONParser jsonParser = new JSONParser();
     private List<String> usernames;
     private boolean rateLimited;
-
-    public UUIDFetcherLatest() {
-        this.usernames = new ArrayList<String>();
-        this.rateLimited = true;
-    }
 
 
     @Override
@@ -36,21 +33,21 @@ public class UUIDFetcherLatest implements UUIDFetcher {
         int requests = (int) Math.ceil(usernames.size() / PROFILES_PER_REQUEST);
         for (int i = 0; i < requests; i++) {
             HttpURLConnection connection = createConnection();
-
-            String body = new Gson().toJson(usernames.subList(i * 100, Math.min((i + 1) * 100, usernames.size())));
+            String body = JSONArray.toJSONString(usernames.subList(i * 100, Math.min((i + 1) * 100, usernames.size())));
             writeBody(connection, body);
             JsonArray array = new JsonArray();
             try {
                 array = (JsonArray) jsonParser.parse(new InputStreamReader(connection.getInputStream()));
             } catch (IOException e) {
+                System.out.println("IO Exception reader in call: " + e.getMessage());
+            } catch(ParseException e) {
                 System.out.println("Error parsing inputstream reader in call: " + e.getMessage());
             }
 
             for (Object profile : array) {
-                JsonObject jsonProfile = (JsonObject) profile;
-
-                String id = jsonProfile.get("id").getAsString();
-                String name = jsonProfile.get("name").getAsString();
+                JSONObject jsonProfile = (JSONObject) profile;
+                String id = (String) jsonProfile.get("id");
+                String name = (String) jsonProfile.get("name");
                 UUID uuid = getUUID(id);
                 uuidMap.put(name, uuid);
             }
@@ -60,7 +57,6 @@ public class UUIDFetcherLatest implements UUIDFetcher {
                 } catch (InterruptedException e) {
                     System.out.println("Sleep interrupted " + e.getMessage());
                 }
-
             }
         }
         return uuidMap;
@@ -81,7 +77,6 @@ public class UUIDFetcherLatest implements UUIDFetcher {
 
     @Override
     public HttpURLConnection createConnection() {
-
         try {
             URL url = new URL(PROFILE_URL);
             HttpURLConnection connection;
@@ -98,7 +93,6 @@ public class UUIDFetcherLatest implements UUIDFetcher {
 
         }
         return null;
-
     }
 
     @Override
@@ -127,7 +121,6 @@ public class UUIDFetcherLatest implements UUIDFetcher {
 
     @Override
     public UUID getUUIDOf(String name) {
-        //return new UUIDFetcher(Arrays.asList(name)).call().get(name);
         return null;
     }
 

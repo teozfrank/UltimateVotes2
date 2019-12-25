@@ -16,6 +16,6 @@ public class CheckTrialThread implements Runnable {
 
     @Override
     public void run() {
-        plugin.checkTrial();
+        //plugin.checkTrial();
     }
 }

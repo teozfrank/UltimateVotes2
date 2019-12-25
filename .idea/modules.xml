@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/UUIDFetcherLatest/UUIDFetcherLatest.iml" filepath="$PROJECT_DIR$/UUIDFetcherLatest/UUIDFetcherLatest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/UUIDFetcherLegacy/UUIDFetcherLegacy.iml" filepath="$PROJECT_DIR$/UUIDFetcherLegacy/UUIDFetcherLegacy.iml" />
       <module fileurl="file://$PROJECT_DIR$/Plugin/UltimateVotes.iml" filepath="$PROJECT_DIR$/Plugin/UltimateVotes.iml" />
       <module fileurl="file://$PROJECT_DIR$/API/ultimatevotes-api.iml" filepath="$PROJECT_DIR$/API/ultimatevotes-api.iml" />
       <module fileurl="file://$PROJECT_DIR$/ultimatevotes-parent.iml" filepath="$PROJECT_DIR$/ultimatevotes-parent.iml" />
