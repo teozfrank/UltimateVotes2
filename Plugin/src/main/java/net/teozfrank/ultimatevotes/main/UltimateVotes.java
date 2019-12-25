@@ -138,7 +138,7 @@ public class UltimateVotes extends JavaPlugin {
         // org.bukkit.craftbukkit.version
         String version = packageName.substring(packageName.lastIndexOf('.') + 1);
         if(isDebugEnabled()) {
-            SendConsoleMessage.info("Server NMS Version: " + version);
+            SendConsoleMessage.debug("Server NMS Version: " + version);
         }
 
         // Get the last element of the package
@@ -155,12 +155,16 @@ public class UltimateVotes extends JavaPlugin {
             if(version.equals(legacyVersion)) {
                 legacy = true;
                 SendConsoleMessage.info("UUID Fetcher identified as legacy.");
+                break;
             }
         }
         if(! legacy) {
             for(String latestVersion: latestVersions) {
-                latest = true;
-                SendConsoleMessage.info("UUID Fetcher identified as latest.");
+                if(version.equals(latestVersion)) {
+                    latest = true;
+                    SendConsoleMessage.info("UUID Fetcher identified as latest.");
+                    break;
+                }
             }
         }
 
