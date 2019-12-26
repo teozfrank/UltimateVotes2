@@ -474,7 +474,7 @@ public class RewardsManager {
 
         if (timedCmds.isEmpty()) {
             if (plugin.isDebugEnabled()) {
-                SendConsoleMessage.debug("Timed Cmds Empty!");
+                //SendConsoleMessage.debug("Timed Cmds Empty!");
             }
             return;
         }
@@ -489,7 +489,7 @@ public class RewardsManager {
         for (TimedCmd timedCmd : timedCmds) {
             long difference = System.currentTimeMillis() - timedCmd.getStartTime();
 
-            int mins = Integer.valueOf((int) TimeUnit.MILLISECONDS.toMinutes(difference));
+            int mins = (int) TimeUnit.MILLISECONDS.toMinutes(difference);
 
             if (plugin.isDebugEnabled()) {
                 SendConsoleMessage.debug("Mins: " + mins);
