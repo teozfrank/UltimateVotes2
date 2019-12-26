@@ -143,8 +143,9 @@ public class UltimateVotes extends JavaPlugin {
 
         // Get the last element of the package
 
-        String[] legacyVersions =  { "1_8_R1", "1_8_R2", "1_8_R3", "1_9_R1", "1_9_R2", "1_10_R1", "1_10_R1", "1_11_R1", "1_11_R1", "1_12_R1", "1_13_R1",  "1_13_R2" };
-        String[] latestVersions = {"1_14_R1", "1_15_R1"};
+        String[] legacyVersions =  { "v1_8_R1", "v1_8_R2", "v1_8_R3", "v1_9_R1", "v1_9_R2",
+                "v1_10_R1", "v1_10_R1", "v1_11_R1", "v1_11_R1", "v1_12_R1", "v1_13_R1",  "v1_13_R2" };
+        String[] latestVersions = {"v1_14_R1", "v1_15_R1"};
 
         //TODO check for older then load older class.
 
@@ -167,7 +168,7 @@ public class UltimateVotes extends JavaPlugin {
         }
 
         if(! legacy && ! latest) {
-            SendConsoleMessage.info("NMS version not identified as legacy or latest, defaulting to latest. This can usually happen if you are using a newer version of spigot.");
+            SendConsoleMessage.warning("NMS version not identified as legacy or latest, defaulting to latest. This can usually happen if you are using a newer version of spigot.");
             latest = true;
         }
 
@@ -178,7 +179,7 @@ public class UltimateVotes extends JavaPlugin {
                 if (UUIDFetcher.class.isAssignableFrom(latestClazz)) { // Make sure it actually implements NMS
                     this.uuidFetcher = (UUIDFetcher) latestClazz.getConstructor().newInstance(); // Set our handler
                 }
-                SendConsoleMessage.info("UUID Fetcher setup complete.");
+                SendConsoleMessage.info("Legacy UUID Fetcher setup complete.");
             } catch (final Exception e) {
                 if(isDebugEnabled()) {
                     SendConsoleMessage.warning("Error setting up UUID Fetcher. " + e.getMessage());
@@ -193,7 +194,7 @@ public class UltimateVotes extends JavaPlugin {
                 if (UUIDFetcher.class.isAssignableFrom(latestClazz)) { // Make sure it actually implements NMS
                     this.uuidFetcher = (UUIDFetcher) latestClazz.getConstructor().newInstance(); // Set our handler
                 }
-                SendConsoleMessage.info("UUID Fetcher setup complete.");
+                SendConsoleMessage.info("Latest UUID Fetcher setup complete.");
             } catch (final Exception e) {
                 if(isDebugEnabled()) {
                     SendConsoleMessage.warning("Error setting up UUID Fetcher. " + e.getMessage());
