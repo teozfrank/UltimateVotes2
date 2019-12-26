@@ -155,7 +155,6 @@ public class UltimateVotes extends JavaPlugin {
             if(version.equals(legacyVersion)) {
                 legacy = true;
                 SendConsoleMessage.info("UUID Fetcher identified as legacy.");
-                break;
             }
         }
         if(! legacy) {
@@ -163,7 +162,6 @@ public class UltimateVotes extends JavaPlugin {
                 if(version.equals(latestVersion)) {
                     latest = true;
                     SendConsoleMessage.info("UUID Fetcher identified as latest.");
-                    break;
                 }
             }
         }
