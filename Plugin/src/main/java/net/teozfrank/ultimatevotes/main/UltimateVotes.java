@@ -134,20 +134,14 @@ public class UltimateVotes extends JavaPlugin {
 
     private boolean setupUUIDFetcher() {
         String packageName = this.getServer().getClass().getPackage().getName();
-        // Get full package string of CraftServer.
-        // org.bukkit.craftbukkit.version
         String version = packageName.substring(packageName.lastIndexOf('.') + 1);
         if(isDebugEnabled()) {
             SendConsoleMessage.debug("Server NMS Version: " + version);
         }
 
-        // Get the last element of the package
-
         String[] legacyVersions =  { "v1_8_R1", "v1_8_R2", "v1_8_R3", "v1_9_R1", "v1_9_R2",
                 "v1_10_R1", "v1_10_R1", "v1_11_R1", "v1_11_R1", "v1_12_R1", "v1_13_R1",  "v1_13_R2" };
         String[] latestVersions = {"v1_14_R1", "v1_15_R1"};
-
-        //TODO check for older then load older class.
 
         boolean legacy = false;
         boolean latest = false;
@@ -172,37 +166,24 @@ public class UltimateVotes extends JavaPlugin {
             latest = true;
         }
 
-        if(legacy) {
-            try {
-                final Class<?> latestClazz = Class.forName("net.teozfrank.ultimatevotes.uuidfetcher.legacy.UUIDFetcherLegacy");
-                // Check if we have a NMSHandler class at that location.
-                if (UUIDFetcher.class.isAssignableFrom(latestClazz)) { // Make sure it actually implements NMS
-                    this.uuidFetcher = (UUIDFetcher) latestClazz.getConstructor().newInstance(); // Set our handler
-                }
-                SendConsoleMessage.info("Legacy UUID Fetcher setup complete.");
-            } catch (final Exception e) {
-                if(isDebugEnabled()) {
-                    SendConsoleMessage.warning("Error setting up UUID Fetcher. " + e.getMessage());
-                }
-                return false;
+        Class<?> clazz;
+
+        try {
+            if(legacy) {
+                clazz = Class.forName("net.teozfrank.ultimatevotes.uuidfetcher.legacy.UUIDFetcherLegacy");
+            } else {
+                clazz = Class.forName("net.teozfrank.ultimatevotes.uuidfetcher.latest.UUIDFetcherLatest");
             }
-            return true;
-        } else {
-            try {
-                final Class<?> latestClazz = Class.forName("net.teozfrank.ultimatevotes.uuidfetcher.latest.UUIDFetcherLatest");
-                // Check if we have a NMSHandler class at that location.
-                if (UUIDFetcher.class.isAssignableFrom(latestClazz)) { // Make sure it actually implements NMS
-                    this.uuidFetcher = (UUIDFetcher) latestClazz.getConstructor().newInstance(); // Set our handler
-                }
-                SendConsoleMessage.info("Latest UUID Fetcher setup complete.");
-            } catch (final Exception e) {
-                if(isDebugEnabled()) {
-                    SendConsoleMessage.warning("Error setting up UUID Fetcher. " + e.getMessage());
-                }
-                return false;
+
+            if (UUIDFetcher.class.isAssignableFrom(clazz)) { // Make sure it actually implements NMS
+                this.uuidFetcher = (UUIDFetcher) clazz.getConstructor().newInstance(); // Set our handler
             }
-            return true;
+        } catch (Exception e) {
+            SendConsoleMessage.severe("UUID Fetcher failed: " + e.getMessage());
+            return false;
         }
+        SendConsoleMessage.info("UUID Fetcher setup complete.");
+        return true;
     }
 
     private boolean setupTitleActionBar() {
