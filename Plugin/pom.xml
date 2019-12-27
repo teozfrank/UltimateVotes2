@@ -41,6 +41,12 @@
         </dependency>
         <dependency>
             <groupId>net.teozfrank.ultimatevotes</groupId>
+            <artifactId>UUIDFetcherLegacy</artifactId>
+            <version>v1.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.teozfrank.ultimatevotes</groupId>
             <artifactId>api</artifactId>
             <version>API</version>
             <scope>compile</scope>
