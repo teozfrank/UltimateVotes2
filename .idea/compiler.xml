@@ -6,11 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="UltimateVotes" />
         <module name="UUIDFetcherLegacy" />
+        <module name="WorldEditLegacy" />
+        <module name="UltimateVotes" />
+        <module name="ultimatevotes-v1_8_R3" />
         <module name="UUIDFetcherLatest" />
         <module name="ultimatevotes-api" />
-        <module name="ultimatevotes-v1_8_R3" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -22,6 +23,7 @@
       <module name="ultimatevotes-v1_8_R3" target="1.8" />
       <module name="UUIDFetcherLatest" target="1.8" />
       <module name="UUIDFetcherLegacy" target="1.8" />
+      <module name="WorldEditLegacy" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
