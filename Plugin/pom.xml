@@ -35,8 +35,8 @@
         </dependency>
         <dependency>
             <groupId>net.teozfrank.ultimatevotes</groupId>
-            <artifactId>UUIDFetcherLatest</artifactId>
-            <version>v1.0</version>
+            <artifactId>api</artifactId>
+            <version>API</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -47,8 +47,20 @@
         </dependency>
         <dependency>
             <groupId>net.teozfrank.ultimatevotes</groupId>
-            <artifactId>api</artifactId>
-            <version>API</version>
+            <artifactId>UUIDFetcherLatest</artifactId>
+            <version>v1.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.teozfrank.ultimatevotes</groupId>
+            <artifactId>WorldEditLegacy</artifactId>
+            <version>v1.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.teozfrank.ultimatevotes</groupId>
+            <artifactId>WorldEditLatest</artifactId>
+            <version>v1.0</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
@@ -68,9 +80,13 @@
         </repository>
 
     </repositories>
-
+    <scm>
+        <connection>scm:svn:http://127.0.0.1/dummy</connection>
+        <developerConnection>scm:svn:https://127.0.0.1/dummy</developerConnection>
+        <tag>HEAD</tag>
+        <url>http://127.0.0.1/dummy</url>
+    </scm>
     <build>
-        <finalName>UltimateVotes</finalName>
         <defaultGoal>clean install</defaultGoal>
         <resources>
             <resource>
@@ -103,7 +119,62 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+                <version>1.4</version>
+                <executions>
+                    <execution>
+                        <id>buildnumber</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>create</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <format>{0,number}</format>
+                    <items>
+                        <item>buildNumber</item>
+                    </items>
+                    <doCheck>false</doCheck>
+                    <doUpdate>false</doUpdate>
+                    <revisionOnScmFailure>unknownbuild</revisionOnScmFailure>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
+                <version>2.2.4</version>
+                <executions>
+                    <execution>
+                        <id>get-the-git-infos</id>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
+                    <prefix>git</prefix>
+                    <verbose>false</verbose>
+                    <generateGitPropertiesFile>true</generateGitPropertiesFile>
+                    <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
+                    <format>json</format>
+                    <excludeProperties>
+                        <excludeProperty>git.remote.origin.url</excludeProperty>
+                        <excludeProperty>git.build.user.email</excludeProperty>
+                        <excludeProperty>git.commit.user.email</excludeProperty>
+                    </excludeProperties>
+                    <gitDescribe>
+                        <skip>false</skip>
+                        <always>false</always>
+                        <dirty>-dirty</dirty>
+                    </gitDescribe>
+                </configuration>
+            </plugin>
         </plugins>
+        <finalName>${project.artifactId}-${project.version}.${buildNumber}</finalName>
     </build>
 
 

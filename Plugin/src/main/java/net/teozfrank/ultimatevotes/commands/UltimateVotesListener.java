@@ -73,7 +73,14 @@ public class UltimateVotesListener implements CommandExecutor {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
                 FileManager fm = plugin.getFileManager();
-                fm.setWallSignsLocation(player);
+                //TODO use new worldedit selection helper to get worldedit selection object
+                //TODO then check region selection is all wallsigns
+                //TODO then save to disk
+                /*if (! sm.isRegionAllWallSigns(pos1, pos2)) {
+                    //Util.sendMsg(player, ChatColor.RED + "Your sign region selection is not all wall signs or is not 3x3!, please reselect the region!");
+                    return;
+                }*/
+                //fm.setWallSignsLocation(player);
             }
             return true;
         } else if (args.length == 1 && args[0].equalsIgnoreCase("addvotetarget")) {

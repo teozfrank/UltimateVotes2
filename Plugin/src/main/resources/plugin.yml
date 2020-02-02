@@ -1,6 +1,6 @@
 name: UltimateVotes
 main: net.teozfrank.ultimatevotes.main.UltimateVotes
-version: '${project.version}'
+version: '${project.version}.${buildNumber}'
 author: teozfrank
 api-version: 1.13
 commands:
@@ -26,7 +26,7 @@ commands:
        description: Allow a player to view the voting rewards
        usage: /<command> [page]
        aliases: [rewards]
-depends: [WorldEdit]
+softdepend: [WorldEdit]
 permissions:
     ultimatevotes.player.*:
         description: Gives access to all player commands

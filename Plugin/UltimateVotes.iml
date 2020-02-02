@@ -36,8 +36,10 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.logging.log4j:log4j-slf4j-impl:2.8.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.logging.log4j:log4j-api:2.8.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.bstats:bstats-bukkit:1.5" level="project" />
-    <orderEntry type="module" module-name="UUIDFetcherLatest" />
-    <orderEntry type="module" module-name="UUIDFetcherLegacy" />
     <orderEntry type="module" module-name="ultimatevotes-api" />
+    <orderEntry type="module" module-name="UUIDFetcherLegacy" />
+    <orderEntry type="module" module-name="UUIDFetcherLatest" />
+    <orderEntry type="module" module-name="WorldEditLegacy" />
+    <orderEntry type="module" module-name="WorldEditLatest" />
   </component>
 </module>

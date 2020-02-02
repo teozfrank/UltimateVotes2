@@ -3,6 +3,7 @@ package net.teozfrank.ultimatevotes.main;
 import com.vexsoftware.votifier.model.VotifierEvent;
 import net.teozfrank.ultimatevotes.api.TitleActionbar;
 import net.teozfrank.ultimatevotes.api.UUIDFetcher;
+import net.teozfrank.ultimatevotes.api.WorldEditSelectionHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -17,10 +18,8 @@ import net.teozfrank.ultimatevotes.util.*;
 
 import java.io.File;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 public class UltimateVotes extends JavaPlugin {
 
@@ -42,6 +41,7 @@ public class UltimateVotes extends JavaPlugin {
     private TitleActionbar titleActionbar;
 
     private UUIDFetcher uuidFetcher;
+    private WorldEditSelectionHelper worldEditSelectionHelper;
 
     public UltimateVotes() {
     }
@@ -91,6 +91,7 @@ public class UltimateVotes extends JavaPlugin {
         });
         this.remindPlayers();
         this.setupDependencies();
+        this.setupWorldEditHelper();
 
 
         this.registerChannels();
@@ -129,6 +130,59 @@ public class UltimateVotes extends JavaPlugin {
             updateMessagesConfig();
             errorCount++;
         }
+
+    }
+
+    private boolean setupWorldEditHelper() {
+        String packageName = this.getServer().getClass().getPackage().getName();
+        String version = packageName.substring(packageName.lastIndexOf('.') + 1);
+        if(isDebugEnabled()) {
+            SendConsoleMessage.debug("Server NMS Version: " + version);
+        }
+
+        String[] legacyVersions =  { "6." };
+        String[] latestVersions = {"7."};
+
+        boolean legacy = false;
+        boolean latest = false;
+
+        for(String legacyVersion: legacyVersions) {
+            if(version.startsWith(legacyVersion)) {
+                legacy = true;
+                SendConsoleMessage.info("WorldEdit Helper identified as legacy.");
+            }
+        }
+        if(! legacy) {
+            for(String latestVersion: latestVersions) {
+                if(version.startsWith(latestVersion)) {
+                    latest = true;
+                    SendConsoleMessage.info("WorldEdit Helper identified as latest.");
+                }
+            }
+        }
+
+        if(! legacy && ! latest) {
+            SendConsoleMessage.warning("WorldEdit version not identified as legacy or latest, defaulting to latest. "
+                    + "This can usually happen if you are using a WorldEdit version not matching 6.X or 7.X.");
+            latest = true;
+        }
+        Class<?> clazz;
+        try {
+            if(legacy) {
+                clazz = Class.forName("net.teozfrank.ultimatevotes.worldedit.legacy.WorldEditLegacy");
+            } else {
+                clazz = Class.forName("net.teozfrank.ultimatevotes.worldedit.latest.WorldEditLatest");
+            }
+
+            if (WorldEditSelectionHelper.class.isAssignableFrom(clazz)) { // Make sure it actually implements NMS
+                this.worldEditSelectionHelper = (WorldEditSelectionHelper) clazz.getConstructor().newInstance(); // Set our handler
+            }
+        } catch (Exception e) {
+            SendConsoleMessage.severe("WorldEditHelper setup failed: " + e.getMessage());
+            return false;
+        }
+        SendConsoleMessage.info("WorldEditHelper setup complete.");
+        return true;
 
     }
 
@@ -582,9 +636,16 @@ public class UltimateVotes extends JavaPlugin {
         if (this.getServer().getPluginManager().getPlugin("WorldEdit") != null) {
             SendConsoleMessage.info("WorldEdit found! hooking into plugin!");
         } else {
-            SendConsoleMessage.warning("WorldEdit dependency not found, plugin disabled!");
-            Bukkit.getPluginManager().disablePlugin(this);
+            SendConsoleMessage.warning("WorldEdit dependency not found, setting wall signs will not work!");
         }
+    }
+
+    /**
+     * Get the worldedit version
+     * @return worldedit version, null if plugin is not loaded
+     */
+    public String getWorldEditVersion() {
+        return this.getServer().getPluginManager().getPlugin("WorldEdit").getDescription().getVersion();
     }
 
 

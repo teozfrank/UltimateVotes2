@@ -10,10 +10,10 @@
     <modules>
         <module>API</module>
         <module>Plugin</module>
-        <module>v1_8_R3</module>
+        <module>WorldEditLegacy</module>
+        <module>WorldEditLatest</module>
         <module>UUIDFetcherLatest</module>
         <module>UUIDFetcherLegacy</module>
-        <module>WorldEditLegacy</module>
     </modules>
 
     <repositories>

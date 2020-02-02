@@ -17,6 +17,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import net.teozfrank.ultimatevotes.main.UltimateVotes;
 import net.teozfrank.ultimatevotes.threads.WallSignIntroThread;
+import util.WorldEditSelection;
 
 import java.io.File;
 import java.io.IOException;
@@ -313,63 +314,34 @@ public class FileManager {
         return signWallLayout;
     }
 
-    public void setWallSignsLocation(Player player) {
-        /*double pos1x, pos1y, pos1z, pos2x, pos2y, pos2z;
-        //String worldName;
-        //World selWorld;
-        Location pos1;
-        Location pos2;
-        FileManager fm = plugin.getFileManager();
-        SignManager sm = plugin.getSignManager();
+    public boolean setWallSignsLocation(Player player, WorldEditSelection selection) {
 
-        SessionOwner sessionOwner = BukkitAdapter.adapt(player);
-        LocalSession playerSession = WorldEdit.getInstance().getSessionManager().get(sessionOwner);
-
-        Region playerSelection;
-
+        Location pos1 = selection.getPos1();
+        Location pos2 = selection.getPos2();
         try {
-            playerSelection = playerSession.getSelection(playerSession.getSelectionWorld());
-        } catch (IncompleteRegionException e) {
-            Util.sendMsg(player, ChatColor.RED + "Region selection incomplete!");
-            return;
+            if(! selection.isSuccess()) {
+                Util.sendEmptyMsg(player, ChatColor.RED + "Region selection was unsuccessful not saving!");
+                return true;
+            }
+            String basePath = "signs.signwall.";
+            this.getSigns().set(basePath + "pos1.world", pos1.getWorld().getName());
+            this.getSigns().set(basePath + "pos1.x", pos1.getBlockX());
+            this.getSigns().set(basePath + "pos1.y", pos1.getBlockY());
+            this.getSigns().set(basePath + "pos1.z", pos1.getBlockZ());
+
+            this.getSigns().set(basePath + "pos2.x", pos2.getBlockX());
+            this.getSigns().set(basePath + "pos2.y", pos2.getBlockY());
+            this.getSigns().set(basePath + "pos2.z", pos2.getBlockZ());
+            this.getSigns().set(basePath + "pos2.world", pos2.getWorld().getName());
+
+            this.saveSigns();
+            this.reloadSigns();
+            Util.sendEmptyMsg(player, ChatColor.GREEN + "Successfully saved wall sign location!");
+            plugin.getServer().getScheduler().runTask(plugin, new WallSignIntroThread(plugin));
+            return true;
+        } catch (Exception ex) {
+            return false;
         }
-
-        BlockVector3 minimumPoint = playerSelection.getMinimumPoint();
-        BlockVector3 maximumPoint = playerSelection.getMaximumPoint();
-
-        World world = Bukkit.getWorld(playerSession.getSelectionWorld().getName());
-
-        pos1x = maximumPoint.getX();
-        pos1y = maximumPoint.getY();
-        pos1z = maximumPoint.getZ();
-        pos1 = new Location(world, pos1x, pos1y, pos1z);
-
-
-        pos2x = minimumPoint.getX();
-        pos2y = minimumPoint.getY();
-        pos2z = minimumPoint.getZ();
-        pos2 = new Location(world, pos2x, pos2y, pos2z);
-
-        if (! sm.isRegionAllWallSigns(pos1, pos2)) {
-            Util.sendMsg(player, ChatColor.RED + "Your sign region selection is not all wall signs or is not 3x3!, please reselect the region!");
-            return;
-        }
-
-        String basePath = "signs.signwall.";
-        fm.getSigns().set(basePath + "pos1.world", world.getName());
-        fm.getSigns().set(basePath + "pos1.x", pos1x);
-        fm.getSigns().set(basePath + "pos1.y", pos1y);
-        fm.getSigns().set(basePath + "pos1.z", pos1z);
-
-        fm.getSigns().set(basePath + "pos2.x", pos2x);
-        fm.getSigns().set(basePath + "pos2.y", pos2y);
-        fm.getSigns().set(basePath + "pos2.z", pos2z);
-        fm.getSigns().set(basePath + "pos2.world", world.getName());
-
-        fm.saveSigns();
-        fm.reloadSigns();
-        Util.sendEmptyMsg(player, ChatColor.GREEN + "Successfully set sign wall!");
-        plugin.getServer().getScheduler().runTask(plugin, new WallSignIntroThread(plugin));*/
     }
 
 
