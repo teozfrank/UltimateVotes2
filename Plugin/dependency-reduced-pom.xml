@@ -21,7 +21,7 @@
         </includes>
       </resource>
     </resources>
-    <finalName>${project.artifactId}-${project.version}.${buildNumber}</finalName>
+    <finalName>${project.artifactId}</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>

@@ -134,7 +134,6 @@ public class UltimateVotes extends JavaPlugin {
     }
 
     private boolean setupWorldEditSelectionHelper() {
-
         String version = this.getWorldEditVersion();
 
         if(version == null ) {
@@ -142,6 +141,9 @@ public class UltimateVotes extends JavaPlugin {
             return true;
         }
 
+        if(isDebugEnabled()) {
+            SendConsoleMessage.debug("WorldEdit Version: " + version);
+        }
         String[] legacyVersions =  { "6." };
         String[] latestVersions = {"7."};
 
@@ -151,14 +153,14 @@ public class UltimateVotes extends JavaPlugin {
         for(String legacyVersion: legacyVersions) {
             if(version.startsWith(legacyVersion)) {
                 legacy = true;
-                SendConsoleMessage.info("WorldEdit Helper identified as legacy.");
+                SendConsoleMessage.info("WorldEdit Selection Helper identified as legacy.");
             }
         }
         if(! legacy) {
             for(String latestVersion: latestVersions) {
                 if(version.startsWith(latestVersion)) {
                     latest = true;
-                    SendConsoleMessage.info("WorldEdit Helper identified as latest.");
+                    SendConsoleMessage.info("WorldEdit Selection Helper identified as latest.");
                 }
             }
         }
@@ -180,10 +182,10 @@ public class UltimateVotes extends JavaPlugin {
                 this.worldEditSelectionHelper = (WorldEditSelectionHelper) clazz.getConstructor().newInstance(); // Set our handler
             }
         } catch (Exception e) {
-            SendConsoleMessage.severe("WorldEditHelper setup failed: " + e.getMessage());
+            SendConsoleMessage.severe("WorldEdit Selection Helper setup failed: " + e.getMessage());
             return false;
         }
-        SendConsoleMessage.info("WorldEditHelper setup complete.");
+        SendConsoleMessage.info("WorldEdit Selection Helper setup complete.");
         return true;
 
     }

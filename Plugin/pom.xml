@@ -174,7 +174,7 @@
                 </configuration>
             </plugin>
         </plugins>
-        <finalName>${project.artifactId}-${project.version}.${buildNumber}</finalName>
+        <finalName>${project.artifactId}</finalName>
     </build>
 
 
