@@ -91,7 +91,7 @@ public class UltimateVotes extends JavaPlugin {
         });
         this.remindPlayers();
         this.setupDependencies();
-        this.setupWorldEditHelper();
+        this.setupWorldEditSelectionHelper();
 
 
         this.registerChannels();
@@ -133,11 +133,13 @@ public class UltimateVotes extends JavaPlugin {
 
     }
 
-    private boolean setupWorldEditHelper() {
-        String packageName = this.getServer().getClass().getPackage().getName();
-        String version = packageName.substring(packageName.lastIndexOf('.') + 1);
-        if(isDebugEnabled()) {
-            SendConsoleMessage.debug("Server NMS Version: " + version);
+    private boolean setupWorldEditSelectionHelper() {
+
+        String version = this.getWorldEditVersion();
+
+        if(version == null ) {
+            SendConsoleMessage.warning("WorldEdit plugin not found, WorldEdit related features will not work!");
+            return true;
         }
 
         String[] legacyVersions =  { "6." };
