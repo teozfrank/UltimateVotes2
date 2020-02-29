@@ -4,6 +4,7 @@ import net.teozfrank.ultimatevotes.api.MaterialHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -16,7 +17,7 @@ public class MaterialHelperLegacy implements MaterialHelper {
 
 
     @Override
-    public boolean isWallSign(org.bukkit.block.Block block) {
+    public boolean isWallSign(Block block) {
         if(block.getType() == Material.WALL_SIGN) {
             return true;
         }

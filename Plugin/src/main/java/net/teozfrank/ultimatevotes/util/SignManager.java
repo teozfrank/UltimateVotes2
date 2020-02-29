@@ -48,6 +48,10 @@ public class SignManager {
         int totalBlockCount = 0;
         int totalSignCount = 0;
 
+        if(plugin.isDebugEnabled()) {
+            SendConsoleMessage.debug("Material: " + plugin.getMaterialHelper().getGlassPane());
+        }
+
             Vector max = Vector.getMaximum(pos1.toVector(), pos2.toVector());
             Vector min = Vector.getMinimum(pos1.toVector(), pos2.toVector());
             for (int i = min.getBlockX(); i <= max.getBlockX();i++) {
