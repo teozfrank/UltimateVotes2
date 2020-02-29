@@ -45,16 +45,23 @@ public class WorldEditSelection {
 
     @Override
     public String toString() {
-        return "WorldEditSelection{" +
-                "pos1W=" + pos1.getWorld().getName() +
-                "pos1X=" + pos1.getBlockX() +
-                "pos1Y=" + pos1.getBlockY() +
-                "pos1Z=" + pos1.getBlockZ() +"\n" +
-                "pos2W=" + pos2.getWorld().getName() +
-                "pos2X=" + pos2.getBlockX() +
-                "pos2Y=" + pos2.getBlockY() +
-                "pos2Z=" + pos2.getBlockZ() +"\n" +
-                "success=" + success +
-                '}';
+        String returnString = "";
+        if(pos1 == null || pos2 == null) {
+            returnString = "Selection is null or incomplete";
+        } else {
+            returnString = "WorldEditSelection{" +
+
+                    "pos1W=" + pos1.getWorld().getName() +
+                    "pos1X=" + pos1.getBlockX() +
+                    "pos1Y=" + pos1.getBlockY() +
+                    "pos1Z=" + pos1.getBlockZ() +"\n" +
+                    "pos2W=" + pos2.getWorld().getName() +
+                    "pos2X=" + pos2.getBlockX() +
+                    "pos2Y=" + pos2.getBlockY() +
+                    "pos2Z=" + pos2.getBlockZ() +"\n" +
+                    "success=" + success +
+                    '}';
+        }
+        return returnString;
     }
 }
