@@ -34,7 +34,7 @@ public class WorldEditLatest implements WorldEditSelectionHelper {
 
         try {
             playerSelection = playerSession.getSelection(playerSession.getSelectionWorld());
-        } catch (IncompleteRegionException e) {
+        } catch (Exception e) {
             selection.setSuccess(false);
             return selection;
         }
