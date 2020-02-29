@@ -95,7 +95,7 @@ public class UltimateVotesListener implements CommandExecutor {
                         fm.setWallSignsLocation(player, pos1, pos2);
                     }
                 } else {
-
+                    Util.sendMsg(sender, ChatColor.RED + "Region selection is incomplete!");
                 }
             }
             return true;

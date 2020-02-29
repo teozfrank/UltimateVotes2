@@ -63,7 +63,7 @@ public class UltimateVotes extends JavaPlugin {
         this.fileManager = new FileManager(this);//initialise our file manager as the methods below require it
         this.rewardsManager = new RewardsManager(this);
         this.messageManager = new MessageManager(this);
-        this.signManager = new SignManager(this);
+
         this.debug = this.getConfig().getBoolean("ultimatevotes.debug.enabled");
         if(this.isDebugEnabled()) { SendConsoleMessage.debug("Debug mode enabled!"); }
         this.setupConfigs();
@@ -97,6 +97,7 @@ public class UltimateVotes extends JavaPlugin {
         this.setupWorldEditSelectionHelper();
 
         this.guiManager = new GUIManager(this);
+        this.signManager = new SignManager(this);
         this.registerChannels();
         if(this.isTrail) {
             this.getServer().getScheduler().runTaskTimer(this, new CheckTrialThread(this), 20000L, 20000L);
