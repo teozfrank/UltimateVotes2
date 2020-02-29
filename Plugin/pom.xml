@@ -63,6 +63,18 @@
             <version>v1.0</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>net.teozfrank.ultimatevotes</groupId>
+            <artifactId>MaterialHelperLegacy</artifactId>
+            <version>v1.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.teozfrank.ultimatevotes</groupId>
+            <artifactId>MaterialHelperLatest</artifactId>
+            <version>v1.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <repositories>
@@ -120,29 +132,6 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>buildnumber-maven-plugin</artifactId>
-                <version>1.4</version>
-                <executions>
-                    <execution>
-                        <id>buildnumber</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>create</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <format>{0,number}</format>
-                    <items>
-                        <item>buildNumber</item>
-                    </items>
-                    <doCheck>false</doCheck>
-                    <doUpdate>false</doUpdate>
-                    <revisionOnScmFailure>unknownbuild</revisionOnScmFailure>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>pl.project13.maven</groupId>
                 <artifactId>git-commit-id-plugin</artifactId>
                 <version>2.2.4</version>
@@ -164,7 +153,10 @@
                     <excludeProperties>
                         <excludeProperty>git.remote.origin.url</excludeProperty>
                         <excludeProperty>git.build.user.email</excludeProperty>
+                        <excludeProperty>git.build.host</excludeProperty>
                         <excludeProperty>git.commit.user.email</excludeProperty>
+                        <excludeProperty>git.build.user.name</excludeProperty>
+                        <excludeProperty>git.commit.user.name</excludeProperty>
                     </excludeProperties>
                     <gitDescribe>
                         <skip>false</skip>
