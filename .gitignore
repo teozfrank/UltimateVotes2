@@ -52,6 +52,7 @@ target/
 *.iml
 compiler.xml
 modules.xml
+buildNumber.properties
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
