@@ -314,15 +314,9 @@ public class FileManager {
         return signWallLayout;
     }
 
-    public boolean setWallSignsLocation(Player player, WorldEditSelection selection) {
+    public boolean setWallSignsLocation(Player player, Location pos1, Location pos2) {
 
-        Location pos1 = selection.getPos1();
-        Location pos2 = selection.getPos2();
         try {
-            if(! selection.isSuccess()) {
-                Util.sendEmptyMsg(player, ChatColor.RED + "Region selection was unsuccessful not saving!");
-                return true;
-            }
             String basePath = "signs.signwall.";
             this.getSigns().set(basePath + "pos1.world", pos1.getWorld().getName());
             this.getSigns().set(basePath + "pos1.x", pos1.getBlockX());
@@ -340,6 +334,8 @@ public class FileManager {
             plugin.getServer().getScheduler().runTask(plugin, new WallSignIntroThread(plugin));
             return true;
         } catch (Exception ex) {
+            Util.sendEmptyMsg(player, ChatColor.GREEN + "Saving wall sign location failed see console for error!");
+            SendConsoleMessage.severe("Saving sign location failed: " + ex.getMessage());
             return false;
         }
     }

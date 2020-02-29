@@ -43,28 +43,8 @@ public class GUIManager implements Listener {
     }
 
     public Inventory getPlayerClaimGUI() {
-
-        Inventory gui = Bukkit.getServer().createInventory(null, 9, plugin.getMessageManager().getClaimGUITitle());
-        //ItemStack glass = new ItemStack(Material.WHITE_STAINED_GLASS_PANE, 1);
-        //TODO find better way to get item stack between versions for glass
-        ItemStack close = Util.getItemStack(Material.BARRIER, 1, ChatColor.AQUA + "Close Inventory", Arrays.asList("Close the claiming inventory"));
-        ItemStack claim1 = Util.getItemStack(Material.DIAMOND, 1, ChatColor.AQUA + "Claim 1 Reward", Arrays.asList("Claim one reward"));
-        ItemStack claim2 = Util.getItemStack(Material.DIAMOND, 2, ChatColor.AQUA + "Claim 2 Rewards", Arrays.asList("Claim two rewards"));
-        ItemStack claim3 = Util.getItemStack(Material.DIAMOND, 3, ChatColor.AQUA + "Claim 3 Rewards", Arrays.asList("Claim three rewards"));
-        ItemStack claim5 = Util.getItemStack(Material.DIAMOND, 5, ChatColor.AQUA + "Claim 5 Rewards", Arrays.asList("Claim five rewards"));
-        ItemStack claimAll = Util.getItemStack(Material.DIAMOND, 0, ChatColor.AQUA + "Claim all Rewards", Arrays.asList("Claim all rewards"));
-
-        //gui.setItem(0, glass);
-        gui.setItem(1, claim1);
-        gui.setItem(2, claim2);
-        gui.setItem(3, claim3);
-        gui.setItem(4, claim5);
-        //gui.setItem(5, glass);
-        gui.setItem(6, claimAll);
-        //gui.setItem(7, glass);
-        gui.setItem(8, close);
-
-        return gui;
+        String inventoryTitle = plugin.getMessageManager().getClaimGUITitle();
+        return plugin.getMaterialHelper().getPlayerClaimGUI(inventoryTitle);
     }
 
     @EventHandler (priority = EventPriority.HIGH)

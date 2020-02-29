@@ -35,22 +35,11 @@ public class SignManager {
 
     public boolean isWallSign(Location location) {
         Block block = location.getBlock();
-
-
-        /*if(block.getBlockData().getAsString().contains("WallSign") || block.getBlockData().getAsString().contains("wall_sign")) {
-            return true;
-        }*/
-        //TODO find universal way to check is wall sign
-        return false;
+        return isWallSign(block);
     }
 
     public boolean isWallSign(Block block) {
-
-        /*if(block.getBlockData().getAsString().contains("WallSign") || block.getBlockData().getAsString().contains("wall_sign")) {
-            return true;
-        }*/
-        //TODO find universal way to check is wall sign
-        return false;
+        return plugin.getMaterialHelper().isWallSign(block);
     }
 
     public boolean isRegionAllWallSigns(Location pos1, Location pos2) {

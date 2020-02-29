@@ -780,4 +780,12 @@ public class UltimateVotes extends JavaPlugin {
     public UUIDFetcher getUUIDFetcher() {
         return uuidFetcher;
     }
+
+    public WorldEditSelectionHelper getWorldEditSelectionHelper() {
+        return worldEditSelectionHelper;
+    }
+
+    public MaterialHelper getMaterialHelper() {
+        return materialHelper;
+    }
 }

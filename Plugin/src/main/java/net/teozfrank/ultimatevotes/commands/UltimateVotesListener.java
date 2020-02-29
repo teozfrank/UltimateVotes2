@@ -1,7 +1,9 @@
 package net.teozfrank.ultimatevotes.commands;
 
+import net.teozfrank.ultimatevotes.api.WorldEditSelectionHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -9,6 +11,7 @@ import org.bukkit.entity.Player;
 
 import net.teozfrank.ultimatevotes.main.UltimateVotes;
 import net.teozfrank.ultimatevotes.util.*;
+import util.WorldEditSelection;
 
 import java.util.UUID;
 
@@ -71,16 +74,24 @@ public class UltimateVotesListener implements CommandExecutor {
             return true;
         } else if (args.length == 1 && args[0].equalsIgnoreCase("setwallsigns")) {
             if (sender instanceof Player) {
+
                 Player player = (Player) sender;
                 FileManager fm = plugin.getFileManager();
-                //TODO use new worldedit selection helper to get worldedit selection object
-                //TODO then check region selection is all wallsigns
-                //TODO then save to disk
-                /*if (! sm.isRegionAllWallSigns(pos1, pos2)) {
-                    //Util.sendMsg(player, ChatColor.RED + "Your sign region selection is not all wall signs or is not 3x3!, please reselect the region!");
-                    return;
-                }*/
-                //fm.setWallSignsLocation(player);
+                SignManager sm = plugin.getSignManager();
+                WorldEditSelectionHelper wesh = plugin.getWorldEditSelectionHelper();
+
+                WorldEditSelection selection = wesh.getWorldEditSelection(player);
+
+                if(selection.isSuccess()) {
+                    Location pos1 = selection.getPos1();
+                    Location pos2 = selection.getPos2();
+                    if (! sm.isRegionAllWallSigns(pos1, pos2)) {
+                        Util.sendMsg(player, ChatColor.RED + "Your sign region selection is not all wall signs or is not 3x3!, please reselect the region!");
+                    }
+                    fm.setWallSignsLocation(player, pos1, pos2);
+                } else {
+                    Util.sendMsg(sender, ChatColor.RED + "Region selection is incomplete!");
+                }
             }
             return true;
         } else if (args.length == 1 && args[0].equalsIgnoreCase("addvotetarget")) {
