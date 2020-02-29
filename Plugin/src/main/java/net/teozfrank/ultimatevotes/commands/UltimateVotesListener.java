@@ -90,14 +90,10 @@ public class UltimateVotesListener implements CommandExecutor {
                     Location pos1 = selection.getPos1();
                     Location pos2 = selection.getPos2();
 
-                    if(pos1 == null || pos2 == null) {
-                        Util.sendMsg(sender, ChatColor.RED + "Region selection is incomplete!");
-                    } else {
-                        if (! sm.isRegionAllWallSigns(pos1, pos2)) {
-                            Util.sendMsg(player, ChatColor.RED + "Your sign region selection is not all wall signs or is not 3x3!, please reselect the region!");
-                        }
-                        fm.setWallSignsLocation(player, pos1, pos2);
+                    if (! sm.isRegionAllWallSigns(pos1, pos2)) {
+                        Util.sendMsg(player, ChatColor.RED + "Your sign region selection is not all wall signs or is not 3x3!, please reselect the region!");
                     }
+                    fm.setWallSignsLocation(player, pos1, pos2);
                 } else {
                     Util.sendMsg(sender, ChatColor.RED + "Region selection is incomplete!");
                 }

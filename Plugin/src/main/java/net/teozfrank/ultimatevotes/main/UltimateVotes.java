@@ -187,6 +187,8 @@ public class UltimateVotes extends JavaPlugin {
 
             if (WorldEditSelectionHelper.class.isAssignableFrom(clazz)) { // Make sure it actually implements NMS
                 this.worldEditSelectionHelper = (WorldEditSelectionHelper) clazz.getConstructor().newInstance(); // Set our handler
+            } else {
+                SendConsoleMessage.severe("WorldEdit Selection Helper is not assignable, instance not created!");
             }
         } catch (Exception e) {
             SendConsoleMessage.severe("WorldEdit Selection Helper setup failed: " + e.getMessage());
@@ -201,7 +203,7 @@ public class UltimateVotes extends JavaPlugin {
         String packageName = this.getServer().getClass().getPackage().getName();
         String version = packageName.substring(packageName.lastIndexOf('.') + 1);
         if(isDebugEnabled()) {
-            SendConsoleMessage.debug("Server NMS Version: " + version);
+            SendConsoleMessage.debug("Material Helper Server NMS Version: " + version);
         }
 
         String[] legacyVersions =  { "v1_8_R1", "v1_8_R2", "v1_8_R3", "v1_9_R1", "v1_9_R2",
@@ -240,8 +242,10 @@ public class UltimateVotes extends JavaPlugin {
                 clazz = Class.forName("net.teozfrank.ultimatevotes.materialhelper.latest.MaterialHelperLatest");
             }
 
-            if (UUIDFetcher.class.isAssignableFrom(clazz)) { // Make sure it actually implements NMS
+            if (MaterialHelper.class.isAssignableFrom(clazz)) { // Make sure it actually implements NMS
                 this.materialHelper = (MaterialHelper) clazz.getConstructor().newInstance(); // Set our handler
+            } else {
+                SendConsoleMessage.severe("Material Helper is not assignable, instance not created!");
             }
         } catch (Exception e) {
             SendConsoleMessage.severe("Material Helper setup failed: " + e.getMessage());
@@ -296,6 +300,8 @@ public class UltimateVotes extends JavaPlugin {
 
             if (UUIDFetcher.class.isAssignableFrom(clazz)) { // Make sure it actually implements NMS
                 this.uuidFetcher = (UUIDFetcher) clazz.getConstructor().newInstance(); // Set our handler
+            } else {
+                SendConsoleMessage.severe("UUID helper is not assignable, instance not created!");
             }
         } catch (Exception e) {
             SendConsoleMessage.severe("UUID Fetcher failed: " + e.getMessage());
@@ -318,6 +324,8 @@ public class UltimateVotes extends JavaPlugin {
             // Check if we have a NMSHandler class at that location.
             if (TitleActionbar.class.isAssignableFrom(clazz)) { // Make sure it actually implements NMS
                 this.titleActionbar = (TitleActionbar) clazz.getConstructor().newInstance(); // Set our handler
+            } else {
+                SendConsoleMessage.severe("TitleActionBar is not assignable, instance not created!");
             }
         } catch (final Exception e) {
             if(isDebugEnabled()) {
