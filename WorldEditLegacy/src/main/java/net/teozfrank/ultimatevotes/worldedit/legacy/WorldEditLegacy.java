@@ -25,8 +25,6 @@ public class WorldEditLegacy implements WorldEditSelectionHelper {
         WorldEditPlugin worldEdit = (WorldEditPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldEdit");
         Selection selection = worldEdit.getSelection(player);
 
-        System.out.println("selection: " + selection);
-
         if (selection != null) {
             World world = selection.getWorld();
             Location min = selection.getMinimumPoint();
@@ -43,6 +41,7 @@ public class WorldEditLegacy implements WorldEditSelectionHelper {
             pos2z = min.getZ();
             pos2 = new Location(world, pos2x, pos2y, pos2z);
             selectionWE.setPos2(pos2);
+            selectionWE.setSuccess(true);
         } else {
             selectionWE.setSuccess(false);
             return selectionWE;
