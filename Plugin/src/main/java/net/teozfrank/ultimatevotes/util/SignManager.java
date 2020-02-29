@@ -43,6 +43,7 @@ public class SignManager {
     }
 
     public boolean isRegionAllWallSigns(Location pos1, Location pos2) {
+
         String world = pos1.getWorld().getName();
         int totalBlockCount = 0;
         int totalSignCount = 0;
