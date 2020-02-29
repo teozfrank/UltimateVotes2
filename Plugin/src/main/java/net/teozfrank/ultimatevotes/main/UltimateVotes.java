@@ -60,6 +60,12 @@ public class UltimateVotes extends JavaPlugin {
             SendConsoleMessage.warning("This version is also not intended to be used on a live production server, use at your own risk.");
             SendConsoleMessage.warning("---------------------------------------------");
         }
+
+        this.setupDependencies();
+        this.setupMaterialHelper();
+        this.setupWorldEditSelectionHelper();
+        this.setupUUIDFetcher();
+
         this.fileManager = new FileManager(this);//initialise our file manager as the methods below require it
         this.rewardsManager = new RewardsManager(this);
         this.messageManager = new MessageManager(this);
@@ -70,14 +76,16 @@ public class UltimateVotes extends JavaPlugin {
         this.checkConfigVersions();
         pluginPrefix = ChatColor.translateAlternateColorCodes('&', getFileManager().getMessages().getString("messages.prefix"));
         lineBreak = getMessageManager().getLineBreak();
-        this.registerCommands();
+
         this.registerEvents();
         if(errorCount != 0) {
             SendConsoleMessage.warning(errorCount + " of your config files are outdated, please check the above log to see were they updated correctly.");
         }
-        this.setupUUIDFetcher();
+
         this.databaseManager = new DatabaseManager(this);
         this.voteManager = new VoteManager(this);
+        this.guiManager = new GUIManager(this);
+        this.signManager = new SignManager(this);
 
         new SetSignLocation(this);
         new PlayerJoin(this);
@@ -92,13 +100,8 @@ public class UltimateVotes extends JavaPlugin {
             }
         });
         this.remindPlayers();
-        this.setupDependencies();
-        this.setupMaterialHelper();
-        this.setupWorldEditSelectionHelper();
-
-        this.guiManager = new GUIManager(this);
-        this.signManager = new SignManager(this);
         this.registerChannels();
+        this.registerCommands();
         if(this.isTrail) {
             this.getServer().getScheduler().runTaskTimer(this, new CheckTrialThread(this), 20000L, 20000L);
         }

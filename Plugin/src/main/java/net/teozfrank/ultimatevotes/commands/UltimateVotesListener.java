@@ -82,6 +82,10 @@ public class UltimateVotesListener implements CommandExecutor {
 
                 WorldEditSelection selection = wesh.getWorldEditSelection(player);
 
+                if(plugin.isDebugEnabled()) {
+                    SendConsoleMessage.debug("Selection: " +selection.toString());
+                }
+
                 if(selection.isSuccess()) {
                     Location pos1 = selection.getPos1();
                     Location pos2 = selection.getPos2();

@@ -6,6 +6,7 @@ public class WorldEditSelection {
 
     private Location pos1;
     private Location pos2;
+
     private boolean success;
 
     public WorldEditSelection() {
@@ -40,5 +41,20 @@ public class WorldEditSelection {
 
     public void setSuccess(boolean success) {
         this.success = success;
+    }
+
+    @Override
+    public String toString() {
+        return "WorldEditSelection{" +
+                "pos1W=" + pos1.getWorld().getName() +
+                "pos1X=" + pos1.getBlockX() +
+                "pos1Y=" + pos1.getBlockY() +
+                "pos1Z=" + pos1.getBlockZ() +"\n" +
+                "pos2W=" + pos2.getWorld().getName() +
+                "pos2X=" + pos2.getBlockX() +
+                "pos2Y=" + pos2.getBlockY() +
+                "pos2Z=" + pos2.getBlockZ() +"\n" +
+                "success=" + success +
+                '}';
     }
 }
