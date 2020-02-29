@@ -1,6 +1,6 @@
 name: UltimateVotes
 main: net.teozfrank.ultimatevotes.main.UltimateVotes
-version: '${project.version}.dev-${git.commit.id.abbrev}'
+version: '${project.version}dev-${git.commit.id.abbrev}'
 author: teozfrank
 api-version: 1.13
 commands:

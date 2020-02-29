@@ -92,6 +92,7 @@ public class UltimateVotesListener implements CommandExecutor {
 
                     if (! sm.isRegionAllWallSigns(pos1, pos2)) {
                         Util.sendMsg(player, ChatColor.RED + "Your sign region selection is not all wall signs or is not 3x3!, please reselect the region!");
+                        return true;
                     }
                     fm.setWallSignsLocation(player, pos1, pos2);
                 } else {
