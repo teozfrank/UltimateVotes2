@@ -83,7 +83,7 @@ public class UltimateVotes extends JavaPlugin {
         new PlayerJoin(this);
         new CheckVotes(this);
         new RewardEventTest(this);
-        this.guiManager = new GUIManager(this);
+
 
         getServer().getScheduler().runTaskAsynchronously(this, new Runnable() {
             @Override
@@ -96,7 +96,7 @@ public class UltimateVotes extends JavaPlugin {
         this.setupMaterialHelper();
         this.setupWorldEditSelectionHelper();
 
-
+        this.guiManager = new GUIManager(this);
         this.registerChannels();
         if(this.isTrail) {
             this.getServer().getScheduler().runTaskTimer(this, new CheckTrialThread(this), 20000L, 20000L);
