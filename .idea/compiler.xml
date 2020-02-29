@@ -8,13 +8,17 @@
         <outputRelativeToContentRoot value="true" />
         <module name="UUIDFetcherLegacy" />
         <module name="WorldEditLegacy" />
+        <module name="MaterialHelperLegacy" />
         <module name="UltimateVotes" />
         <module name="UUIDFetcherLatest" />
+        <module name="MaterialHelperLatest" />
         <module name="ultimatevotes-api" />
         <module name="WorldEditLatest" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="MaterialHelperLatest" target="1.8" />
+      <module name="MaterialHelperLegacy" target="1.8" />
       <module name="plugin" target="1.8" />
       <module name="ultimatevotes" target="1.8" />
       <module name="UltimateVotes" target="1.8" />

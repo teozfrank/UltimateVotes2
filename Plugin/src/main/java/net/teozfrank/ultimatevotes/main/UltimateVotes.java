@@ -1,6 +1,7 @@
 package net.teozfrank.ultimatevotes.main;
 
 import com.vexsoftware.votifier.model.VotifierEvent;
+import net.teozfrank.ultimatevotes.api.MaterialHelper;
 import net.teozfrank.ultimatevotes.api.TitleActionbar;
 import net.teozfrank.ultimatevotes.api.UUIDFetcher;
 import net.teozfrank.ultimatevotes.api.WorldEditSelectionHelper;
@@ -42,6 +43,7 @@ public class UltimateVotes extends JavaPlugin {
 
     private UUIDFetcher uuidFetcher;
     private WorldEditSelectionHelper worldEditSelectionHelper;
+    private MaterialHelper materialHelper;
 
     public UltimateVotes() {
     }
@@ -91,6 +93,7 @@ public class UltimateVotes extends JavaPlugin {
         });
         this.remindPlayers();
         this.setupDependencies();
+        this.setupMaterialHelper();
         this.setupWorldEditSelectionHelper();
 
 
@@ -188,6 +191,60 @@ public class UltimateVotes extends JavaPlugin {
         SendConsoleMessage.info("WorldEdit Selection Helper setup complete.");
         return true;
 
+    }
+
+    private boolean setupMaterialHelper() {
+        String packageName = this.getServer().getClass().getPackage().getName();
+        String version = packageName.substring(packageName.lastIndexOf('.') + 1);
+        if(isDebugEnabled()) {
+            SendConsoleMessage.debug("Server NMS Version: " + version);
+        }
+
+        String[] legacyVersions =  { "v1_8_R1", "v1_8_R2", "v1_8_R3", "v1_9_R1", "v1_9_R2",
+                "v1_10_R1", "v1_10_R1", "v1_11_R1", "v1_11_R1", "v1_12_R1" };
+        String[] latestVersions = {"v1_13_R1",  "v1_13_R2", "v1_14_R1", "v1_15_R1"};
+
+        boolean legacy = false;
+        boolean latest = false;
+
+        for(String legacyVersion: legacyVersions) {
+            if(version.equals(legacyVersion)) {
+                legacy = true;
+                SendConsoleMessage.info("Material Helper identified as legacy.");
+            }
+        }
+        if(! legacy) {
+            for(String latestVersion: latestVersions) {
+                if(version.equals(latestVersion)) {
+                    latest = true;
+                    SendConsoleMessage.info("Material Helper identified as latest.");
+                }
+            }
+        }
+
+        if(! legacy && ! latest) {
+            SendConsoleMessage.warning("Material Helper NMS version not identified as legacy or latest, defaulting to latest. This can usually happen if you are using a newer version of spigot.");
+            latest = true;
+        }
+
+        Class<?> clazz;
+
+        try {
+            if(legacy) {
+                clazz = Class.forName("net.teozfrank.ultimatevotes.materialhelper.legacy.MaterialHelperLegacy");
+            } else {
+                clazz = Class.forName("net.teozfrank.ultimatevotes.materialhelper.latest.MaterialHelperLatest");
+            }
+
+            if (UUIDFetcher.class.isAssignableFrom(clazz)) { // Make sure it actually implements NMS
+                this.materialHelper = (MaterialHelper) clazz.getConstructor().newInstance(); // Set our handler
+            }
+        } catch (Exception e) {
+            SendConsoleMessage.severe("Material Helper setup failed: " + e.getMessage());
+            return false;
+        }
+        SendConsoleMessage.info("Material Helper setup complete.");
+        return true;
     }
 
     private boolean setupUUIDFetcher() {
@@ -651,7 +708,6 @@ public class UltimateVotes extends JavaPlugin {
     public String getWorldEditVersion() {
         return this.getServer().getPluginManager().getPlugin("WorldEdit").getDescription().getVersion();
     }
-
 
     public static long getLastVotesUpdate() {
         return lastVotesUpdate;

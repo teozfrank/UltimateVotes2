@@ -14,6 +14,8 @@
         <module>WorldEditLatest</module>
         <module>UUIDFetcherLatest</module>
         <module>UUIDFetcherLegacy</module>
+        <module>MaterialHelperLegacy</module>
+        <module>MaterialHelperLatest</module>
     </modules>
 
     <repositories>
