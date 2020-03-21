@@ -97,6 +97,7 @@ public class UltimateVotes extends JavaPlugin {
             @Override
             public void run() {
                 loadVotes();
+                //TODO move this into database manager as it is making two connections to the database.
             }
         });
         this.remindPlayers();
@@ -668,30 +669,41 @@ public class UltimateVotes extends JavaPlugin {
 
             SendConsoleMessage.info("Loading Votes ENABLED.");
             SendConsoleMessage.info("Now Loading Votes.");
-            lastVotesUpdate = System.currentTimeMillis();
-            getVoteManager().allVotes = getDatabaseManager().voteAllTime();
-            getVoteManager().monthlyVotes = getDatabaseManager().voteMonthly();
-            SendConsoleMessage.info("Loading Votes Complete.");
-            SendConsoleMessage.info("Now loading sign wall.");
-            this.getServer().getScheduler().runTask(this, new Runnable() {
-
-                @Override
-                public void run() {
-                    getSignManager().updateTopVotersOnWall();
-                    SendConsoleMessage.info("Sign wall loading complete.");
-                }
-            });
-
-
-            if (!(getVoteManager().monthlyVotes.size() <= 0 && getVoteManager().allVotes.size() <= 0)) {
-                SendConsoleMessage.info("Auto-Reload Interval set to " + ChatColor.AQUA + reloadInterval + ChatColor.GREEN + " Ticks, Task Starting!");
-                Bukkit.getScheduler().runTaskTimerAsynchronously(this, new AutoReloadVotesThread(this), reloadInterval, reloadInterval);
-            } else {
-                SendConsoleMessage.info("Auto-Reloading " + ChatColor.RED + "DISABLED " + ChatColor.GREEN +
-                        "as their are not any vote records to reload, when votes do exist, please " + ChatColor.AQUA + "reload the server.");
+            try {
+                getVoteManager().allVotes = getDatabaseManager().voteAllTime();
+                getVoteManager().monthlyVotes = getDatabaseManager().voteMonthly();
+                lastVotesUpdate = System.currentTimeMillis();
+                SendConsoleMessage.info("Loading Votes Complete.");
+            } catch (Exception ex) {
+                SendConsoleMessage.severe("Error loading votes into cache: " + ex.getMessage());
             }
-            Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TimedCmdThread(this), 20L * 60, 20L * 60);
 
+            try {
+                SendConsoleMessage.info("Now loading sign wall.");
+                this.getServer().getScheduler().runTask(this, new Runnable() {
+
+                    @Override
+                    public void run() {
+                        getSignManager().updateTopVotersOnWall();
+                        SendConsoleMessage.info("Sign wall loading complete.");
+                    }
+                });
+            } catch (Exception ex) {
+                SendConsoleMessage.severe("Error loading sign wall: " + ex.getMessage());
+            }
+
+            try {
+                if (!(getVoteManager().monthlyVotes.size() <= 0 && getVoteManager().allVotes.size() <= 0)) {
+                    SendConsoleMessage.info("Auto-Reload Interval set to " + ChatColor.AQUA + reloadInterval + ChatColor.GREEN + " Ticks, Task Starting!");
+                    Bukkit.getScheduler().runTaskTimerAsynchronously(this, new AutoReloadVotesThread(this), reloadInterval, reloadInterval);
+                } else {
+                    SendConsoleMessage.info("Auto-Reloading " + ChatColor.RED + "DISABLED " + ChatColor.GREEN +
+                            "as their are not any vote records to reload, when votes do exist, please " + ChatColor.AQUA + "reload the server.");
+                }
+                Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TimedCmdThread(this), 20L * 60, 20L * 60);
+            } catch (Exception ex) {
+                SendConsoleMessage.severe("Error trying to create setup reloading task." + ex.getMessage());
+            }
         } else {
             SendConsoleMessage.info("Loading Votes " + ChatColor.RED + "Disabled" + ChatColor.GREEN + ", Enable in config once the" +
                     "tables have been created in the database.");
