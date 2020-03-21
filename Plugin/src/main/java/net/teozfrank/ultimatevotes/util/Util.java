@@ -8,7 +8,6 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.ItemMergeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import net.teozfrank.ultimatevotes.main.UltimateVotes;
@@ -119,7 +118,7 @@ public class Util {
             String version = new BufferedReader(new InputStreamReader(con.getInputStream())).readLine();
             return version;
         } catch (Exception ex) {
-            SendConsoleMessage.severe("Could not check for updates for the plugin :(");
+            SendConsoleMessage.error("Could not check for updates for the plugin :(");
         }
         return null;
     }

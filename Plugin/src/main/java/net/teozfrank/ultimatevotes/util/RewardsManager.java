@@ -248,7 +248,7 @@ public class RewardsManager {
                 }
             }
         } catch (Exception e) {
-            SendConsoleMessage.severe("Error parsing percent cmd list! " + e.getMessage());
+            SendConsoleMessage.error("Error parsing percent cmd list! " + e.getMessage());
         }
     }
 
@@ -437,7 +437,7 @@ public class RewardsManager {
                                     rewardAmount(playerName, voteCount, count);
                                 }
                             } catch (Exception e) {
-                                SendConsoleMessage.severe("Error trying to reward player: " + e.getMessage());
+                                SendConsoleMessage.error("Error trying to reward player: " + e.getMessage());
                             }
 
                             databaseManager.resetUnclaimedReward(playerUUID);

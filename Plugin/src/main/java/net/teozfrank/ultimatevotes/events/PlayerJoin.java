@@ -68,7 +68,7 @@ public class PlayerJoin implements Listener {
                                     final String version = Util.getSpigotVersion();
 
                                     if(version == null) {
-                                        SendConsoleMessage.severe("Could not check for updates!");
+                                        SendConsoleMessage.error("Could not check for updates!");
                                         return;
 
                                     }

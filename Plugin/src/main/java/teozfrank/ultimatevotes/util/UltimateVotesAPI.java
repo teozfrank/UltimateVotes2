@@ -146,7 +146,7 @@ public class UltimateVotesAPI {
      */
     public static LinkedHashMap<String, Integer> getTopVotersMonthly(int limit) {
         if(limit <= 0) {
-            SendConsoleMessage.severe("API ACCESS: Top monthly player limit too low! limited value was: " + limit);
+            SendConsoleMessage.error("API ACCESS: Top monthly player limit too low! limited value was: " + limit);
             return null;
         }
         return UltimateVotes.getDatabaseManager().voteMonthly(limit);
@@ -160,7 +160,7 @@ public class UltimateVotesAPI {
      */
     public static LinkedHashMap<String, Integer> getTopVotersAllTime(int limit) {
         if(limit <= 0) {
-            SendConsoleMessage.severe("API ACCESS: Top all time player limit too low! limited value was: " + limit);
+            SendConsoleMessage.error("API ACCESS: Top all time player limit too low! limited value was: " + limit);
             return null;
         }
         return UltimateVotes.getDatabaseManager().voteAllTime(limit);
@@ -181,7 +181,7 @@ public class UltimateVotesAPI {
             Statement statement = connection.createStatement();
             return statement.executeQuery(query);
         } catch (SQLException e) {
-            SendConsoleMessage.severe("API ACCESS QUERY ERROR: " + e.getMessage());
+            SendConsoleMessage.error("API ACCESS QUERY ERROR: " + e.getMessage());
         }
         return null;
     }

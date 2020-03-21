@@ -189,10 +189,10 @@ public class UltimateVotes extends JavaPlugin {
             if (WorldEditSelectionHelper.class.isAssignableFrom(clazz)) { // Make sure it actually implements NMS
                 this.worldEditSelectionHelper = (WorldEditSelectionHelper) clazz.getConstructor().newInstance(); // Set our handler
             } else {
-                SendConsoleMessage.severe("WorldEdit Selection Helper is not assignable, instance not created!");
+                SendConsoleMessage.error("WorldEdit Selection Helper is not assignable, instance not created!");
             }
         } catch (Exception e) {
-            SendConsoleMessage.severe("WorldEdit Selection Helper setup failed: " + e.getMessage());
+            SendConsoleMessage.error("WorldEdit Selection Helper setup failed: " + e.getMessage());
             return false;
         }
         SendConsoleMessage.info("WorldEdit Selection Helper setup complete.");
@@ -246,10 +246,10 @@ public class UltimateVotes extends JavaPlugin {
             if (MaterialHelper.class.isAssignableFrom(clazz)) { // Make sure it actually implements NMS
                 this.materialHelper = (MaterialHelper) clazz.getConstructor().newInstance(); // Set our handler
             } else {
-                SendConsoleMessage.severe("Material Helper is not assignable, instance not created!");
+                SendConsoleMessage.error("Material Helper is not assignable, instance not created!");
             }
         } catch (Exception e) {
-            SendConsoleMessage.severe("Material Helper setup failed: " + e.getMessage());
+            SendConsoleMessage.error("Material Helper setup failed: " + e.getMessage());
             return false;
         }
         SendConsoleMessage.info("Material Helper setup complete.");
@@ -302,10 +302,10 @@ public class UltimateVotes extends JavaPlugin {
             if (UUIDFetcher.class.isAssignableFrom(clazz)) { // Make sure it actually implements NMS
                 this.uuidFetcher = (UUIDFetcher) clazz.getConstructor().newInstance(); // Set our handler
             } else {
-                SendConsoleMessage.severe("UUID helper is not assignable, instance not created!");
+                SendConsoleMessage.error("UUID helper is not assignable, instance not created!");
             }
         } catch (Exception e) {
-            SendConsoleMessage.severe("UUID Fetcher failed: " + e.getMessage());
+            SendConsoleMessage.error("UUID Fetcher failed: " + e.getMessage());
             return false;
         }
         SendConsoleMessage.info("UUID Fetcher setup complete.");
@@ -326,7 +326,7 @@ public class UltimateVotes extends JavaPlugin {
             if (TitleActionbar.class.isAssignableFrom(clazz)) { // Make sure it actually implements NMS
                 this.titleActionbar = (TitleActionbar) clazz.getConstructor().newInstance(); // Set our handler
             } else {
-                SendConsoleMessage.severe("TitleActionBar is not assignable, instance not created!");
+                SendConsoleMessage.error("TitleActionBar is not assignable, instance not created!");
             }
         } catch (final Exception e) {
             if(isDebugEnabled()) {
@@ -529,7 +529,7 @@ public class UltimateVotes extends JavaPlugin {
             if(useClaimCommandNewPath == useClaimCommand && useClaimGUINewPath == useClaimGUI) {
                 SendConsoleMessage.info("Config update completed successfully!");
             } else {
-                SendConsoleMessage.severe("Config update failed to migrate old settings! Please delete your config.yml" +
+                SendConsoleMessage.error("Config update failed to migrate old settings! Please delete your config.yml" +
                         " and let a new one generate and copy the settings over! If you fail to do this problems may occur!");
             }
 
@@ -637,7 +637,7 @@ public class UltimateVotes extends JavaPlugin {
                 getDatabaseManager().getConnection().close();
             }
         } catch (SQLException e) {
-            SendConsoleMessage.severe("SQL Error! " + e.getMessage());
+            SendConsoleMessage.error("SQL Error! " + e.getMessage());
         } catch (NullPointerException e) {
             //ignored
         }
@@ -675,7 +675,7 @@ public class UltimateVotes extends JavaPlugin {
                 lastVotesUpdate = System.currentTimeMillis();
                 SendConsoleMessage.info("Loading Votes Complete.");
             } catch (Exception ex) {
-                SendConsoleMessage.severe("Error loading votes into cache: " + ex.getMessage());
+                SendConsoleMessage.error("Error loading votes into cache: " + ex.getMessage());
             }
 
             try {
@@ -689,7 +689,7 @@ public class UltimateVotes extends JavaPlugin {
                     }
                 });
             } catch (Exception ex) {
-                SendConsoleMessage.severe("Error loading sign wall: " + ex.getMessage());
+                SendConsoleMessage.error("Error loading sign wall: " + ex.getMessage());
             }
 
             try {
@@ -702,7 +702,7 @@ public class UltimateVotes extends JavaPlugin {
                 }
                 Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TimedCmdThread(this), 20L * 60, 20L * 60);
             } catch (Exception ex) {
-                SendConsoleMessage.severe("Error trying to create setup reloading task." + ex.getMessage());
+                SendConsoleMessage.error("Error trying to create setup reloading task." + ex.getMessage());
             }
         } else {
             SendConsoleMessage.info("Loading Votes " + ChatColor.RED + "Disabled" + ChatColor.GREEN + ", Enable in config once the" +

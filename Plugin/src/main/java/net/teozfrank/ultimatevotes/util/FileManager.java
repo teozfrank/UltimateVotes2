@@ -1,12 +1,5 @@
 package net.teozfrank.ultimatevotes.util;
 
-import com.sk89q.worldedit.IncompleteRegionException;
-import com.sk89q.worldedit.LocalSession;
-import com.sk89q.worldedit.WorldEdit;
-import com.sk89q.worldedit.bukkit.BukkitAdapter;
-import com.sk89q.worldedit.math.BlockVector3;
-import com.sk89q.worldedit.regions.Region;
-import com.sk89q.worldedit.session.SessionOwner;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -17,7 +10,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import net.teozfrank.ultimatevotes.main.UltimateVotes;
 import net.teozfrank.ultimatevotes.threads.WallSignIntroThread;
-import util.WorldEditSelection;
 
 import java.io.File;
 import java.io.IOException;
@@ -75,7 +67,7 @@ public class FileManager {
         try {
             this.getRewards().save(rewardsFile);
         } catch (IOException e) {
-            SendConsoleMessage.severe("Error saving rewards config!");
+            SendConsoleMessage.error("Error saving rewards config!");
         }
     }
 
@@ -214,7 +206,7 @@ public class FileManager {
         try {
             this.getTopVoters().save(topVotersFile);
         } catch (IOException e) {
-            SendConsoleMessage.severe("Error saving top voters!");
+            SendConsoleMessage.error("Error saving top voters!");
         }
     }
 
@@ -252,7 +244,7 @@ public class FileManager {
         try {
             this.getMessages().save(messagesFile);
         } catch (IOException e) {
-            SendConsoleMessage.severe("Error saving messages!");
+            SendConsoleMessage.error("Error saving messages!");
         }
     }
 
@@ -290,7 +282,7 @@ public class FileManager {
         try {
             this.getSigns().save(signsFile);
         } catch (IOException e) {
-            SendConsoleMessage.severe("Error saving signs!");
+            SendConsoleMessage.error("Error saving signs!");
         }
     }
 
@@ -335,7 +327,7 @@ public class FileManager {
             return true;
         } catch (Exception ex) {
             Util.sendEmptyMsg(player, ChatColor.GREEN + "Saving wall sign location failed see console for error!");
-            SendConsoleMessage.severe("Saving sign location failed: " + ex.getMessage());
+            SendConsoleMessage.error("Saving sign location failed: " + ex.getMessage());
             return false;
         }
     }

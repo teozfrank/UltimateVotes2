@@ -44,7 +44,7 @@ public class DatabaseManager {
                             }
                         }
                     } catch (Exception e) {
-                        SendConsoleMessage.severe("Error setting up database manager: " + e.getMessage());
+                        SendConsoleMessage.error("Error setting up database manager: " + e.getMessage());
                     }
 
 
@@ -257,7 +257,7 @@ public class DatabaseManager {
                 connection.close();
             }
         } catch (SQLException e) {
-            SendConsoleMessage.severe("Could not load monthly votes!" + e);
+            SendConsoleMessage.error("Could not load monthly votes!" + e);
         }
         return false;
     }
@@ -293,7 +293,7 @@ public class DatabaseManager {
             }
 
         } catch (SQLException e) {
-            SendConsoleMessage.severe("DatabaseManager could not establish a connection when trying to setup the connection!" + e);
+            SendConsoleMessage.error("DatabaseManager could not establish a connection when trying to setup the connection!" + e);
         }
         return false;
     }
@@ -307,7 +307,7 @@ public class DatabaseManager {
                 return connection;
             }
         } catch (SQLException e) {
-            SendConsoleMessage.severe("SQL Error! " + e.getMessage());
+            SendConsoleMessage.error("SQL Error! " + e.getMessage());
         } catch (NullPointerException e) {
 
         }
@@ -680,7 +680,7 @@ public class DatabaseManager {
                 connection.close();
             }
         } catch (SQLException e) {
-            SendConsoleMessage.severe("SQL ERROR while resetting daily vote target! " + e);
+            SendConsoleMessage.error("SQL ERROR while resetting daily vote target! " + e);
         }
     }
 
@@ -802,7 +802,7 @@ public class DatabaseManager {
             }
             boolean success = execute(sql);
             if (!success) {
-                SendConsoleMessage.severe("UUID update failed for player " + entry.getKey());
+                SendConsoleMessage.error("UUID update failed for player " + entry.getKey());
                 failedUpdates++;
             }
             if (!uuidList.contains(entry.getValue())) {
@@ -878,7 +878,7 @@ public class DatabaseManager {
             }
             return true;
         } catch (SQLException e) {
-            SendConsoleMessage.severe("Error executing query: " + sql +" Error: "+ e.getMessage());
+            SendConsoleMessage.error("Error executing query: " + sql +" Error: "+ e.getMessage());
             return false;
         }
     }
@@ -943,7 +943,7 @@ public class DatabaseManager {
                 connection.close();
             }
         } catch (SQLException e) {
-            SendConsoleMessage.severe("SQL Error! " + e.getMessage());
+            SendConsoleMessage.error("SQL Error! " + e.getMessage());
         }
 
         if (results == 0) {
@@ -959,7 +959,7 @@ public class DatabaseManager {
                 try {
                     Map<String, UUID> returnedUUID = uuidFetcher.call();
                     if (returnedUUID.size() == 0) {
-                        SendConsoleMessage.severe("UUID retrieval for username " + username + "failed.");
+                        SendConsoleMessage.error("UUID retrieval for username " + username + "failed.");
                         return uuid;
                     }
                     uuid = returnedUUID.get(username);
@@ -988,7 +988,7 @@ public class DatabaseManager {
                 try {
                     Map<String, UUID> returnedUUID = uuidFetcher.call();
                     if (returnedUUID.size() == 0) {
-                        SendConsoleMessage.severe("UUID retrieval for username " + username + "failed.");
+                        SendConsoleMessage.error("UUID retrieval for username " + username + "failed.");
                         return uuid;
                     }
                     uuid = returnedUUID.get(username);
@@ -1081,7 +1081,7 @@ public class DatabaseManager {
                                 SendConsoleMessage.debug("UUID successfully updated.");
                                 this.updateExistingMonthlyVoteRecord(playerUUID, playerName);
                             } else {
-                                SendConsoleMessage.severe("UUID was not updated successfully please check logs!!");
+                                SendConsoleMessage.error("UUID was not updated successfully please check logs!!");
                             }
                         }
                     }
@@ -1167,7 +1167,7 @@ public class DatabaseManager {
                                 SendConsoleMessage.debug("UUID successfully updated.");
                                 this.updateExistingAllTimeVoteRecord(playerUUID, playerName);
                             } else {
-                                SendConsoleMessage.severe("UUID was not updated successfully please check logs!!");
+                                SendConsoleMessage.error("UUID was not updated successfully please check logs!!");
                             }
                         }
                     }
@@ -1350,7 +1350,7 @@ public class DatabaseManager {
                 connection.close();
             }
         } catch (SQLException e) {
-            SendConsoleMessage.severe("Could not load all time votes!" + e);
+            SendConsoleMessage.error("Could not load all time votes!" + e);
         }
         return votesAllTime2;
     }
@@ -1380,7 +1380,7 @@ public class DatabaseManager {
                 connection.close();
             }
         } catch (SQLException e) {
-            SendConsoleMessage.severe("Could not load all time votes!" + e);
+            SendConsoleMessage.error("Could not load all time votes!" + e);
         }
         return votesAllTime2;
     }
@@ -1410,7 +1410,7 @@ public class DatabaseManager {
                 connection.close();
             }
         } catch (SQLException e) {
-            SendConsoleMessage.severe("Could not retrieve player votes!" + e);
+            SendConsoleMessage.error("Could not retrieve player votes!" + e);
         }
         return votesAllTime;
     }
@@ -1446,7 +1446,7 @@ public class DatabaseManager {
                 connection.close();
             }
         } catch (SQLException e) {
-            SendConsoleMessage.severe("Could not retrieve player votes!" + e);
+            SendConsoleMessage.error("Could not retrieve player votes!" + e);
         }
         return votesAllTime;
     }
@@ -1476,7 +1476,7 @@ public class DatabaseManager {
                 connection.close();
             }
         } catch (SQLException e) {
-            SendConsoleMessage.severe("Could not load unclaimed votes!" + e);
+            SendConsoleMessage.error("Could not load unclaimed votes!" + e);
         }
 
         if (results == 0) {
@@ -1514,7 +1514,7 @@ public class DatabaseManager {
                 connection.close();
             }
         } catch (SQLException e) {
-            SendConsoleMessage.severe("Could not load unclaimed votes!" + e);
+            SendConsoleMessage.error("Could not load unclaimed votes!" + e);
         }
 
         if (amount == 0) {
@@ -1537,7 +1537,7 @@ public class DatabaseManager {
                 }
                 return true;
             } catch (SQLException e) {
-                SendConsoleMessage.severe("SQL Error!" + e);
+                SendConsoleMessage.error("SQL Error!" + e);
             }
         }
         return false;
@@ -1565,7 +1565,7 @@ public class DatabaseManager {
                 connection.close();
             }
         } catch (SQLException e) {
-            SendConsoleMessage.severe("Could not check players votes by UUID!" + e);
+            SendConsoleMessage.error("Could not check players votes by UUID!" + e);
         }
 
         if (results == 0) {
@@ -1603,7 +1603,7 @@ public class DatabaseManager {
                 connection.close();
             }
         } catch (SQLException e) {
-            SendConsoleMessage.severe("Could check players votes by username!" + e);
+            SendConsoleMessage.error("Could check players votes by username!" + e);
         }
 
         if (results == 0) {
@@ -1635,7 +1635,7 @@ public class DatabaseManager {
                 connection.close();
             }
         } catch (SQLException e) {
-            SendConsoleMessage.severe("could not check if player voted today!");
+            SendConsoleMessage.error("could not check if player voted today!");
         }
 
         if (results == 1) {
@@ -1752,7 +1752,7 @@ public class DatabaseManager {
                 connection.close();
             }
         } catch (SQLException e) {
-            SendConsoleMessage.severe("Could not load top 5 daily votes votes!" + e);
+            SendConsoleMessage.error("Could not load top 5 daily votes votes!" + e);
         }
         return topFiveDailyVotes;
     }
