@@ -30,16 +30,18 @@ public class DatabaseManager {
                 @Override
                 public void run() {
                     try {
-                        setupConnection(); //async connection
-                        setupAllVotes();
-                        setupMonthlyVotes();
-                        setupLastReset();
-                        setupTopVoters();
-                        if(plugin.getMessageManager().isMonthlyResetEnabled()) {
-                            if(plugin.isDebugEnabled()) {
-                                SendConsoleMessage.debug("Monthly reset is enabled, checking for monthly reset.");
+                        boolean success = setupConnection(); //async connection
+                        if(success) {
+                            setupAllVotes();
+                            setupMonthlyVotes();
+                            setupLastReset();
+                            setupTopVoters();
+                            if(plugin.getMessageManager().isMonthlyResetEnabled()) {
+                                if(plugin.isDebugEnabled()) {
+                                    SendConsoleMessage.debug("Monthly reset is enabled, checking for monthly reset.");
+                                }
+                                checkDate();
                             }
-                            checkDate();
                         }
                     } catch (Exception e) {
                         SendConsoleMessage.severe("Error setting up database manager: " + e.getMessage());
@@ -260,7 +262,7 @@ public class DatabaseManager {
         return false;
     }
 
-    public void setupConnection() {
+    public boolean setupConnection() {
         try {
             String basePath = "ultimatevotes.mysql.";
             String MySqlHost = plugin.getConfig().getString(basePath + "host");
@@ -280,17 +282,20 @@ public class DatabaseManager {
                     SendConsoleMessage.debug("Connection to MySQL database successful.");
                 }
                 this.connection = sqlDatabaseConnection;
+                return true;
             } else {
                 sqlDatabaseConnection = DriverManager.getConnection("jdbc:mysql://" + MySqlHost + ":" + MySqlPort + "/" + MySqlDatabase + "?useSSL=false", MySqlUsername, MySqlPassword);
                 if(plugin.isDebugEnabled()) {
                     SendConsoleMessage.debug("Connection to MySQL database successful.");
                 }
                 this.connection = sqlDatabaseConnection;
+                return true;
             }
 
         } catch (SQLException e) {
             SendConsoleMessage.severe("DatabaseManager could not establish a connection when trying to setup the connection!" + e);
         }
+        return false;
     }
 
     public Connection getConnection() {
