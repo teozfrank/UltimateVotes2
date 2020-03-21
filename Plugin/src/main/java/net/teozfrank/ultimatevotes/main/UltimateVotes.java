@@ -625,6 +625,12 @@ public class UltimateVotes extends JavaPlugin {
     }
 
     private void closeConnections() {
+        if(! getFileManager().isMySqlEnabled()) {
+            if(isDebugEnabled()) {
+                SendConsoleMessage.debug("SQL is disabled, not closing connections");
+            }
+            return;
+        }
         try {
             if(!getDatabaseManager().getConnection().isClosed()) {
                 getDatabaseManager().getConnection().close();

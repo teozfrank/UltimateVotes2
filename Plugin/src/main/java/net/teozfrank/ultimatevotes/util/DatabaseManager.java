@@ -285,6 +285,7 @@ public class DatabaseManager {
 
         } catch (SQLException e) {
             SendConsoleMessage.warning("DatabaseManager could not establish a connection when trying to setup the connection!" + e);
+            SendConsoleMessage.warning("Extra errors:" + e.getNextException().getMessage());
         }
     }
 
