@@ -29,17 +29,22 @@ public class DatabaseManager {
             plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
                 @Override
                 public void run() {
-                    setupConnection(); //async connection
-                    setupAllVotes();
-                    setupMonthlyVotes();
-                    setupLastReset();
-                    setupTopVoters();
-                    if(plugin.getMessageManager().isMonthlyResetEnabled()) {
-                        if(plugin.isDebugEnabled()) {
-                            SendConsoleMessage.debug("Monthly reset is enabled, checking for monthly reset.");
+                    try {
+                        setupConnection(); //async connection
+                        setupAllVotes();
+                        setupMonthlyVotes();
+                        setupLastReset();
+                        setupTopVoters();
+                        if(plugin.getMessageManager().isMonthlyResetEnabled()) {
+                            if(plugin.isDebugEnabled()) {
+                                SendConsoleMessage.debug("Monthly reset is enabled, checking for monthly reset.");
+                            }
+                            checkDate();
                         }
-                        checkDate();
+                    } catch (Exception e) {
+                        SendConsoleMessage.severe("Error setting up database manager: " + e.getMessage());
                     }
+
 
                 }
             });
@@ -285,11 +290,6 @@ public class DatabaseManager {
 
         } catch (SQLException e) {
             SendConsoleMessage.severe("DatabaseManager could not establish a connection when trying to setup the connection!" + e);
-            SendConsoleMessage.severe("DatabaseManager could not establish a connection when trying to setup the connection!" + e.getMessage());
-            SendConsoleMessage.severe("Extra errors:" + e.getNextException().getMessage());
-        }
-        catch (Exception e) {
-            SendConsoleMessage.severe("Other exception DatabaseManager could not establish a connection when trying to setup the connection!" + e);
         }
     }
 
