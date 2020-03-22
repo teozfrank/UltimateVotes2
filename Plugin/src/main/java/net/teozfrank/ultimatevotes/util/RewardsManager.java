@@ -2,7 +2,7 @@ package net.teozfrank.ultimatevotes.util;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import net.teozfrank.ultimatevotes.events.VoteRewardEvent;
+import teozfrank.ultimatevotes.events.VoteRewardEvent;
 import net.teozfrank.ultimatevotes.main.UltimateVotes;
 
 import java.util.*;

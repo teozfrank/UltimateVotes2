@@ -1,4 +1,4 @@
-package net.teozfrank.ultimatevotes.events;
+package teozfrank.ultimatevotes.events;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;

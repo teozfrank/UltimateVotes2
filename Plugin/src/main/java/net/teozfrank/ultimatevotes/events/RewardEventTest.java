@@ -4,6 +4,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import net.teozfrank.ultimatevotes.main.UltimateVotes;
 import net.teozfrank.ultimatevotes.util.SendConsoleMessage;
+import teozfrank.ultimatevotes.events.VoteRewardEvent;
 
 /**
  * Created by Frank on 06-Aug-17.
