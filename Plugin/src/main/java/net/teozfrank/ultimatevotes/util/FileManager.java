@@ -36,10 +36,12 @@ public class FileManager {
     private FileConfiguration topVoters = null;
     private FileConfiguration messages = null;
     private FileConfiguration signs = null;
+    private FileConfiguration discord = null;
     private File rewardsFile = null;
     private File topVotersFile = null;
     private File messagesFile = null;
     private File signsFile = null;
+    private File discordFile = null;
 
 
     public void reloadRewards() {
@@ -448,6 +450,44 @@ public class FileManager {
      */
     public boolean isClaimGUIEnabled() {
         return plugin.getConfig().getBoolean("ultimatevotes.rewards.claiming.useclaimgui");
+    }
+
+    public void reloadDiscord() {
+        if (discordFile == null) {
+            discordFile = new File(plugin.getDataFolder(), "discord.yml");
+        }
+        discord = YamlConfiguration.loadConfiguration(discordFile);
+
+        YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(discordFile);
+        discord.setDefaults(defConfig);
+
+    }
+
+    public FileConfiguration getDiscord() {
+        if (discord == null) {
+            this.reloadDiscord();
+        }
+        return discord;
+    }
+
+    public void saveDiscord() {
+        if (discord == null || discordFile == null) {
+            return;
+        }
+        try {
+            this.getDiscord().save(discordFile);
+        } catch (IOException e) {
+            SendConsoleMessage.error("Error saving discord config!");
+        }
+    }
+
+    public void saveDefaultDiscord() {
+        if (discordFile == null) {
+            discordFile = new File(plugin.getDataFolder(), "discord.yml");
+        }
+        if (!discordFile.exists()) {
+            plugin.saveResource("discord.yml", false);
+        }
     }
 
 }

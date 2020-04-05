@@ -5,6 +5,7 @@ import net.teozfrank.ultimatevotes.api.MaterialHelper;
 import net.teozfrank.ultimatevotes.api.TitleActionbar;
 import net.teozfrank.ultimatevotes.api.UUIDFetcher;
 import net.teozfrank.ultimatevotes.api.WorldEditSelectionHelper;
+import net.teozfrank.ultimatevotes.discord.DiscordFileManager;
 import net.teozfrank.ultimatevotes.discord.DiscordWebhookManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -45,6 +46,7 @@ public class UltimateVotes extends JavaPlugin {
     private UUIDFetcher uuidFetcher;
     private WorldEditSelectionHelper worldEditSelectionHelper;
     private MaterialHelper materialHelper;
+    private DiscordFileManager discordFileManager;
     private DiscordWebhookManager discordWebhookManager;
 
     public UltimateVotes() {
@@ -76,8 +78,9 @@ public class UltimateVotes extends JavaPlugin {
 
         this.rewardsManager = new RewardsManager(this);
         this.messageManager = new MessageManager(this);
+        this.discordFileManager = new DiscordFileManager(this);
 
-        this.discordWebhookManager = new DiscordWebhookManager("https://discordapp.com/api/webhooks/696321871221882890/rXWjwAf5PPE9OytzB_L8nOwFJvGr1tRrlmY7wuXWbHCy0LFyRPHeetF1CHZ5CkteT8Yl");
+        this.discordWebhookManager = new DiscordWebhookManager(this);
 
         if(this.isDebugEnabled()) { SendConsoleMessage.debug("Debug mode enabled!"); }
         this.setupConfigs();
@@ -111,9 +114,6 @@ public class UltimateVotes extends JavaPlugin {
         this.remindPlayers();
         this.registerChannels();
         this.registerCommands();
-        if(this.isTrail) {
-            this.getServer().getScheduler().runTaskTimer(this, new CheckTrialThread(this), 20000L, 20000L);
-        }
     }
 
 
@@ -593,6 +593,9 @@ public class UltimateVotes extends JavaPlugin {
         if (!(new File(getDataFolder(), "messages.yml")).exists()) {
             getFileManager().saveDefaultMessages();
         }
+        if (!(new File(getDataFolder(), "discord.yml")).exists()) {
+            getFileManager().saveDefaultDiscord();
+        }
     }
 
     @Override
@@ -793,6 +796,10 @@ public class UltimateVotes extends JavaPlugin {
 
     public static String getLineBreak() {
         return lineBreak;
+    }
+
+    public DiscordFileManager getDiscordFileManager() {
+        return discordFileManager;
     }
 
     public DiscordWebhookManager getDiscordWebhookManager() {

@@ -192,14 +192,19 @@ public class UltimateVotesListener implements CommandExecutor {
         } else if (args.length == 3 && args[0].equalsIgnoreCase("sendvotewebhook")) {
             String playername = args[1];
             String website = args[2];
+            boolean enabled = plugin.getDiscordFileManager().isVoteWebhookEventEnabled();
+            if(enabled) {
+                boolean success = plugin.getDiscordWebhookManager().sendVoteNotification(playername, website, "127.0.0.1");
 
-            boolean success = plugin.getDiscordWebhookManager().sendVoteNotification(playername, website);
-
-            if(success) {
-                Util.sendMsg(sender, ChatColor.GREEN + "Notification sent successfully!");
+                if(success) {
+                    Util.sendMsg(sender, ChatColor.GREEN + "Notification sent successfully!");
+                } else {
+                    Util.sendMsg(sender, ChatColor.RED + "Notification sending failed, please check the console log!");
+                }
             } else {
-                Util.sendMsg(sender, ChatColor.RED + "Notification sending failed, please check the console log!");
+                Util.sendMsg(sender, ChatColor.RED + "This feature is turned off, please enable and configure it in the discord.yml configuration file");
             }
+
             return true;
         } else {
             Util.sendMsg(sender, plugin.getMessageManager().getUnknownCommandMessage());

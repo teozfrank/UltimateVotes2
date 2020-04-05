@@ -1,0 +1,9 @@
+discord:
+    version: 1.0
+    webhookevents:
+        vote:
+            enabled: false #is this webhook enabled
+            webhookurl: 'https://discordapp.com/api/webhooks/...' #the webhook url
+            username: 'UltimateVotes' #the username to show the message from
+            title: 'VoteEvent' #the title of the message
+            content: '%player% voted for the server from %service%' #the content of the message
