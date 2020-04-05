@@ -186,7 +186,10 @@ public class UltimateVotesListener implements CommandExecutor {
 
 
         } else if (args.length == 3 && args[0].equalsIgnoreCase("sendvotewebhook")) {
-            String playername = args[1];
+
+            Util.sendMsg(sender, ChatColor.RED + "This is still a work in progress!! Coming soon!");
+            return true;
+            /*String playername = args[1];
             String website = args[2];
             boolean enabled = plugin.getDiscordFileManager().isVoteWebhookEventEnabled();
             if(enabled) {
@@ -201,7 +204,7 @@ public class UltimateVotesListener implements CommandExecutor {
                 Util.sendMsg(sender, ChatColor.RED + "This feature is turned off, please enable and configure it in the discord.yml configuration file");
             }
 
-            return true;
+            return true;*/
         } else {
             Util.sendMsg(sender, plugin.getMessageManager().getUnknownCommandMessage());
             return true;
