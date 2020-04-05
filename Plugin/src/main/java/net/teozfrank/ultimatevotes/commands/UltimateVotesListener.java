@@ -59,6 +59,8 @@ public class UltimateVotesListener implements CommandExecutor {
             Util.sendMsg(sender, ChatColor.GOLD + "rewards.yml reloaded from disk.");
             plugin.getFileManager().reloadMessages();
             Util.sendMsg(sender, ChatColor.GOLD + "messages.yml reloaded from disk.");
+            plugin.getFileManager().reloadDiscord();
+            Util.sendMsg(sender, ChatColor.GOLD + "discord.yml reloaded from disk.");
             Util.sendMsg(sender, ChatColor.GOLD + "reload complete!");
             return true;
         } else if (args.length == 1 && args[0].equalsIgnoreCase("restart")) {

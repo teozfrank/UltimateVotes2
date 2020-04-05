@@ -1,5 +1,7 @@
 package net.teozfrank.ultimatevotes.events;
 
+import net.teozfrank.ultimatevotes.discord.DiscordFileManager;
+import net.teozfrank.ultimatevotes.discord.DiscordWebhookManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -30,6 +32,8 @@ public class PlayerVote implements Listener {
         final RewardsManager rm = plugin.getRewardsManager();
         final FileManager fm = plugin.getFileManager();
         final MessageManager mm = plugin.getMessageManager();
+        final DiscordWebhookManager dwm = plugin.getDiscordWebhookManager();
+        final DiscordFileManager dfm = plugin.getDiscordFileManager();
 
         final Vote v = e.getVote();
 
@@ -91,6 +95,10 @@ public class PlayerVote implements Listener {
                                             voteAnnouncement = voteAnnouncement.replaceAll("%player%", username);
                                             voteAnnouncement = voteAnnouncement.replaceAll("%service%", v.getServiceName());
                                             Util.broadcast(voteAnnouncement);
+                                        }
+
+                                        if(dfm.isVoteWebhookEventEnabled()) {
+                                            dwm.sendVoteNotification(username, v.getServiceName(), v.getAddress());
                                         }
 
                                         if(player != null) {//if the player is online
