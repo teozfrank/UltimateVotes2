@@ -297,10 +297,8 @@ public class DatabaseManager {
                 return true;
             }
 
-        } catch (SQLException ex) {
-            SendConsoleMessage.error("SQLException: " + ex.getMessage());
-            SendConsoleMessage.error("SQLState: " + ex.getSQLState());
-            SendConsoleMessage.error("VendorError: " + ex.getErrorCode());
+        } catch (SQLException e) {
+            SendConsoleMessage.error("DatabaseManager could not establish a connection when trying to setup the connection!" + e);
         }
         return false;
     }
