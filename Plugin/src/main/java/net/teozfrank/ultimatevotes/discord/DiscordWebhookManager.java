@@ -2,6 +2,7 @@ package net.teozfrank.ultimatevotes.discord;
 
 import net.teozfrank.ultimatevotes.util.SendConsoleMessage;
 
+import java.awt.*;
 import java.io.IOException;
 
 public class DiscordWebhookManager {
@@ -13,7 +14,7 @@ public class DiscordWebhookManager {
     }
 
     public boolean sendVoteNotification(String playername, String website) {
-        webhook.setContent(playername + "voted for the server on " + website);
+        webhook.setContent(Color.GREEN + playername + " voted for the server on " + website);
         webhook.setUsername("UltimateVotes");
         webhook.setTts(true);
         try {
