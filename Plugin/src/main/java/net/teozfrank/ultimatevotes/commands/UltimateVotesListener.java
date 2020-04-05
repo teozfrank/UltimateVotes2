@@ -186,6 +186,21 @@ public class UltimateVotesListener implements CommandExecutor {
             Util.broadcast(message);
             return true;
 
+
+
+
+        } else if (args.length ==3 && args[0].equalsIgnoreCase("sendvotewebhook")) {
+            String playername = args[1];
+            String website = args[2];
+
+            boolean success = plugin.getDiscordWebhookManager().sendVoteNotification(playername, website);
+
+            if(success) {
+                Util.sendMsg(sender, ChatColor.GREEN + "Notification sent successfully!");
+            } else {
+                Util.sendMsg(sender, ChatColor.RED + "Notification sending failed, please check the console log!");
+            }
+            return true;
         } else {
             Util.sendMsg(sender, plugin.getMessageManager().getUnknownCommandMessage());
             return true;

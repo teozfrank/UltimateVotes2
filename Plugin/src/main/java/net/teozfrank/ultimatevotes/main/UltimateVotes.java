@@ -5,6 +5,7 @@ import net.teozfrank.ultimatevotes.api.MaterialHelper;
 import net.teozfrank.ultimatevotes.api.TitleActionbar;
 import net.teozfrank.ultimatevotes.api.UUIDFetcher;
 import net.teozfrank.ultimatevotes.api.WorldEditSelectionHelper;
+import net.teozfrank.ultimatevotes.discord.DiscordWebhookManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -44,15 +45,20 @@ public class UltimateVotes extends JavaPlugin {
     private UUIDFetcher uuidFetcher;
     private WorldEditSelectionHelper worldEditSelectionHelper;
     private MaterialHelper materialHelper;
+    private DiscordWebhookManager discordWebhookManager;
 
     public UltimateVotes() {
     }
+
+
 
 
     @Override
     public void onEnable() {
         errorCount = 0;
         version = this.getDescription().getVersion();
+        this.debug = this.getConfig().getBoolean("ultimatevotes.debug.enabled");
+
         if(this.getDescription().getVersion().contains("dev")) {
             SendConsoleMessage.warning("---------------------------------------------");
             SendConsoleMessage.warning("This is a development version of UltimateVotes, "
@@ -67,10 +73,12 @@ public class UltimateVotes extends JavaPlugin {
         this.setupUUIDFetcher();
 
         this.fileManager = new FileManager(this);//initialise our file manager as the methods below require it
+
         this.rewardsManager = new RewardsManager(this);
         this.messageManager = new MessageManager(this);
 
-        this.debug = this.getConfig().getBoolean("ultimatevotes.debug.enabled");
+        this.discordWebhookManager = new DiscordWebhookManager("https://discordapp.com/api/webhooks/696321871221882890/rXWjwAf5PPE9OytzB_L8nOwFJvGr1tRrlmY7wuXWbHCy0LFyRPHeetF1CHZ5CkteT8Yl");
+
         if(this.isDebugEnabled()) { SendConsoleMessage.debug("Debug mode enabled!"); }
         this.setupConfigs();
         this.checkConfigVersions();
@@ -785,6 +793,10 @@ public class UltimateVotes extends JavaPlugin {
 
     public static String getLineBreak() {
         return lineBreak;
+    }
+
+    public DiscordWebhookManager getDiscordWebhookManager() {
+        return discordWebhookManager;
     }
 
     public String getLastUpdatedMinsFormatted() {
