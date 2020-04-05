@@ -23,7 +23,7 @@ public class DiscordWebhookManager {
         String webhookUsername = dfm.getVoteWebhookEventUsername();
         String webhookTitle = dfm.getVoteWebhookEventTitle();
         String webhookContent = dfm.getVoteWebhookEventContent();
-        webhookContent = webhookContent.replaceAll("%playername%", playername);
+        webhookContent = webhookContent.replaceAll("%player%", playername);
         webhookContent = webhookContent.replaceAll("%service%", service);
         webhookContent = webhookContent.replaceAll("%ipaddress%", ipAddress);
 
