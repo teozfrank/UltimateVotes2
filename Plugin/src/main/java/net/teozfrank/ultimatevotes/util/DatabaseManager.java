@@ -277,14 +277,19 @@ public class DatabaseManager {
 
             Connection sqlDatabaseConnection;
             if (plugin.getFileManager().isMaintainConnection()) {
-                sqlDatabaseConnection = DriverManager.getConnection("jdbc:mysql://" + MySqlHost + ":" + MySqlPort + "/" + MySqlDatabase + "?autoReconnect=true&useSSL=false", MySqlUsername, MySqlPassword);
+
+                sqlDatabaseConnection = DriverManager.getConnection("jdbc:mysql://" +
+                        MySqlHost + ":" + MySqlPort + "/" + MySqlDatabase +
+                        "?autoReconnect=true&useSSL=false", MySqlUsername, MySqlPassword);
                 if(plugin.isDebugEnabled()) {
                     SendConsoleMessage.debug("Connection to MySQL database successful.");
                 }
                 this.connection = sqlDatabaseConnection;
                 return true;
             } else {
-                sqlDatabaseConnection = DriverManager.getConnection("jdbc:mysql://" + MySqlHost + ":" + MySqlPort + "/" + MySqlDatabase + "?useSSL=false", MySqlUsername, MySqlPassword);
+                sqlDatabaseConnection = DriverManager.getConnection("jdbc:mysql://" +
+                        MySqlHost + ":" + MySqlPort + "/" + MySqlDatabase +
+                        "?useSSL=false", MySqlUsername, MySqlPassword);
                 if(plugin.isDebugEnabled()) {
                     SendConsoleMessage.debug("Connection to MySQL database successful.");
                 }
@@ -292,8 +297,10 @@ public class DatabaseManager {
                 return true;
             }
 
-        } catch (SQLException e) {
-            SendConsoleMessage.error("DatabaseManager could not establish a connection when trying to setup the connection!" + e);
+        } catch (SQLException ex) {
+            SendConsoleMessage.error("SQLException: " + ex.getMessage());
+            SendConsoleMessage.error("SQLState: " + ex.getSQLState());
+            SendConsoleMessage.error("VendorError: " + ex.getErrorCode());
         }
         return false;
     }
