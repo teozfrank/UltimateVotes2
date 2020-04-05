@@ -38,13 +38,7 @@ public class UltimateVotesListener implements CommandExecutor {
             Util.sendEmptyMsg(sender, ChatColor.GOLD + "/uv restart " + ChatColor.GREEN + "- restart the plugin");
             Util.sendEmptyMsg(sender, ChatColor.GOLD + "/uv checkmonthly <playername> " + ChatColor.GREEN + "- check monthly votes for a given player.");
             Util.sendEmptyMsg(sender, ChatColor.GOLD + "/uv checkalltime <playername> " + ChatColor.GREEN + "- check alltime votes for a given player.");
-            Util.sendEmptyMsg(sender, ChatColor.YELLOW + "------UUID Conversion commands-------");
-            Util.sendEmptyMsg(sender, ChatColor.RED + "-- ONLY USE IF UPGRADING FROM 1.2.X --");
-            Util.sendEmptyMsg(sender, ChatColor.RED + "-- SEE RELEASE NOTES FOR FULL INSTRUCTIONS BEFORE ATTEMPTING!! --");
-            Util.sendEmptyMsg(sender, ChatColor.GOLD + "/uv convertonlineusernames " + ChatColor.GREEN + "- retrieve the uuids for players in the database and update it.");
-            Util.sendEmptyMsg(sender, ChatColor.GOLD + "/uv convertofflineusernames " + ChatColor.GREEN + "- same as the above command but for OFFLINE mode servers.");
-            Util.sendEmptyMsg(sender, ChatColor.GOLD + "/uv fixusernames " + ChatColor.GREEN + "- fix the users with old username vote counts to be added to there new username, " +
-                    "players must have voted at least once with there new username in order for this to work.(NOT for offline mode servers!)");
+            Util.sendEmptyMsg(sender, ChatColor.GOLD + "/uv sendvotewebhook <playername> <service> " + ChatColor.GREEN + "- send a test discord notice to a configured webhook.");
             Util.sendEmptyMsg(sender, ChatColor.YELLOW + "------RESET COMMANDS - BE CAREFUL USING THESE!-------");
             Util.sendEmptyMsg(sender, ChatColor.GOLD + "/uv resetmonthly " + ChatColor.GREEN + "- resets the monthly votes - " + ChatColor.RED + "WARNING THIS PROCESS CANNOT BE UNDONE!\n\n");
             Util.sendEmptyMsg(sender, "");

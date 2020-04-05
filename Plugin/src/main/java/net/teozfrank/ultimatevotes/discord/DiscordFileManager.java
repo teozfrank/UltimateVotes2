@@ -15,7 +15,7 @@ public class DiscordFileManager {
     }
 
     public boolean isVoteWebhookEventEnabled() {
-        return plugin.getConfig().getBoolean("discord.webhookevents.vote.enabled");
+        return fm.getDiscord().getBoolean("discord.webhookevents.vote.enabled");
     }
 
     public String getVoteWebhookEventWebhookURL() {
