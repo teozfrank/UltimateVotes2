@@ -189,7 +189,7 @@ public class UltimateVotesListener implements CommandExecutor {
 
 
 
-        } else if (args.length ==3 && args[0].equalsIgnoreCase("sendvotewebhook")) {
+        } else if (args.length == 3 && args[0].equalsIgnoreCase("sendvotewebhook")) {
             String playername = args[1];
             String website = args[2];
 
