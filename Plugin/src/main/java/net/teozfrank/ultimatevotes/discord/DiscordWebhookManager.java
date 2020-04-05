@@ -27,13 +27,15 @@ public class DiscordWebhookManager {
         webhookContent = webhookContent.replaceAll("%service%", service);
         webhookContent = webhookContent.replaceAll("%ipaddress%", ipAddress);
 
+        this.webhook = new DiscordWebhook(webhookURL);
+
         webhook.setUsername(webhookUsername);
 
         webhook.addEmbed(new DiscordWebhook.EmbedObject()
                 .setTitle(webhookTitle)
                 .setDescription(webhookContent)
                 .setColor(Color.RED));
-        this.webhook = new DiscordWebhook(webhookURL);
+
         webhook.setTts(true);
         try {
             webhook.execute();
