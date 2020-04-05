@@ -34,7 +34,7 @@ public class DiscordWebhookManager {
         webhook.addEmbed(new DiscordWebhook.EmbedObject()
                 .setTitle(webhookTitle)
                 .setDescription(webhookContent)
-                .setColor(Color.RED));
+                .setColor(Color.GREEN));
 
         webhook.setTts(true);
         try {

@@ -31,6 +31,6 @@ public class DiscordFileManager {
     }
 
     public String getVoteWebhookEventContent() {
-        return fm.getDiscord().getString("discord.webhookevents.vote.title");
+        return fm.getDiscord().getString("discord.webhookevents.vote.content");
     }
 }
