@@ -97,9 +97,9 @@ public class PlayerVote implements Listener {
                                             Util.broadcast(voteAnnouncement);
                                         }
 
-                                        if(dfm.isVoteWebhookEventEnabled()) {
+                                        /*if(dfm.isVoteWebhookEventEnabled()) {
                                             dwm.sendVoteNotification(username, v.getServiceName(), v.getAddress());
-                                        }
+                                        }*/
 
                                         if(player != null) {//if the player is online
                                             if(plugin.isDebugEnabled()) {
