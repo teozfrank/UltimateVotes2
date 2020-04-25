@@ -14,7 +14,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import net.teozfrank.ultimatevotes.commands.*;
 import net.teozfrank.ultimatevotes.events.*;
 import net.teozfrank.ultimatevotes.threads.AutoReloadVotesThread;
-import net.teozfrank.ultimatevotes.threads.CheckTrialThread;
 import net.teozfrank.ultimatevotes.threads.RemindPlayersToVoteThread;
 import net.teozfrank.ultimatevotes.threads.TimedCmdThread;
 import net.teozfrank.ultimatevotes.util.*;
@@ -114,6 +113,11 @@ public class UltimateVotes extends JavaPlugin {
         this.registerChannels();
         this.registerCommands();
         this.checkForUpdates();
+        this.submitStats();
+    }
+
+    private void submitStats() {
+        Metrics metrics = new Metrics(this, 7319);
     }
 
 
