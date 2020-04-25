@@ -114,6 +114,7 @@ public class UltimateVotes extends JavaPlugin {
         this.remindPlayers();
         this.registerChannels();
         this.registerCommands();
+        this.checkForUpdates();
     }
 
 
@@ -147,6 +148,21 @@ public class UltimateVotes extends JavaPlugin {
             errorCount++;
         }
 
+    }
+
+    public void checkForUpdates() {
+        if(fileManager.isUpdateCheckEnabled()) {
+            try {
+                String version = Util.getSpigotVersion();
+                if(this.isDebugEnabled()) {
+                    SendConsoleMessage.debug("Version from Spigot: " + version);
+                    SendConsoleMessage.debug("Plugin Version: " + this.getDescription().getVersion());
+                }
+            } catch (NullPointerException e) {
+                SendConsoleMessage.error("Unable to check for updates :(");
+            }
+
+        }
     }
 
     private boolean setupWorldEditSelectionHelper() {
