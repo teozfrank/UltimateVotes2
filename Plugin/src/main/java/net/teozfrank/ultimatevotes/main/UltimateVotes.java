@@ -59,6 +59,7 @@ public class UltimateVotes extends JavaPlugin {
     public void onEnable() {
         errorCount = 0;
         version = this.getDescription().getVersion();
+        if(this.isDebugEnabled()) { SendConsoleMessage.debug("Debug mode enabled!"); }
         this.debug = this.getConfig().getBoolean("ultimatevotes.debug.enabled");
 
         if(this.getDescription().getVersion().contains("dev")) {
@@ -81,8 +82,6 @@ public class UltimateVotes extends JavaPlugin {
         this.discordFileManager = new DiscordFileManager(this);
 
         this.discordWebhookManager = new DiscordWebhookManager(this);
-
-        if(this.isDebugEnabled()) { SendConsoleMessage.debug("Debug mode enabled!"); }
         this.setupConfigs();
         this.checkConfigVersions();
         pluginPrefix = ChatColor.translateAlternateColorCodes('&', getFileManager().getMessages().getString("messages.prefix"));
@@ -154,7 +153,7 @@ public class UltimateVotes extends JavaPlugin {
         if(fileManager.isUpdateCheckEnabled()) {
             try {
                 String spigotVersion = Util.getSpigotVersion();
-                if(! spigotVersion.equals(this.getDescription().getVersion())) {
+                if(! spigotVersion.equals(version)) {
                     SendConsoleMessage.info(ChatColor.GOLD + "---------------------------------------------------");
                     SendConsoleMessage.info(ChatColor.GOLD + "There is a new update available from spigot. Version: " + spigotVersion);
                     SendConsoleMessage.info(ChatColor.GOLD + "---------------------------------------------------");
