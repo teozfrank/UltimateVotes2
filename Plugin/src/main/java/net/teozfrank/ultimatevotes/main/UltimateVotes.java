@@ -155,7 +155,9 @@ public class UltimateVotes extends JavaPlugin {
             try {
                 String spigotVersion = Util.getSpigotVersion();
                 if(! spigotVersion.equals(this.getDescription().getVersion())) {
-                    SendConsoleMessage.info("There is a new update available from spigot. Version: " + spigotVersion);
+                    SendConsoleMessage.info(ChatColor.GOLD + "---------------------------------------------------");
+                    SendConsoleMessage.info(ChatColor.GOLD + "There is a new update available from spigot. Version: " + spigotVersion);
+                    SendConsoleMessage.info(ChatColor.GOLD + "---------------------------------------------------");
                 }
             } catch (NullPointerException e) {
                 SendConsoleMessage.error("Unable to check for updates :(");
