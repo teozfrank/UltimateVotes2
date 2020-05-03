@@ -7,7 +7,7 @@
     <artifactId>UltimateVotes</artifactId>
     <packaging>jar</packaging>
     <name>UltimateVotesPlugin</name>
-    <version>2.0.0</version>
+    <version>2.0.1-dev</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
