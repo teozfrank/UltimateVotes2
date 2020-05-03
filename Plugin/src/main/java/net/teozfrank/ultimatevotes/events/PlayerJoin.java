@@ -67,13 +67,18 @@ public class PlayerJoin implements Listener {
                                 public void run() {
                                     final String version = Util.getSpigotVersion();
 
+                                    if(plugin.getDescription().getVersion().contains("dev")) {
+                                        Util.sendMsg(player, ChatColor.GOLD + "Update checking is disabled for dev versions.");
+                                        return;
+                                    }
+
                                     if(version == null) {
                                         SendConsoleMessage.error("Could not check for updates!");
                                         return;
 
                                     }
 
-                                    if (!version.equals(plugin.getDescription().getVersion())) {
+                                    if (! version.equals(plugin.getDescription().getVersion())) {
                                         plugin.getServer().getScheduler().runTask(plugin, new Runnable() {
                                             @Override
                                             public void run() {
