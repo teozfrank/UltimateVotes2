@@ -57,8 +57,12 @@ public class PlayerJoin implements Listener {
                 if (rm.hasUnclaimedRewards(playerUUID) && !fm.useClaimCommand() && fm.isRewardsEnabled()) { //if the player has offline rewards and we are not using the claim command
                     rm.rewardPlayer(player);
                 }
-
                 if (fm.isUpdateCheckEnabled() && player.hasPermission("ultimatevotes.admin.updatenotification")) {
+
+                    if(plugin.getDescription().getVersion().contains("dev")) {
+                        Util.sendMsg(player, ChatColor.GOLD + "Update checking is disabled for dev versions.");
+                        return;
+                    }
                     plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
                         @Override
                         public void run() {
@@ -66,11 +70,6 @@ public class PlayerJoin implements Listener {
                                 @Override
                                 public void run() {
                                     final String version = Util.getSpigotVersion();
-
-                                    if(plugin.getDescription().getVersion().contains("dev")) {
-                                        Util.sendMsg(player, ChatColor.GOLD + "Update checking is disabled for dev versions.");
-                                        return;
-                                    }
 
                                     if(version == null) {
                                         SendConsoleMessage.error("Could not check for updates!");
