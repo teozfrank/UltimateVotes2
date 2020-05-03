@@ -119,6 +119,7 @@ public class UltimateVotesListener implements CommandExecutor {
 
             databaseManager.addPlayerMonthlyVote(playerUUID, playerName);
             databaseManager.addPlayerAllTimeVote(playerUUID, playerName);
+            databaseManager.addVoteLog(playerUUID, playerName, "UVTestVote", "127.0.0.1");
             Util.sendMsg(sender, ChatColor.GREEN + "Test vote added for player " + playerName);
             return true;
         } else if (args.length == 1 && args[0].equalsIgnoreCase("convertonlineusernames")) {

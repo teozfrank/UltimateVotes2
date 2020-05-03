@@ -102,13 +102,13 @@ public class UltimateVotes extends JavaPlugin {
         new RewardEventTest(this);
 
 
-        getServer().getScheduler().runTaskAsynchronously(this, new Runnable() {
+        /*getServer().getScheduler().runTaskAsynchronously(this, new Runnable() {
             @Override
             public void run() {
-                loadVotes();
+
                 //TODO move this into database manager as it is making two connections to the database.
             }
-        });
+        });*/
         this.remindPlayers();
         this.registerChannels();
         this.registerCommands();
@@ -634,8 +634,12 @@ public class UltimateVotes extends JavaPlugin {
         } catch (NullPointerException e) {
             SendConsoleMessage.info("Wall of signs not set, not clearing.");
         }
-        SendConsoleMessage.info("Closing SQL connection.");
-        this.closeConnections();
+
+        if(fileManager.isMySqlEnabled()) {
+            SendConsoleMessage.info("Closing SQL connection.");
+            this.closeConnections();
+        }
+
         if(this.getServer().getPluginManager().getPlugin("Votifier") != null) {
             SendConsoleMessage.info("Unregistering vote event.");
             VotifierEvent.getHandlerList().unregister(this);
@@ -703,7 +707,7 @@ public class UltimateVotes extends JavaPlugin {
 
         if (this.getConfig().getBoolean("ultimatevotes.votes.loadonstartup")) {
 
-            SendConsoleMessage.info("Loading Votes ENABLED.");
+            /*SendConsoleMessage.info("Loading Votes ENABLED.");
             SendConsoleMessage.info("Now Loading Votes.");
             try {
                 getVoteManager().allVotes = getDatabaseManager().voteAllTime();
@@ -712,9 +716,9 @@ public class UltimateVotes extends JavaPlugin {
                 SendConsoleMessage.info("Loading Votes Complete.");
             } catch (Exception ex) {
                 SendConsoleMessage.error("Error loading votes into cache: " + ex.getMessage());
-            }
+            }*/
 
-            try {
+            /*try {
                 SendConsoleMessage.info("Now loading sign wall.");
                 this.getServer().getScheduler().runTask(this, new Runnable() {
 
@@ -726,16 +730,17 @@ public class UltimateVotes extends JavaPlugin {
                 });
             } catch (Exception ex) {
                 SendConsoleMessage.error("Error loading sign wall: " + ex.getMessage());
-            }
+            }*/
 
             try {
-                if (!(getVoteManager().monthlyVotes.size() <= 0 && getVoteManager().allVotes.size() <= 0)) {
+                /*if (!(getVoteManager().monthlyVotes.size() <= 0 && getVoteManager().allVotes.size() <= 0)) {
                     SendConsoleMessage.info("Auto-Reload Interval set to " + ChatColor.AQUA + reloadInterval + ChatColor.GREEN + " Ticks, Task Starting!");
-                    Bukkit.getScheduler().runTaskTimerAsynchronously(this, new AutoReloadVotesThread(this), reloadInterval, reloadInterval);
+                    Bukkit.getScheduler().runTaskTimerAsynchronously(this, new AutoReloadVotesThread(this), 20L * 10, reloadInterval);
                 } else {
                     SendConsoleMessage.info("Auto-Reloading " + ChatColor.RED + "DISABLED " + ChatColor.GREEN +
                             "as their are not any vote records to reload, when votes do exist, please " + ChatColor.AQUA + "reload the server.");
-                }
+                }*/
+                Bukkit.getScheduler().runTaskTimerAsynchronously(this, new AutoReloadVotesThread(this), 20L * 10, reloadInterval);
                 Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TimedCmdThread(this), 20L * 60, 20L * 60);
             } catch (Exception ex) {
                 SendConsoleMessage.error("Error trying to create setup reloading task." + ex.getMessage());
