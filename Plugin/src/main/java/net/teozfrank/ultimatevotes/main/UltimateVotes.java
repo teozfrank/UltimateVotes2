@@ -155,6 +155,10 @@ public class UltimateVotes extends JavaPlugin {
 
     public void checkForUpdates() {
         if(fileManager.isUpdateCheckEnabled()) {
+            if(this.getDescription().getVersion().contains("dev")) {
+              SendConsoleMessage.info("Update checking is disabled for dev versions.");
+              return;
+            }
             try {
                 String spigotVersion = Util.getSpigotVersion();
 
