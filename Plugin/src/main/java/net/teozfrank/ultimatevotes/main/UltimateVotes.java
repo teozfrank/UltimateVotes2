@@ -635,10 +635,7 @@ public class UltimateVotes extends JavaPlugin {
             SendConsoleMessage.info("Wall of signs not set, not clearing.");
         }
 
-        if(fileManager.isMySqlEnabled()) {
-            SendConsoleMessage.info("Closing SQL connection.");
-            this.closeConnections();
-        }
+        this.closeConnections();
 
         if(this.getServer().getPluginManager().getPlugin("Votifier") != null) {
             SendConsoleMessage.info("Unregistering vote event.");
@@ -672,8 +669,9 @@ public class UltimateVotes extends JavaPlugin {
             }
             return;
         }
+        SendConsoleMessage.info("Closing SQL connection.");
         try {
-            if(!getDatabaseManager().getConnection().isClosed()) {
+            if(! getDatabaseManager().getConnection().isClosed()) {
                 getDatabaseManager().getConnection().close();
             }
         } catch (SQLException e) {
