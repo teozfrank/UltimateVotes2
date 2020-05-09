@@ -61,7 +61,7 @@ public class UltimateVotes extends JavaPlugin {
         if(this.isDebugEnabled()) { SendConsoleMessage.debug("Debug mode enabled!"); }
         this.debug = this.getConfig().getBoolean("ultimatevotes.debug.enabled");
 
-        if(this.getDescription().getVersion().contains("dev")) {
+        if(this.getDescription().getVersion().contains("SNAPSHOT")) {
             SendConsoleMessage.warning("---------------------------------------------");
             SendConsoleMessage.warning("This is a development version of UltimateVotes, "
                     + "it is recommended to backup your entire UltimateVotes plugin folder and database before running this build.");
