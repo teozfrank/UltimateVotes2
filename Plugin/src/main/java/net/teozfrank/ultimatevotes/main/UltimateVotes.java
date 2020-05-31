@@ -179,12 +179,13 @@ public class UltimateVotes extends JavaPlugin {
     }
 
     private boolean setupWorldEditSelectionHelper() {
-        String version = this.getWorldEditVersion();
-
-        if(version == null ) {
+        try {
+            String version = this.getWorldEditVersion();
+        } catch (Exception ex) {
             SendConsoleMessage.warning("WorldEdit plugin not found, WorldEdit related features will not work!");
             return true;
         }
+
 
         if(isDebugEnabled()) {
             SendConsoleMessage.debug("WorldEdit Version: " + version);

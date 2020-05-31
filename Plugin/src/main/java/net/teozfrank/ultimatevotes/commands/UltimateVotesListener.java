@@ -71,6 +71,12 @@ public class UltimateVotesListener implements CommandExecutor {
         } else if (args.length == 1 && args[0].equalsIgnoreCase("setwallsigns")) {
             if (sender instanceof Player) {
 
+                try {
+                    plugin.getWorldEditVersion();
+                } catch (Exception ex) {
+                    Util.sendMsg(sender, ChatColor.RED + "WorldEdit is not installed on this server, command disabled.");
+                    return true;
+                }
                 Player player = (Player) sender;
                 FileManager fm = plugin.getFileManager();
                 SignManager sm = plugin.getSignManager();
