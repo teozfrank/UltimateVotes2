@@ -59,7 +59,7 @@ public class PlayerJoin implements Listener {
                 }
                 if (fm.isUpdateCheckEnabled() && player.hasPermission("ultimatevotes.admin.updatenotification")) {
 
-                    if(plugin.getDescription().getVersion().contains("dev")) {
+                    if(plugin.getDescription().getVersion().contains("SNAPSHOT")) {
                         Util.sendMsg(player, ChatColor.GOLD + "Update checking is disabled for dev versions.");
                         return;
                     }
@@ -128,7 +128,7 @@ public class PlayerJoin implements Listener {
 
             @Override
             public void run() {
-                if (!databaseManager.hasVotedToday(playerUUID)) {
+                if (! databaseManager.hasVotedToday(playerUUID)) {
                     vm.hasNotVotedToday.add(playerUUID);
                     if (plugin.isDebugEnabled()) {
                         SendConsoleMessage.debug("Not voted");

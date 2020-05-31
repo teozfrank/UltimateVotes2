@@ -325,9 +325,10 @@ public class DatabaseManager {
         return connection;
     }
 
-    public void addVoteLog(UUID playerUUID, String playerName, String serviceName, String IPAddress) {
+    public void addVoteLog(UUID playerUUID, String playerName, String serviceName, String IPAddress, String serverName) {
         String sql = "INSERT INTO VOTELOG VALUES (NULL, '" + playerUUID +"', '"+ playerName
                 + "', '" + serviceName
+                + "', '" + serverName
                 + "', '" + IPAddress + "', NULL)";
         if(plugin.isDebugEnabled()) {
             SendConsoleMessage.debug(sql);
@@ -381,7 +382,37 @@ public class DatabaseManager {
                 }
             } else {
                 if(plugin.isDebugEnabled()) {
-                    SendConsoleMessage.debug("Table VOTELOG exists, ignoring!");
+                    SendConsoleMessage.debug("Table VOTELOG exists, checking for servername column!");
+                }
+                String checkServerNameColumnQuery = "SHOW COLUMNS FROM VOTELOG LIKE 'SERVERNAME'";
+
+                PreparedStatement statement2 = getConnection().prepareStatement(checkServerNameColumnQuery);
+                int i2;
+                ResultSet result2 = statement2.executeQuery();
+                i2 = 0;
+                while (result2.next()) {
+                    i2++;
+                }
+
+                if (! (i2 > 0)) {
+                    if(plugin.isDebugEnabled()) {
+                        SendConsoleMessage.debug("Adding servername column as it is missing!");
+                    }
+                    String sql = "ALTER TABLE VOTELOG ADD SERVERNAME VARCHAR(30) NULL DEFAULT NULL AFTER IPADDRESS";
+                    statement = getConnection().prepareStatement(sql);
+                    statement.executeUpdate();
+                    statement.close();
+
+                } else {
+                    if(plugin.isDebugEnabled()) {
+                        SendConsoleMessage.debug("Column servername exits, nothing to do here!");
+                    }
+                }
+                if(!connection.isClosed() && !plugin.getFileManager().isMaintainConnection()) {
+                    if(plugin.isDebugEnabled()) {
+                        SendConsoleMessage.debug("Closing connection, connection is not being maintained.");
+                    }
+                    connection.close();
                 }
 
             }

@@ -82,7 +82,8 @@ public class PlayerVote implements Listener {
 
                                 databaseManager.addPlayerMonthlyVote(playerUUID, username);
                                 databaseManager.addPlayerAllTimeVote(playerUUID, username);
-                                databaseManager.addVoteLog(playerUUID, username, serviceName, ipAddress);
+
+                                databaseManager.addVoteLog(playerUUID, username, serviceName, ipAddress, "Standalone");
 
                                 plugin.getServer().getScheduler().runTask(plugin, new Runnable() {
                                     @Override
