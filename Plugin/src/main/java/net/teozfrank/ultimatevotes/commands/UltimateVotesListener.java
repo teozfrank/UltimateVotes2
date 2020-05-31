@@ -120,6 +120,12 @@ public class UltimateVotesListener implements CommandExecutor {
                 return true;
             }
         } else if (args.length == 2 && args[0].equalsIgnoreCase("addtestvote")) {
+
+            if(plugin.getFileManager().isUsingBungeeCord()) {
+                Util.sendMsg(sender, ChatColor.RED + "This command is disabled when bungeecord is enabled, "+
+                        "please use /uvb addtestvote <player>");
+                return true;
+            }
             String playerName = args[1];
             UUID playerUUID = databaseManager.getUUIDFromUsername(playerName);
 
