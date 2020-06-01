@@ -7,7 +7,7 @@
 # variables you can use for announcement message
 # %player% - vote players name
 # %service% - the service name from where the player voted from
-configversion: 2.7
+configversion: 2.8
 messages:
 # the plugin prefix, shown when players are notified
     prefix: '&6[UltimateVotes] '

@@ -143,7 +143,7 @@ public class UltimateVotes extends JavaPlugin {
             errorCount++;
         }
 
-        if(fm.getMessages().getDouble("configversion") != 2.7) {
+        if(fm.getMessages().getDouble("configversion") != 2.8) {
             SendConsoleMessage.warning("Your " + ChatColor.AQUA + "messages.yml "+
                     ChatColor.RED +" is out of date!");
             SendConsoleMessage.info("Updating messages.yml file.");
@@ -484,7 +484,31 @@ public class UltimateVotes extends JavaPlugin {
             SendConsoleMessage.info("Messages config update complete!");
         }
 
-        if(!(messages.getDouble("configversion") == 2.7)) {
+        if(messages.getDouble("configversion") == 2.7) {
+            messages.set("configversion", 2.8);
+            List<String> commandList = messages.getStringList("messages.vote.commandlist");
+            if(commandList.size() == 9) {
+                if(commandList.get(0).contains("Brings up this message")) {
+                    commandList.add("&a/vote help  - &aHelp with commands");
+                    messages.set("messages.vote.commandlist", commandList);
+                    SendConsoleMessage.info("Adding new /vote help command to messages.yml");
+                } else {
+                    SendConsoleMessage.warning("Command list descriptions were modified" +
+                            ", not adding new /vote help command, please manually edit the messages.yml and add it.");
+                }
+
+            } else {
+                SendConsoleMessage.warning("Command list is not size 9 was it modified? " +
+                        ", not adding new /vote help command, please manually edit the messages.yml and add it.");
+            }
+            getFileManager().saveMessages();
+            getFileManager().reloadMessages();
+            SendConsoleMessage.info("Messages config update complete!");
+        }
+
+
+
+        if(!(messages.getDouble("configversion") == 2.8)) {
             SendConsoleMessage.warning("Error in updating messages config. No update found for the config version you are using! Have you changed it?");
         }
 
