@@ -719,49 +719,48 @@ public class UltimateVotes extends JavaPlugin {
 
         long reloadInterval = this.getConfig().getLong("ultimatevotes.votes.autoreloadvotesinterval");
 
-        if (this.getConfig().getBoolean("ultimatevotes.votes.loadonstartup")) {
+        if(! fileManager.isMySqlEnabled()) {
+           SendConsoleMessage.info("Loading votes disabled as MySQL is disabled.");
+           return;
+        }
 
-            /*SendConsoleMessage.info("Loading Votes ENABLED.");
-            SendConsoleMessage.info("Now Loading Votes.");
-            try {
-                getVoteManager().allVotes = getDatabaseManager().voteAllTime();
-                getVoteManager().monthlyVotes = getDatabaseManager().voteMonthly();
-                lastVotesUpdate = System.currentTimeMillis();
-                SendConsoleMessage.info("Loading Votes Complete.");
-            } catch (Exception ex) {
-                SendConsoleMessage.error("Error loading votes into cache: " + ex.getMessage());
-            }*/
+        /*SendConsoleMessage.info("Loading Votes ENABLED.");
+        SendConsoleMessage.info("Now Loading Votes.");
+        try {
+            getVoteManager().allVotes = getDatabaseManager().voteAllTime();
+            getVoteManager().monthlyVotes = getDatabaseManager().voteMonthly();
+            lastVotesUpdate = System.currentTimeMillis();
+            SendConsoleMessage.info("Loading Votes Complete.");
+        } catch (Exception ex) {
+            SendConsoleMessage.error("Error loading votes into cache: " + ex.getMessage());
+        }*/
 
-            /*try {
-                SendConsoleMessage.info("Now loading sign wall.");
-                this.getServer().getScheduler().runTask(this, new Runnable() {
+        /*try {
+            SendConsoleMessage.info("Now loading sign wall.");
+            this.getServer().getScheduler().runTask(this, new Runnable() {
 
-                    @Override
-                    public void run() {
-                        getSignManager().updateTopVotersOnWall();
-                        SendConsoleMessage.info("Sign wall loading complete.");
-                    }
-                });
-            } catch (Exception ex) {
-                SendConsoleMessage.error("Error loading sign wall: " + ex.getMessage());
-            }*/
+                @Override
+                public void run() {
+                    getSignManager().updateTopVotersOnWall();
+                    SendConsoleMessage.info("Sign wall loading complete.");
+                }
+            });
+        } catch (Exception ex) {
+            SendConsoleMessage.error("Error loading sign wall: " + ex.getMessage());
+        }*/
 
-            try {
-                /*if (!(getVoteManager().monthlyVotes.size() <= 0 && getVoteManager().allVotes.size() <= 0)) {
-                    SendConsoleMessage.info("Auto-Reload Interval set to " + ChatColor.AQUA + reloadInterval + ChatColor.GREEN + " Ticks, Task Starting!");
-                    Bukkit.getScheduler().runTaskTimerAsynchronously(this, new AutoReloadVotesThread(this), 20L * 10, reloadInterval);
-                } else {
-                    SendConsoleMessage.info("Auto-Reloading " + ChatColor.RED + "DISABLED " + ChatColor.GREEN +
-                            "as their are not any vote records to reload, when votes do exist, please " + ChatColor.AQUA + "reload the server.");
-                }*/
+        try {
+            /*if (!(getVoteManager().monthlyVotes.size() <= 0 && getVoteManager().allVotes.size() <= 0)) {
+                SendConsoleMessage.info("Auto-Reload Interval set to " + ChatColor.AQUA + reloadInterval + ChatColor.GREEN + " Ticks, Task Starting!");
                 Bukkit.getScheduler().runTaskTimerAsynchronously(this, new AutoReloadVotesThread(this), 20L * 10, reloadInterval);
-                Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TimedCmdThread(this), 20L * 60, 20L * 60);
-            } catch (Exception ex) {
-                SendConsoleMessage.error("Error trying to create setup reloading task." + ex.getMessage());
-            }
-        } else {
-            SendConsoleMessage.info("Loading Votes " + ChatColor.RED + "Disabled" + ChatColor.GREEN + ", Enable in config once the" +
-                    "tables have been created in the database.");
+            } else {
+                SendConsoleMessage.info("Auto-Reloading " + ChatColor.RED + "DISABLED " + ChatColor.GREEN +
+                        "as their are not any vote records to reload, when votes do exist, please " + ChatColor.AQUA + "reload the server.");
+            }*/
+            Bukkit.getScheduler().runTaskTimerAsynchronously(this, new AutoReloadVotesThread(this), 20L * 10, reloadInterval);
+            Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TimedCmdThread(this), 20L * 60, 20L * 60);
+        } catch (Exception ex) {
+            SendConsoleMessage.error("Error trying to create setup reloading task." + ex.getMessage());
         }
     }
 
