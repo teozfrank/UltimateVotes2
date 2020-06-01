@@ -9,8 +9,11 @@
 # %postion% the postion in the top 10 voters they are can be a value of 1-10
 # %playername% the players name
 ultimatevotes:
-    configversion: 2.7
+    configversion: 2.8
     checkforupdates: true
+    commands:
+# should we swap vote with vote sites? If true when a user uses /vote it will display vote sites instead of the normal command list.
+        swapvotewithvotesites: false
 # mysql settings
     mysql:
         enabled: false
@@ -39,8 +42,6 @@ ultimatevotes:
     votes:
         autoresetmonthlyvotes: false
         usingbungeecord: false
-# set loadonstartup to true when you have enabled mysql
-        loadonstartup: false
         autoreloadvotesinterval: 12000
         broadcast:
 # does the voting player have to be online for the broadcast to take effect?

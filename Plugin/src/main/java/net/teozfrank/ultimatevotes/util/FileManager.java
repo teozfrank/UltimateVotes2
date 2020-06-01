@@ -452,6 +452,10 @@ public class FileManager {
         return plugin.getConfig().getBoolean("ultimatevotes.rewards.claiming.useclaimgui");
     }
 
+    public boolean isSwapVoteWithVoteSitesEnabled() {
+        return plugin.getConfig().getBoolean("ultimatevotes.commands.swapvotewithvotesites");
+    }
+
     public void reloadDiscord() {
         if (discordFile == null) {
             discordFile = new File(plugin.getDataFolder(), "discord.yml");

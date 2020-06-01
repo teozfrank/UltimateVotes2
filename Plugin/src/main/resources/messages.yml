@@ -29,6 +29,7 @@ messages:
             - '&a/vote sites - &aView the voting website(s).'
             - '&a/vote rewards [page] - &aList the rewards for voting'
             - '&a/vote about - &aMore about this plugin.'
+            - '&a/vote help  - &aHelp with commands'
         title: '&6            UltimateVotes Command list              '
     top:
         title: '&6             Top 10 Voters this month               '
