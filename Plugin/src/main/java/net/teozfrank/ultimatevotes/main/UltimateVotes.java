@@ -135,7 +135,7 @@ public class UltimateVotes extends JavaPlugin {
             errorCount++;
         }
 
-        if(getConfig().getDouble("ultimatevotes.configversion") != 2.7) {
+        if(getConfig().getDouble("ultimatevotes.configversion") != 2.8) {
             SendConsoleMessage.warning("Your " + ChatColor.AQUA + "config.yml " +
                     ChatColor.RED + " is out of date!");
             SendConsoleMessage.info("Updating config.yml file.");
@@ -155,7 +155,7 @@ public class UltimateVotes extends JavaPlugin {
 
     public void checkForUpdates() {
         if(fileManager.isUpdateCheckEnabled()) {
-            if(this.getDescription().getVersion().contains("dev")) {
+            if(this.getDescription().getVersion().contains("SNAPSHOT")) {
               SendConsoleMessage.info("Update checking is disabled for dev versions.");
               return;
             }
@@ -602,9 +602,20 @@ public class UltimateVotes extends JavaPlugin {
             return;
         }
 
+        if(getConfig().getDouble("ultimatevotes.configversion") == 2.7) {
+            SendConsoleMessage.debug("Config version of config.yml is 2.7, updating to 2.8");
+            getConfig().set("ultimatevotes.configversion", 2.8);
+            getConfig().set("ultimatevotes.commands.swapvotewithvotesites", false);
+            getConfig().set("ultimatevotes.votes.loadonstartup", null);
 
+            saveConfig();
+            reloadConfig();
 
-        if(!(getConfig().getDouble("ultimatevotes.configversion") == 2.6)) {
+            SendConsoleMessage.info("Config update completed successfully!");
+            return;
+        }
+
+        if(!(getConfig().getDouble("ultimatevotes.configversion") == 2.8)) {
             SendConsoleMessage.warning("Error in updating config. No update found for the config version you are using! Have you changed it?");
         }
 

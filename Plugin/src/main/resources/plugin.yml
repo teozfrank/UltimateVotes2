@@ -39,6 +39,7 @@ permissions:
             ultimatevotes.player.sites: true
             ultimatevotes.player.claim: true
             ultimatevotes.player.rewards: true
+            ultimatevotes.player.help: true
     ultimatevotes.admin.*:
         description: Gives access to all player commands
         children:
@@ -68,6 +69,9 @@ permissions:
     ultimatevotes.player.rewards:
         description: allows a player to check the rewards for voting
         default: op
+    ultimatevotes.player.help:
+      description: allows a player to view the command list.
+      default: op
     ultimatevotes.votereminder.bypass:
         description: allows a player to bypass vote reminders
         default: op
