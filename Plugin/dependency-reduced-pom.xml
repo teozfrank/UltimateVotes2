@@ -133,9 +133,9 @@
   </repositories>
   <dependencies>
     <dependency>
-      <groupId>org.bukkit</groupId>
-      <artifactId>bukkit</artifactId>
-      <version>1.14-R0.1-SNAPSHOT</version>
+      <groupId>org.spigotmc</groupId>
+      <artifactId>spigot-api</artifactId>
+      <version>1.16.1-R0.1-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -159,6 +159,10 @@
           <groupId>com.sk89q.worldedit.worldedit-libs</groupId>
         </exclusion>
         <exclusion>
+          <artifactId>bukkit</artifactId>
+          <groupId>org.bukkit</groupId>
+        </exclusion>
+        <exclusion>
           <artifactId>paperlib</artifactId>
           <groupId>io.papermc</groupId>
         </exclusion>
@@ -176,7 +180,7 @@
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <bukkit.version>1.14-R0.1-SNAPSHOT</bukkit.version>
+    <bukkit.version>1.16.1-R0.1-SNAPSHOT</bukkit.version>
   </properties>
 </project>
 
