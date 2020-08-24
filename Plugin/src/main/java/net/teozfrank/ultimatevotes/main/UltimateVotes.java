@@ -179,8 +179,9 @@ public class UltimateVotes extends JavaPlugin {
     }
 
     private boolean setupWorldEditSelectionHelper() {
+        String worldEditVersion = null;
         try {
-            String version = this.getWorldEditVersion();
+            worldEditVersion = this.getWorldEditVersion();
         } catch (Exception ex) {
             SendConsoleMessage.warning("WorldEdit plugin not found, WorldEdit related features will not work!");
             return true;
@@ -188,7 +189,7 @@ public class UltimateVotes extends JavaPlugin {
 
 
         if(isDebugEnabled()) {
-            SendConsoleMessage.debug("WorldEdit Version: " + version);
+            SendConsoleMessage.debug("WorldEdit Version: " + worldEditVersion);
         }
         String[] legacyVersions =  { "6." };
         String[] latestVersions = {"7."};
@@ -197,14 +198,14 @@ public class UltimateVotes extends JavaPlugin {
         boolean latest = false;
 
         for(String legacyVersion: legacyVersions) {
-            if(version.startsWith(legacyVersion)) {
+            if(worldEditVersion.startsWith(legacyVersion)) {
                 legacy = true;
                 SendConsoleMessage.info("WorldEdit Selection Helper identified as legacy.");
             }
         }
         if(! legacy) {
             for(String latestVersion: latestVersions) {
-                if(version.startsWith(latestVersion)) {
+                if(worldEditVersion.startsWith(latestVersion)) {
                     latest = true;
                     SendConsoleMessage.info("WorldEdit Selection Helper identified as latest.");
                 }
