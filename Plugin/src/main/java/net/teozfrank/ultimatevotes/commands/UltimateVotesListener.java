@@ -71,6 +71,12 @@ public class UltimateVotesListener implements CommandExecutor {
         } else if (args.length == 1 && args[0].equalsIgnoreCase("setwallsigns")) {
             if (sender instanceof Player) {
 
+                try {
+                    plugin.getWorldEditVersion();
+                } catch (Exception ex) {
+                    Util.sendMsg(sender, ChatColor.RED + "WorldEdit is not installed on this server, command disabled.");
+                    return true;
+                }
                 Player player = (Player) sender;
                 FileManager fm = plugin.getFileManager();
                 SignManager sm = plugin.getSignManager();
@@ -114,11 +120,18 @@ public class UltimateVotesListener implements CommandExecutor {
                 return true;
             }
         } else if (args.length == 2 && args[0].equalsIgnoreCase("addtestvote")) {
+
+            if(plugin.getFileManager().isUsingBungeeCord()) {
+                Util.sendMsg(sender, ChatColor.RED + "This command is disabled when bungeecord is enabled, "+
+                        "please use /uvb addtestvote <player>");
+                return true;
+            }
             String playerName = args[1];
             UUID playerUUID = databaseManager.getUUIDFromUsername(playerName);
 
             databaseManager.addPlayerMonthlyVote(playerUUID, playerName);
             databaseManager.addPlayerAllTimeVote(playerUUID, playerName);
+            databaseManager.addVoteLog(playerUUID, playerName, "UVTestVote", "127.0.0.1", "Standalone");
             Util.sendMsg(sender, ChatColor.GREEN + "Test vote added for player " + playerName);
             return true;
         } else if (args.length == 1 && args[0].equalsIgnoreCase("convertonlineusernames")) {

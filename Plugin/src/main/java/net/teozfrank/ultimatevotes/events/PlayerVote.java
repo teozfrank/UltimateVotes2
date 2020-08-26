@@ -36,6 +36,9 @@ public class PlayerVote implements Listener {
         final DiscordFileManager dfm = plugin.getDiscordFileManager();
 
         final Vote v = e.getVote();
+        String serviceName = v.getServiceName();
+        String ipAddress = v.getAddress();
+
 
         final String username = v.getUsername();
 
@@ -79,6 +82,8 @@ public class PlayerVote implements Listener {
 
                                 databaseManager.addPlayerMonthlyVote(playerUUID, username);
                                 databaseManager.addPlayerAllTimeVote(playerUUID, username);
+
+                                databaseManager.addVoteLog(playerUUID, username, serviceName, ipAddress, "Standalone");
 
                                 plugin.getServer().getScheduler().runTask(plugin, new Runnable() {
                                     @Override

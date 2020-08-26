@@ -57,8 +57,12 @@ public class PlayerJoin implements Listener {
                 if (rm.hasUnclaimedRewards(playerUUID) && !fm.useClaimCommand() && fm.isRewardsEnabled()) { //if the player has offline rewards and we are not using the claim command
                     rm.rewardPlayer(player);
                 }
-
                 if (fm.isUpdateCheckEnabled() && player.hasPermission("ultimatevotes.admin.updatenotification")) {
+
+                    if(plugin.getDescription().getVersion().contains("SNAPSHOT")) {
+                        Util.sendMsg(player, ChatColor.GOLD + "Update checking is disabled for dev versions.");
+                        return;
+                    }
                     plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
                         @Override
                         public void run() {
@@ -73,7 +77,7 @@ public class PlayerJoin implements Listener {
 
                                     }
 
-                                    if (!version.equals(plugin.getDescription().getVersion())) {
+                                    if (! version.equals(plugin.getDescription().getVersion())) {
                                         plugin.getServer().getScheduler().runTask(plugin, new Runnable() {
                                             @Override
                                             public void run() {
@@ -124,7 +128,7 @@ public class PlayerJoin implements Listener {
 
             @Override
             public void run() {
-                if (!databaseManager.hasVotedToday(playerUUID)) {
+                if (! databaseManager.hasVotedToday(playerUUID)) {
                     vm.hasNotVotedToday.add(playerUUID);
                     if (plugin.isDebugEnabled()) {
                         SendConsoleMessage.debug("Not voted");

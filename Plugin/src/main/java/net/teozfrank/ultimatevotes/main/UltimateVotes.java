@@ -61,7 +61,7 @@ public class UltimateVotes extends JavaPlugin {
         if(this.isDebugEnabled()) { SendConsoleMessage.debug("Debug mode enabled!"); }
         this.debug = this.getConfig().getBoolean("ultimatevotes.debug.enabled");
 
-        if(this.getDescription().getVersion().contains("dev")) {
+        if(this.getDescription().getVersion().contains("SNAPSHOT")) {
             SendConsoleMessage.warning("---------------------------------------------");
             SendConsoleMessage.warning("This is a development version of UltimateVotes, "
                     + "it is recommended to backup your entire UltimateVotes plugin folder and database before running this build.");
@@ -102,13 +102,13 @@ public class UltimateVotes extends JavaPlugin {
         new RewardEventTest(this);
 
 
-        getServer().getScheduler().runTaskAsynchronously(this, new Runnable() {
+        /*getServer().getScheduler().runTaskAsynchronously(this, new Runnable() {
             @Override
             public void run() {
-                loadVotes();
+
                 //TODO move this into database manager as it is making two connections to the database.
             }
-        });
+        });*/
         this.remindPlayers();
         this.registerChannels();
         this.registerCommands();
@@ -135,7 +135,7 @@ public class UltimateVotes extends JavaPlugin {
             errorCount++;
         }
 
-        if(getConfig().getDouble("ultimatevotes.configversion") != 2.7) {
+        if(getConfig().getDouble("ultimatevotes.configversion") != 2.8) {
             SendConsoleMessage.warning("Your " + ChatColor.AQUA + "config.yml " +
                     ChatColor.RED + " is out of date!");
             SendConsoleMessage.info("Updating config.yml file.");
@@ -143,7 +143,7 @@ public class UltimateVotes extends JavaPlugin {
             errorCount++;
         }
 
-        if(fm.getMessages().getDouble("configversion") != 2.7) {
+        if(fm.getMessages().getDouble("configversion") != 2.8) {
             SendConsoleMessage.warning("Your " + ChatColor.AQUA + "messages.yml "+
                     ChatColor.RED +" is out of date!");
             SendConsoleMessage.info("Updating messages.yml file.");
@@ -155,6 +155,10 @@ public class UltimateVotes extends JavaPlugin {
 
     public void checkForUpdates() {
         if(fileManager.isUpdateCheckEnabled()) {
+            if(this.getDescription().getVersion().contains("SNAPSHOT")) {
+              SendConsoleMessage.info("Update checking is disabled for dev versions.");
+              return;
+            }
             try {
                 String spigotVersion = Util.getSpigotVersion();
 
@@ -175,15 +179,17 @@ public class UltimateVotes extends JavaPlugin {
     }
 
     private boolean setupWorldEditSelectionHelper() {
-        String version = this.getWorldEditVersion();
-
-        if(version == null ) {
+        String worldEditVersion = null;
+        try {
+            worldEditVersion = this.getWorldEditVersion();
+        } catch (Exception ex) {
             SendConsoleMessage.warning("WorldEdit plugin not found, WorldEdit related features will not work!");
             return true;
         }
 
+
         if(isDebugEnabled()) {
-            SendConsoleMessage.debug("WorldEdit Version: " + version);
+            SendConsoleMessage.debug("WorldEdit Version: " + worldEditVersion);
         }
         String[] legacyVersions =  { "6." };
         String[] latestVersions = {"7."};
@@ -192,14 +198,14 @@ public class UltimateVotes extends JavaPlugin {
         boolean latest = false;
 
         for(String legacyVersion: legacyVersions) {
-            if(version.startsWith(legacyVersion)) {
+            if(worldEditVersion.startsWith(legacyVersion)) {
                 legacy = true;
                 SendConsoleMessage.info("WorldEdit Selection Helper identified as legacy.");
             }
         }
         if(! legacy) {
             for(String latestVersion: latestVersions) {
-                if(version.startsWith(latestVersion)) {
+                if(worldEditVersion.startsWith(latestVersion)) {
                     latest = true;
                     SendConsoleMessage.info("WorldEdit Selection Helper identified as latest.");
                 }
@@ -242,7 +248,7 @@ public class UltimateVotes extends JavaPlugin {
 
         String[] legacyVersions =  { "v1_8_R1", "v1_8_R2", "v1_8_R3", "v1_9_R1", "v1_9_R2",
                 "v1_10_R1", "v1_10_R1", "v1_11_R1", "v1_11_R1", "v1_12_R1" };
-        String[] latestVersions = {"v1_13_R1",  "v1_13_R2", "v1_14_R1", "v1_15_R1"};
+        String[] latestVersions = {"v1_13_R1",  "v1_13_R2", "v1_14_R1", "v1_15_R1", "v1_16_R1", "v1_16_R2"};
 
         boolean legacy = false;
         boolean latest = false;
@@ -298,7 +304,7 @@ public class UltimateVotes extends JavaPlugin {
 
         String[] legacyVersions =  { "v1_8_R1", "v1_8_R2", "v1_8_R3", "v1_9_R1", "v1_9_R2",
                 "v1_10_R1", "v1_10_R1", "v1_11_R1", "v1_11_R1", "v1_12_R1", "v1_13_R1",  "v1_13_R2" };
-        String[] latestVersions = {"v1_14_R1", "v1_15_R1"};
+        String[] latestVersions = {"v1_14_R1", "v1_15_R1", "v1_16_R1", "v1_16_R2"};
 
         boolean legacy = false;
         boolean latest = false;
@@ -479,7 +485,31 @@ public class UltimateVotes extends JavaPlugin {
             SendConsoleMessage.info("Messages config update complete!");
         }
 
-        if(!(messages.getDouble("configversion") == 2.7)) {
+        if(messages.getDouble("configversion") == 2.7) {
+            messages.set("configversion", 2.8);
+            List<String> commandList = messages.getStringList("messages.vote.commandlist");
+            if(commandList.size() == 9) {
+                if(commandList.get(0).contains("Brings up this message")) {
+                    commandList.add("&a/vote help  - &aHelp with commands");
+                    messages.set("messages.vote.commandlist", commandList);
+                    SendConsoleMessage.info("Adding new /vote help command to messages.yml");
+                } else {
+                    SendConsoleMessage.warning("Command list descriptions were modified" +
+                            ", not adding new /vote help command, please manually edit the messages.yml and add it.");
+                }
+
+            } else {
+                SendConsoleMessage.warning("Command list is not size 9 was it modified? " +
+                        ", not adding new /vote help command, please manually edit the messages.yml and add it.");
+            }
+            getFileManager().saveMessages();
+            getFileManager().reloadMessages();
+            SendConsoleMessage.info("Messages config update complete!");
+        }
+
+
+
+        if(!(messages.getDouble("configversion") == 2.8)) {
             SendConsoleMessage.warning("Error in updating messages config. No update found for the config version you are using! Have you changed it?");
         }
 
@@ -597,9 +627,20 @@ public class UltimateVotes extends JavaPlugin {
             return;
         }
 
+        if(getConfig().getDouble("ultimatevotes.configversion") == 2.7) {
+            SendConsoleMessage.debug("Config version of config.yml is 2.7, updating to 2.8");
+            getConfig().set("ultimatevotes.configversion", 2.8);
+            getConfig().set("ultimatevotes.commands.swapvotewithvotesites", false);
+            getConfig().set("ultimatevotes.votes.loadonstartup", null);
 
+            saveConfig();
+            reloadConfig();
 
-        if(!(getConfig().getDouble("ultimatevotes.configversion") == 2.6)) {
+            SendConsoleMessage.info("Config update completed successfully!");
+            return;
+        }
+
+        if(!(getConfig().getDouble("ultimatevotes.configversion") == 2.8)) {
             SendConsoleMessage.warning("Error in updating config. No update found for the config version you are using! Have you changed it?");
         }
 
@@ -634,8 +675,9 @@ public class UltimateVotes extends JavaPlugin {
         } catch (NullPointerException e) {
             SendConsoleMessage.info("Wall of signs not set, not clearing.");
         }
-        SendConsoleMessage.info("Closing SQL connection.");
+
         this.closeConnections();
+
         if(this.getServer().getPluginManager().getPlugin("Votifier") != null) {
             SendConsoleMessage.info("Unregistering vote event.");
             VotifierEvent.getHandlerList().unregister(this);
@@ -668,8 +710,9 @@ public class UltimateVotes extends JavaPlugin {
             }
             return;
         }
+        SendConsoleMessage.info("Closing SQL connection.");
         try {
-            if(!getDatabaseManager().getConnection().isClosed()) {
+            if(! getDatabaseManager().getConnection().isClosed()) {
                 getDatabaseManager().getConnection().close();
             }
         } catch (SQLException e) {
@@ -701,48 +744,48 @@ public class UltimateVotes extends JavaPlugin {
 
         long reloadInterval = this.getConfig().getLong("ultimatevotes.votes.autoreloadvotesinterval");
 
-        if (this.getConfig().getBoolean("ultimatevotes.votes.loadonstartup")) {
+        if(! fileManager.isMySqlEnabled()) {
+           SendConsoleMessage.info("Loading votes disabled as MySQL is disabled.");
+           return;
+        }
 
-            SendConsoleMessage.info("Loading Votes ENABLED.");
-            SendConsoleMessage.info("Now Loading Votes.");
-            try {
-                getVoteManager().allVotes = getDatabaseManager().voteAllTime();
-                getVoteManager().monthlyVotes = getDatabaseManager().voteMonthly();
-                lastVotesUpdate = System.currentTimeMillis();
-                SendConsoleMessage.info("Loading Votes Complete.");
-            } catch (Exception ex) {
-                SendConsoleMessage.error("Error loading votes into cache: " + ex.getMessage());
-            }
+        /*SendConsoleMessage.info("Loading Votes ENABLED.");
+        SendConsoleMessage.info("Now Loading Votes.");
+        try {
+            getVoteManager().allVotes = getDatabaseManager().voteAllTime();
+            getVoteManager().monthlyVotes = getDatabaseManager().voteMonthly();
+            lastVotesUpdate = System.currentTimeMillis();
+            SendConsoleMessage.info("Loading Votes Complete.");
+        } catch (Exception ex) {
+            SendConsoleMessage.error("Error loading votes into cache: " + ex.getMessage());
+        }*/
 
-            try {
-                SendConsoleMessage.info("Now loading sign wall.");
-                this.getServer().getScheduler().runTask(this, new Runnable() {
+        /*try {
+            SendConsoleMessage.info("Now loading sign wall.");
+            this.getServer().getScheduler().runTask(this, new Runnable() {
 
-                    @Override
-                    public void run() {
-                        getSignManager().updateTopVotersOnWall();
-                        SendConsoleMessage.info("Sign wall loading complete.");
-                    }
-                });
-            } catch (Exception ex) {
-                SendConsoleMessage.error("Error loading sign wall: " + ex.getMessage());
-            }
-
-            try {
-                if (!(getVoteManager().monthlyVotes.size() <= 0 && getVoteManager().allVotes.size() <= 0)) {
-                    SendConsoleMessage.info("Auto-Reload Interval set to " + ChatColor.AQUA + reloadInterval + ChatColor.GREEN + " Ticks, Task Starting!");
-                    Bukkit.getScheduler().runTaskTimerAsynchronously(this, new AutoReloadVotesThread(this), reloadInterval, reloadInterval);
-                } else {
-                    SendConsoleMessage.info("Auto-Reloading " + ChatColor.RED + "DISABLED " + ChatColor.GREEN +
-                            "as their are not any vote records to reload, when votes do exist, please " + ChatColor.AQUA + "reload the server.");
+                @Override
+                public void run() {
+                    getSignManager().updateTopVotersOnWall();
+                    SendConsoleMessage.info("Sign wall loading complete.");
                 }
-                Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TimedCmdThread(this), 20L * 60, 20L * 60);
-            } catch (Exception ex) {
-                SendConsoleMessage.error("Error trying to create setup reloading task." + ex.getMessage());
-            }
-        } else {
-            SendConsoleMessage.info("Loading Votes " + ChatColor.RED + "Disabled" + ChatColor.GREEN + ", Enable in config once the" +
-                    "tables have been created in the database.");
+            });
+        } catch (Exception ex) {
+            SendConsoleMessage.error("Error loading sign wall: " + ex.getMessage());
+        }*/
+
+        try {
+            /*if (!(getVoteManager().monthlyVotes.size() <= 0 && getVoteManager().allVotes.size() <= 0)) {
+                SendConsoleMessage.info("Auto-Reload Interval set to " + ChatColor.AQUA + reloadInterval + ChatColor.GREEN + " Ticks, Task Starting!");
+                Bukkit.getScheduler().runTaskTimerAsynchronously(this, new AutoReloadVotesThread(this), 20L * 10, reloadInterval);
+            } else {
+                SendConsoleMessage.info("Auto-Reloading " + ChatColor.RED + "DISABLED " + ChatColor.GREEN +
+                        "as their are not any vote records to reload, when votes do exist, please " + ChatColor.AQUA + "reload the server.");
+            }*/
+            Bukkit.getScheduler().runTaskTimerAsynchronously(this, new AutoReloadVotesThread(this), 20L * 10, reloadInterval);
+            Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TimedCmdThread(this), 20L * 60, 20L * 60);
+        } catch (Exception ex) {
+            SendConsoleMessage.error("Error trying to create setup reloading task." + ex.getMessage());
         }
     }
 
