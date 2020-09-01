@@ -363,12 +363,13 @@ public class DatabaseManager {
             }
             if (!(i > 0)) {
                 SendConsoleMessage.info("Table VOTELOG does not exist creating it for you!");
-                String sql = "CREATE TABLE VOTELOG "
+                String sql = "CREATE TABLE VOTELOG"
                         + "(ID BIGINT NOT NULL AUTO_INCREMENT UNIQUE,"
-                        + " UUID VARCHAR(40), "
-                        + " PLAYER VARCHAR(50), "
+                        + " UUID VARCHAR(40),"
+                        + " PLAYER VARCHAR(50),"
                         + " SERVICENAME VARCHAR(50),"
                         + " IPADDRESS VARCHAR(30),"
+                        + " SERVERNAME VARCHAR(30),"
                         + " VOTETIMESTAMP TIMESTAMP DEFAULT CURRENT_TIMESTAMP,"
                         + " PRIMARY KEY ( ID ))";
                 statement = getConnection().prepareStatement(sql);
@@ -1725,7 +1726,10 @@ public class DatabaseManager {
     public boolean hasVotedToday(UUID playerUUID) {
         java.sql.Date todaysDate = new java.sql.Date(System.currentTimeMillis());
 
-        String query = "SELECT ID FROM MONTHLYVOTES WHERE UUID ='" + playerUUID + "' AND LASTVOTE ='" + todaysDate + "'";
+        //String oldQuery = "SELECT ID FROM MONTHLYVOTES WHERE UUID ='" + playerUUID + "' AND LASTVOTE ='" + todaysDate + "'";
+
+        String query = "SELECT ID FROM VOTELOG WHERE UUID = '" + playerUUID + "' AND VOTETIMESTAMP BETWEEN "
+                + "DATE_ADD(NOW(), INTERVAL -24 HOURS) AND NOW() LIMIT 1";
         int results = 0;
 
         try {
