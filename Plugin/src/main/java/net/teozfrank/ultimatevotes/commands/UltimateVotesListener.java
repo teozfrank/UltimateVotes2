@@ -168,7 +168,7 @@ public class UltimateVotesListener implements CommandExecutor {
             plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
                 @Override
                 public void run() {
-                    String sql = "ALTER TABLE `votelog` CHANGE `IPADDRESS` `IPADDRESS` VARCHAR(60) ";
+                    String sql = "ALTER TABLE VOTELOG CHANGE IPADDRESS IPADDRESS VARCHAR(60) ";
                     boolean success = databaseManager.execute(sql);
                     if(success) {
                         SendConsoleMessage.info("Votelog IP address column updated successfully.");
