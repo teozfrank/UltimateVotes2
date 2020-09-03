@@ -164,6 +164,20 @@ public class UltimateVotesListener implements CommandExecutor {
             RewardsManager rm = plugin.getRewardsManager();
             rm.checkTimedCmds();
             return true;
+        } else if (args.length == 1 && args[0].equalsIgnoreCase("fixvotelog")) {
+            plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+                @Override
+                public void run() {
+                    String sql = "ALTER TABLE `votelog` CHANGE `IPADDRESS` `IPADDRESS` VARCHAR(60) ";
+                    boolean success = databaseManager.execute(sql);
+                    if(success) {
+                        SendConsoleMessage.info("Votelog IP address column updated successfully.");
+                    } else {
+                        SendConsoleMessage.error("Votelog IP address column update failure.");
+                    }
+                }
+            });
+            return true;
         } else if (args.length == 2 && args[0].equalsIgnoreCase("checkmonthly")) {
             String playerName = args[1];
 
