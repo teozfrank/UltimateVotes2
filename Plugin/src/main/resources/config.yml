@@ -9,7 +9,7 @@
 # %postion% the postion in the top 10 voters they are can be a value of 1-10
 # %playername% the players name
 ultimatevotes:
-    configversion: 2.8
+    configversion: 2.9
     checkforupdates: true
     commands:
 # should we swap vote with vote sites? If true when a user uses /vote it will display vote sites instead of the normal command list.
@@ -40,6 +40,7 @@ ultimatevotes:
         limit: 5
 # vote settings
     votes:
+        listenerenabled: true
         autoresetmonthlyvotes: false
         usingbungeecord: false
         autoreloadvotesinterval: 12000

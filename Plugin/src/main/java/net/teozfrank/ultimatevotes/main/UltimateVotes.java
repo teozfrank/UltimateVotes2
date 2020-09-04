@@ -135,7 +135,7 @@ public class UltimateVotes extends JavaPlugin {
             errorCount++;
         }
 
-        if(getConfig().getDouble("ultimatevotes.configversion") != 2.8) {
+        if(getConfig().getDouble("ultimatevotes.configversion") != 2.9) {
             SendConsoleMessage.warning("Your " + ChatColor.AQUA + "config.yml " +
                     ChatColor.RED + " is out of date!");
             SendConsoleMessage.info("Updating config.yml file.");
@@ -640,7 +640,19 @@ public class UltimateVotes extends JavaPlugin {
             return;
         }
 
-        if(!(getConfig().getDouble("ultimatevotes.configversion") == 2.8)) {
+        if(getConfig().getDouble("ultimatevotes.configversion") == 2.8) {
+            SendConsoleMessage.debug("Config version of config.yml is 2.8, updating to 2.9");
+            getConfig().set("ultimatevotes.configversion", 2.9);
+            getConfig().set("ultimatevotes.votes.listenerenabled", true);
+
+            saveConfig();
+            reloadConfig();
+
+            SendConsoleMessage.info("Config update completed successfully!");
+            return;
+        }
+
+        if(!(getConfig().getDouble("ultimatevotes.configversion") == 2.9)) {
             SendConsoleMessage.warning("Error in updating config. No update found for the config version you are using! Have you changed it?");
         }
 
@@ -731,9 +743,14 @@ public class UltimateVotes extends JavaPlugin {
     }
 
     public void registerEvents() {
-        if(this.getServer().getPluginManager().getPlugin("Votifier") != null){
-            Bukkit.getPluginManager().registerEvents(new PlayerVote(this), this);
-            SendConsoleMessage.info("Votifier / NuVotifier found!, listening for votes!");
+        if(this.getServer().getPluginManager().getPlugin("Votifier") != null) {
+            if(this.fileManager.isVoteListenerEnabled()) {
+                Bukkit.getPluginManager().registerEvents(new PlayerVote(this), this);
+                SendConsoleMessage.info("Votifier / NuVotifier found!, listening for votes!");
+            } else {
+                SendConsoleMessage.info("Votifier / NuVotifier found!, listening for votes has been disabled due to configuration setting.");
+            }
+
         }
         else {
             SendConsoleMessage.info("Votifier / NuVotifier NOT found, listening for votes has been "+ChatColor.RED+"DISABLED.");
