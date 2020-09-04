@@ -26,7 +26,7 @@ commands:
        description: Allow a player to view the voting rewards
        usage: /<command> [page]
        aliases: [rewards]
-softdepend: [WorldEdit]
+softdepend: [WorldEdit, Votifier]
 permissions:
     ultimatevotes.player.*:
         description: Gives access to all player commands
