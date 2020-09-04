@@ -691,8 +691,10 @@ public class UltimateVotes extends JavaPlugin {
         this.closeConnections();
 
         if(this.getServer().getPluginManager().getPlugin("Votifier") != null) {
-            SendConsoleMessage.info("Unregistering vote event.");
-            VotifierEvent.getHandlerList().unregister(this);
+            if(getFileManager().isVoteListenerEnabled()) {
+                SendConsoleMessage.info("Unregistering vote event.");
+                VotifierEvent.getHandlerList().unregister(this);
+            }
         }
         runAllPendingRewardCommands();
     }
