@@ -1741,11 +1741,11 @@ public class DatabaseManager {
             }
             result.close();
             statement.close();
-            if(!plugin.getFileManager().isMaintainConnection()) {
+            if(! plugin.getFileManager().isMaintainConnection()) {
                 connection.close();
             }
         } catch (SQLException e) {
-            SendConsoleMessage.error("could not check if player voted today!");
+            SendConsoleMessage.error("could not check if player voted today! Error: " + e.getMessage());
         }
 
         if (results == 1) {
