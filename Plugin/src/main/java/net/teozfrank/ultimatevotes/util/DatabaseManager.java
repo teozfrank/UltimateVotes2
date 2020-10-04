@@ -1736,6 +1736,9 @@ public class DatabaseManager {
             Statement statement = getConnection().createStatement();
             ResultSet result = statement.executeQuery(query);
 
+            if(plugin.isDebugEnabled()) {
+                SendConsoleMessage.debug("SQL for checking if player has voted today: " + query);
+            }
             while (result.next()) {
                 results++;
             }
