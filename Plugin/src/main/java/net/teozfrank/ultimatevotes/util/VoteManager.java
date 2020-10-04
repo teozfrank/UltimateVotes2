@@ -125,8 +125,8 @@ public class VoteManager {
     public void handleNotVoted(UUID playerUUID) {
         if(plugin.isDebugEnabled()) {
             SendConsoleMessage.debug("Handle not voted");
-            SendConsoleMessage.debug("Has voted size: " + hasNotVotedToday.size());
-            SendConsoleMessage.debug("Has not voted size: " + hasVotedToday.size());
+            SendConsoleMessage.debug("Has voted size: " + hasVotedToday.size());
+            SendConsoleMessage.debug("Has not voted size: " + hasNotVotedToday.size());
         }
         if (hasNotVotedToday.contains(playerUUID)) {
             hasNotVotedToday.remove(playerUUID);
@@ -137,8 +137,8 @@ public class VoteManager {
         }
         if(plugin.isDebugEnabled()) {
             SendConsoleMessage.debug("After removing from not voted. ");
-            SendConsoleMessage.debug("Has voted size: " + hasNotVotedToday.size());
-            SendConsoleMessage.debug("Has not voted size: " + hasVotedToday.size());
+            SendConsoleMessage.debug("Has voted size: " + hasVotedToday.size());
+            SendConsoleMessage.debug("Has not voted size: " + hasNotVotedToday.size());
         }
     }
 
