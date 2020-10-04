@@ -1730,15 +1730,15 @@ public class DatabaseManager {
 
         String query = "SELECT ID FROM VOTELOG WHERE UUID = '" + playerUUID + "' AND VOTETIMESTAMP BETWEEN "
                 + "DATE_ADD(NOW(), INTERVAL -24 HOURS) AND NOW() LIMIT 1";
+        if(plugin.isDebugEnabled()) {
+            SendConsoleMessage.debug("SQL for checking if player has voted today: " + query);
+        }
         int results = 0;
 
         try {
             Statement statement = getConnection().createStatement();
             ResultSet result = statement.executeQuery(query);
 
-            if(plugin.isDebugEnabled()) {
-                SendConsoleMessage.debug("SQL for checking if player has voted today: " + query);
-            }
             while (result.next()) {
                 results++;
             }
