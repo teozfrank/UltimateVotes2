@@ -1729,7 +1729,7 @@ public class DatabaseManager {
         //String oldQuery = "SELECT ID FROM MONTHLYVOTES WHERE UUID ='" + playerUUID + "' AND LASTVOTE ='" + todaysDate + "'";
 
         String query = "SELECT ID FROM VOTELOG WHERE UUID = '" + playerUUID + "' AND VOTETIMESTAMP BETWEEN "
-                + "DATE_ADD(NOW(), INTERVAL -24 HOURS) AND NOW() LIMIT 1";
+                + "DATE_SUB(NOW(), INTERVAL 24 HOUR) AND NOW() LIMIT 1";
         if(plugin.isDebugEnabled()) {
             SendConsoleMessage.debug("SQL for checking if player has voted today: " + query);
         }
