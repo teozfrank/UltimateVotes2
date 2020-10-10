@@ -99,7 +99,7 @@ public class GUIManager implements Listener {
             return;
         }
 
-        if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Claim All Reward")) {
+        if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Claim all Rewards")) {
             clicker.performCommand("vote claim all");
             clicker.closeInventory();
             return;
