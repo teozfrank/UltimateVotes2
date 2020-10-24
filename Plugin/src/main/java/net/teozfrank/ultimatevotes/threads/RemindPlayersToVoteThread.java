@@ -28,6 +28,9 @@ public class RemindPlayersToVoteThread implements Runnable {
 
         VoteManager vm = plugin.getVoteManager();
         final FileManager fm = plugin.getFileManager();
+        if(plugin.isDebugEnabled()) {
+            SendConsoleMessage.debug("Remind players to vote.");
+        }
 
         if (Bukkit.getOnlinePlayers().size() >= 1) {
             for (final Player player : Util.getOnlinePlayers()) {
