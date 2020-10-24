@@ -76,30 +76,35 @@ public class GUIManager implements Listener {
 
 
         if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Claim 1 Reward")) {
+            SendConsoleMessage.info("Forcing player to execute /vote claim 1");
             clicker.performCommand("vote claim 1");
             clicker.closeInventory();
             return;
         }
 
         if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Claim 2 Reward")) {
+            SendConsoleMessage.info("Forcing player to execute /vote claim 2");
             clicker.performCommand("vote claim 2");
             clicker.closeInventory();
             return;
         }
 
         if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Claim 3 Reward")) {
+            SendConsoleMessage.info("Forcing player to execute /vote claim 3");
             clicker.performCommand("vote claim 3");
             clicker.closeInventory();
             return;
         }
 
         if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Claim 5 Reward")) {
+            SendConsoleMessage.info("Forcing player to execute /vote claim 5");
             clicker.performCommand("vote claim 5");
             clicker.closeInventory();
             return;
         }
 
-        if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Claim All Reward")) {
+        if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Claim all Rewards")) {
+            SendConsoleMessage.info("Forcing player to execute /vote claim all");
             clicker.performCommand("vote claim all");
             clicker.closeInventory();
             return;

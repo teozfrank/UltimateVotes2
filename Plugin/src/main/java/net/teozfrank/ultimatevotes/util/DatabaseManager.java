@@ -328,8 +328,8 @@ public class DatabaseManager {
     public void addVoteLog(UUID playerUUID, String playerName, String serviceName, String IPAddress, String serverName) {
         String sql = "INSERT INTO VOTELOG VALUES (NULL, '" + playerUUID +"', '"+ playerName
                 + "', '" + serviceName
-                + "', '" + serverName
-                + "', '" + IPAddress + "', NULL)";
+                + "', '" + IPAddress
+                + "', '" + serverName + "', NULL)";
         if(plugin.isDebugEnabled()) {
             SendConsoleMessage.debug(sql);
         }
@@ -363,12 +363,13 @@ public class DatabaseManager {
             }
             if (!(i > 0)) {
                 SendConsoleMessage.info("Table VOTELOG does not exist creating it for you!");
-                String sql = "CREATE TABLE VOTELOG "
+                String sql = "CREATE TABLE VOTELOG"
                         + "(ID BIGINT NOT NULL AUTO_INCREMENT UNIQUE,"
-                        + " UUID VARCHAR(40), "
-                        + " PLAYER VARCHAR(50), "
+                        + " UUID VARCHAR(40),"
+                        + " PLAYER VARCHAR(50),"
                         + " SERVICENAME VARCHAR(50),"
-                        + " IPADDRESS VARCHAR(30),"
+                        + " IPADDRESS VARCHAR(60),"
+                        + " SERVERNAME VARCHAR(30),"
                         + " VOTETIMESTAMP TIMESTAMP DEFAULT CURRENT_TIMESTAMP,"
                         + " PRIMARY KEY ( ID ))";
                 statement = getConnection().prepareStatement(sql);
@@ -1725,7 +1726,13 @@ public class DatabaseManager {
     public boolean hasVotedToday(UUID playerUUID) {
         java.sql.Date todaysDate = new java.sql.Date(System.currentTimeMillis());
 
-        String query = "SELECT ID FROM MONTHLYVOTES WHERE UUID ='" + playerUUID + "' AND LASTVOTE ='" + todaysDate + "'";
+        //String oldQuery = "SELECT ID FROM MONTHLYVOTES WHERE UUID ='" + playerUUID + "' AND LASTVOTE ='" + todaysDate + "'";
+
+        String query = "SELECT ID FROM VOTELOG WHERE UUID = '" + playerUUID + "' AND VOTETIMESTAMP BETWEEN "
+                + "DATE_SUB(NOW(), INTERVAL 24 HOUR) AND NOW() LIMIT 1";
+        if(plugin.isDebugEnabled()) {
+            SendConsoleMessage.debug("SQL for checking if player has voted today: " + query);
+        }
         int results = 0;
 
         try {
@@ -1737,11 +1744,11 @@ public class DatabaseManager {
             }
             result.close();
             statement.close();
-            if(!plugin.getFileManager().isMaintainConnection()) {
+            if(! plugin.getFileManager().isMaintainConnection()) {
                 connection.close();
             }
         } catch (SQLException e) {
-            SendConsoleMessage.error("could not check if player voted today!");
+            SendConsoleMessage.error("could not check if player voted today! Error: " + e.getMessage());
         }
 
         if (results == 1) {

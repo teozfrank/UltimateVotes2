@@ -116,11 +116,11 @@ public class PlayerJoin implements Listener {
                 SendConsoleMessage.debug("difference: " + difference);
                 SendConsoleMessage.debug("days: " + days);
             }
-            if(days >= 1) {
+            /*if(days >= 1) {
                 vm.hasVotedToday.remove(playerUUID);
             } else {
                 return;
-            }
+            }*/
 
         }
 

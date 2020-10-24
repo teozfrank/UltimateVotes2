@@ -31,6 +31,15 @@ public class UltimateVotesAPI {
     }
 
     /**
+     * Get the players unclaimed vote count
+     * @param playerUUID the players UUID
+     * @return the amount of unclaimed votes the player has for this month
+     */
+    public static int getPlayerUnclaimedVotes(UUID playerUUID) {
+        return UltimateVotes.getDatabaseManager().checkUserUnclaimedVotes(playerUUID);
+    }
+
+    /**
      * get the players vote count by username
      * accesses the database, should be called async, not on the main server thread!
      * @param playername the players username

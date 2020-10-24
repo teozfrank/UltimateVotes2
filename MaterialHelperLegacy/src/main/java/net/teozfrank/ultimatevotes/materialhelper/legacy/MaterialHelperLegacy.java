@@ -38,7 +38,7 @@ public class MaterialHelperLegacy implements MaterialHelper {
         ItemStack claim2 = getItemStack(Material.DIAMOND, 2, ChatColor.AQUA + "Claim 2 Rewards", Arrays.asList("Claim two rewards"));
         ItemStack claim3 = getItemStack(Material.DIAMOND, 3, ChatColor.AQUA + "Claim 3 Rewards", Arrays.asList("Claim three rewards"));
         ItemStack claim5 = getItemStack(Material.DIAMOND, 5, ChatColor.AQUA + "Claim 5 Rewards", Arrays.asList("Claim five rewards"));
-        ItemStack claimAll = getItemStack(Material.DIAMOND, 0, ChatColor.AQUA + "Claim all Rewards", Arrays.asList("Claim all rewards"));
+        ItemStack claimAll = getItemStack(Material.DIAMOND, 1, ChatColor.AQUA + "Claim all Rewards", Arrays.asList("Claim all rewards"));
 
         gui.setItem(0, glass);
         gui.setItem(1, claim1);

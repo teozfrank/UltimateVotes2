@@ -1,8 +1,6 @@
 package net.teozfrank.ultimatevotes.uuidfetcher.legacy;
 
-import com.google.gson.JsonArray;
 import net.teozfrank.ultimatevotes.api.UUIDFetcher;
-import com.google.common.collect.ImmutableList;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -35,9 +33,9 @@ public class UUIDFetcherLegacy implements UUIDFetcher {
             HttpURLConnection connection = createConnection();
             String body = JSONArray.toJSONString(usernames.subList(i * 100, Math.min((i + 1) * 100, usernames.size())));
             writeBody(connection, body);
-            JsonArray array = new JsonArray();
+            JSONArray array = new JSONArray();
             try {
-                array = (JsonArray) jsonParser.parse(new InputStreamReader(connection.getInputStream()));
+                array = (JSONArray) jsonParser.parse(new InputStreamReader(connection.getInputStream()));
             } catch (IOException e) {
                 System.out.println("IO Exception reader in call: " + e.getMessage());
             } catch(ParseException e) {
