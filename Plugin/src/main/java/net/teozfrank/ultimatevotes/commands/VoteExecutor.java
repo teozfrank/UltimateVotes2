@@ -59,6 +59,10 @@ public class VoteExecutor extends CmdExecutor implements CommandExecutor {
                 "c","cl"
         });
 
+        addCmd("rewards", rewards, new String[]{
+                "r"
+        });
+
         addCmd("help", help, new String[]{
                 "h","?"
         });
