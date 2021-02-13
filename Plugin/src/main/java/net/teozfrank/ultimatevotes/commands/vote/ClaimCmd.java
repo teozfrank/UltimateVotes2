@@ -108,8 +108,9 @@ public class ClaimCmd extends VoteCmd {
                         @Override
                         public void run() {
                             boolean success = databaseManager.removeUnclaimedVotes(playerUUID, claimAmount);
+                            final int unclaimedVotes = databaseManager.checkUserUnclaimedVotes(playerUUID);
                             if(!success) {
-                                final int unclaimedVotes = databaseManager.checkUserUnclaimedVotes(playerUUID);
+
                                 plugin.getServer().getScheduler().runTask(plugin, new Runnable() {
                                     @Override
                                     public void run() {
@@ -127,7 +128,7 @@ public class ClaimCmd extends VoteCmd {
 
                                     @Override
                                     public void run() {
-                                        rm.rewardPlayerByClaimAmount(player, claimAmount);
+                                        rm.rewardPlayerByClaimAmount(player, unclaimedVotes, claimAmount);
                                         String claimSuccessMesage = mm.getClaimSuccessMessage();
                                         claimSuccessMesage = claimSuccessMesage.replaceAll("%claimamount%", String.valueOf(claimAmount));
                                         Util.sendMsg(sender, claimSuccessMesage);

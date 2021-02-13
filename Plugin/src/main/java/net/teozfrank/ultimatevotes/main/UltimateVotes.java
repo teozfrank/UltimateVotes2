@@ -10,6 +10,7 @@ import net.teozfrank.ultimatevotes.discord.DiscordWebhookManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import net.teozfrank.ultimatevotes.commands.*;
 import net.teozfrank.ultimatevotes.events.*;
@@ -17,6 +18,7 @@ import net.teozfrank.ultimatevotes.threads.AutoReloadVotesThread;
 import net.teozfrank.ultimatevotes.threads.RemindPlayersToVoteThread;
 import net.teozfrank.ultimatevotes.threads.TimedCmdThread;
 import net.teozfrank.ultimatevotes.util.*;
+import org.bukkit.plugin.java.JavaPluginLoader;
 
 import java.io.File;
 import java.sql.SQLException;
@@ -49,8 +51,13 @@ public class UltimateVotes extends JavaPlugin {
     private DiscordWebhookManager discordWebhookManager;
 
     public UltimateVotes() {
+        super();
     }
 
+    protected UltimateVotes(JavaPluginLoader loader, PluginDescriptionFile description, File dataFolder, File file)
+    {
+        super(loader, description, dataFolder, file);
+    }
 
 
 
@@ -117,12 +124,18 @@ public class UltimateVotes extends JavaPlugin {
     }
 
     private void submitStats() {
-        Metrics metrics = new Metrics(this, 7319);
+        try {
+            Metrics metrics = new Metrics(this, 7319);
+        } catch(Exception ex) {}
+
     }
 
 
     public void registerChannels() {
-        getServer().getMessenger().registerIncomingPluginChannel(this, INCOMING_CHANNEL_NAME, new ChannelListener(this));
+        try {
+            getServer().getMessenger().registerIncomingPluginChannel(this, INCOMING_CHANNEL_NAME, new ChannelListener(this));
+        } catch (Exception ex) {}
+
     }
 
 
@@ -248,7 +261,7 @@ public class UltimateVotes extends JavaPlugin {
 
         String[] legacyVersions =  { "v1_8_R1", "v1_8_R2", "v1_8_R3", "v1_9_R1", "v1_9_R2",
                 "v1_10_R1", "v1_10_R1", "v1_11_R1", "v1_11_R1", "v1_12_R1" };
-        String[] latestVersions = {"v1_13_R1",  "v1_13_R2", "v1_14_R1", "v1_15_R1", "v1_16_R1", "v1_16_R2"};
+        String[] latestVersions = {"v1_13_R1",  "v1_13_R2", "v1_14_R1", "v1_15_R1", "v1_16_R1", "v1_16_R2", "v1_16_R3"};
 
         boolean legacy = false;
         boolean latest = false;
@@ -304,7 +317,7 @@ public class UltimateVotes extends JavaPlugin {
 
         String[] legacyVersions =  { "v1_8_R1", "v1_8_R2", "v1_8_R3", "v1_9_R1", "v1_9_R2",
                 "v1_10_R1", "v1_10_R1", "v1_11_R1", "v1_11_R1", "v1_12_R1", "v1_13_R1",  "v1_13_R2" };
-        String[] latestVersions = {"v1_14_R1", "v1_15_R1", "v1_16_R1", "v1_16_R2"};
+        String[] latestVersions = {"v1_14_R1", "v1_15_R1", "v1_16_R1", "v1_16_R2", "v1_16_R3"};
 
         boolean legacy = false;
         boolean latest = false;
@@ -802,7 +815,7 @@ public class UltimateVotes extends JavaPlugin {
                         "as their are not any vote records to reload, when votes do exist, please " + ChatColor.AQUA + "reload the server.");
             }*/
             Bukkit.getScheduler().runTaskTimerAsynchronously(this, new AutoReloadVotesThread(this), 20L * 10, reloadInterval);
-            Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TimedCmdThread(this), 20L * 60, 20L * 60);
+            Bukkit.getScheduler().runTaskTimer(this, new TimedCmdThread(this), 20L * 60, 20L * 60);
         } catch (Exception ex) {
             SendConsoleMessage.error("Error trying to create setup reloading task." + ex.getMessage());
         }
@@ -813,7 +826,7 @@ public class UltimateVotes extends JavaPlugin {
             long remindInterval = this.getConfig().getLong("ultimatevotes.votes.votereminder.interval");
             SendConsoleMessage.info("Vote reminders ENABLED.");
 
-            Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new RemindPlayersToVoteThread(this), remindInterval, remindInterval);
+            Bukkit.getScheduler().runTaskTimer(this, new RemindPlayersToVoteThread(this), remindInterval, remindInterval);
         }
     }
 
