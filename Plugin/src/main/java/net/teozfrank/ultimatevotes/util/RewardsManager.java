@@ -99,7 +99,37 @@ public class RewardsManager {
         }
     }
 
-    public void rewardAmount(String player, int votes, int unclaimedVotes) {
+    public int getStartNum(int votes, int unclaimedVotes) {
+        return (votes - unclaimedVotes) + 1;
+    }
+
+    /**
+     * Get a list of rewards to check
+     * @param votes the current vote count the player has
+     * @param unclaimedvotes the amount of unclaimed votes the player has
+     * @param claimAmount the amount of rewards wanting to be claimed. -1 means all.
+     * @return a list of cumulative rewards to check for
+     */
+    public List<Integer> getCumulativeRewardListOfRewardsToCheckFor(int votes, int unclaimedvotes, int claimAmount) {
+
+        int stopNum = -1;
+        int startNum = getStartNum(votes, unclaimedvotes);
+        List<Integer> listOfCumulativeRewardsToCheckFor = new ArrayList<>();
+
+        if(claimAmount > 0) {
+            stopNum = startNum + claimAmount;
+        } else {
+            stopNum = votes + 1;
+        }
+
+        for(int x = startNum; x < stopNum; x++) {
+            listOfCumulativeRewardsToCheckFor.add(x);
+        }
+
+        return listOfCumulativeRewardsToCheckFor;
+    }
+
+    /*public void rewardAmount(String player, int votes, int unclaimedVotes) {
         FileManager fm = plugin.getFileManager();
         Player p = Bukkit.getPlayer(player);
 
@@ -124,6 +154,47 @@ public class RewardsManager {
             }
             if (fm.hasVoteReward(offset)) {
                 List<String> rewards = fm.getRewards().getStringList("rewards." + offset);
+                for (String s : rewards) {
+
+                    String snew = s.replaceAll("%player%", p.getName());
+                    if (snew.contains(";")) {
+                        if (plugin.isDebugEnabled()) {
+                            SendConsoleMessage.debug("Special command!");
+                        }
+                        handleSpecialCmd(snew);
+                    } else {
+                        if (plugin.isDebugEnabled()) {
+                            SendConsoleMessage.debug("dispatching vote reward: " + snew);
+                        }
+                        Bukkit.dispatchCommand(plugin.getServer().getConsoleSender(), snew);
+                    }
+
+                }
+            }
+        }
+    }*/
+
+
+    public void rewardAmount(String player, int votes, int unclaimedVotes, int claimAmount) {
+        FileManager fm = plugin.getFileManager();
+        Player p = Bukkit.getPlayer(player);
+
+        if (p == null) {
+            if(plugin.isDebugEnabled()) {
+                SendConsoleMessage.debug("Player not online not rewarding");
+            }
+            return;// not online
+        }
+
+        List<Integer> cumulativeRewardsToCheckFor = getCumulativeRewardListOfRewardsToCheckFor(votes, unclaimedVotes,
+                claimAmount);
+
+        for (int cumulativeReward: cumulativeRewardsToCheckFor) {
+            if (plugin.isDebugEnabled()) {
+                SendConsoleMessage.debug("Checking cumulative reward for " + cumulativeReward + " votes.");
+            }
+            if (fm.hasVoteReward(cumulativeReward)) {
+                List<String> rewards = fm.getRewards().getStringList("rewards." + cumulativeReward);
                 for (String s : rewards) {
 
                     String snew = s.replaceAll("%player%", p.getName());
@@ -296,9 +367,9 @@ public class RewardsManager {
      *
      * @param playerName the players name
      * @param world      the world name of the player
-     * @param votes      the amount of votes the player has
+     * @param voteCount      the amount of votes the player has
      */
-    private void rewardAmountByWorld(String playerName, String world, int votes, int unclaimedVotes) {
+    /*private void rewardAmountByWorld(String playerName, String world, int votes, int unclaimedVotes) {
         FileManager fm = plugin.getFileManager();
         Player p = Bukkit.getPlayer(playerName);
 
@@ -337,11 +408,47 @@ public class RewardsManager {
                 }
             }
         }
+    }*/
 
+    private void rewardAmountByWorld(String playerName, String world, int voteCount, int unclaimedVotes, int claimAmount) {
+        FileManager fm = plugin.getFileManager();
+        Player p = Bukkit.getPlayer(playerName);
 
+        if (p == null) {
+            if(plugin.isDebugEnabled()) {
+                SendConsoleMessage.debug("Player not online not rewarding");
+            }
+            return;// not online
+        }
+
+        List<Integer> cumulativeRewardsToCheckFor = getCumulativeRewardListOfRewardsToCheckFor(voteCount, unclaimedVotes,
+                claimAmount);
+
+        for (int cumulativeReward: cumulativeRewardsToCheckFor) {
+            if (plugin.isDebugEnabled()) {
+                SendConsoleMessage.debug("Checking cumulative reward for " + cumulativeReward + " votes.");
+            }
+            if (fm.hasVoteRewardByWorld(world, cumulativeReward)) {
+                List<String> rewards = fm.getRewards().getStringList("rewards." + world + "." + cumulativeReward);
+                for (String s : rewards) {
+                    s = s.replaceAll("%player%", p.getName());
+                    if (s.contains(";")) {
+                        if (plugin.isDebugEnabled()) {
+                            SendConsoleMessage.debug("Special command!");
+                        }
+                        handleSpecialCmd(s);
+                    } else {
+                        if (plugin.isDebugEnabled()) {
+                            SendConsoleMessage.debug("dispatching vote reward: " + s);
+                        }
+                        Bukkit.dispatchCommand(plugin.getServer().getConsoleSender(), s);
+                    }
+                }
+            }
+        }
     }
 
-    public boolean rewardPlayerByClaimAmount(Player player, int count) {
+    public boolean rewardPlayerByClaimAmount(Player player, int unclaimedVotesCount, int claimAmount) {
         DatabaseManager databaseManager = plugin.getDatabaseManager();
         MessageManager mm = plugin.getMessageManager();
         String playerName = player.getName();
@@ -356,20 +463,20 @@ public class RewardsManager {
 
         int voteCount = databaseManager.checkUserVotes(playerUUID, table);
         if (plugin.isDebugEnabled()) {
-            SendConsoleMessage.debug("Player " + playerName + " has an offline reward value of " + count + ".");
+            SendConsoleMessage.debug("Player " + playerName + " has an offline reward value of " + unclaimedVotesCount + ".");
         }
         Util.sendMsg(player, mm.getRewardMessage());
 
         if (fm.rewardByWorld()) {//if we are rewarding by world
-            for (int x = 0; x < count; x++) {
+            for (int x = 0; x < claimAmount; x++) {
                 rewardRepeatingByWorld(playerName, world);
             }
-            rewardAmountByWorld(playerName, world, voteCount, count);
+            rewardAmountByWorld(playerName, world, voteCount, unclaimedVotesCount, claimAmount);
         } else {
-            for (int x = 0; x < count; x++) {
+            for (int x = 0; x < claimAmount; x++) {
                 rewardRepeating(playerName);
             }
-            rewardAmount(playerName, voteCount, count);
+            rewardAmount(playerName, voteCount, unclaimedVotesCount, claimAmount);
         }
 
         String message = mm.getClaimMessage();
@@ -391,7 +498,7 @@ public class RewardsManager {
 
             @Override
             public void run() {
-                final int count = databaseManager.checkUserUnclaimedVotes(playerUUID);
+                final int unclaimedVoteCount = databaseManager.checkUserUnclaimedVotes(playerUUID);
                 String table = "MONTHLYVOTES";
                 if(! plugin.getFileManager().rewardByMonthlyVotesCount()) {
                     table = "ALLVOTES";
@@ -400,14 +507,14 @@ public class RewardsManager {
 
                 if (hasUnclaimedRewards(playerUUID)) {
                     if (plugin.isDebugEnabled()) {
-                        SendConsoleMessage.debug("Player " + playerName + " has an unclaimed reward value of " + count + ".");
+                        SendConsoleMessage.debug("Player " + playerName + " has an unclaimed reward value of " + unclaimedVoteCount + ".");
                     }
                     plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 
                         @Override
                         public void run() {
 
-                            VoteRewardEvent event = new VoteRewardEvent(player, voteCount, count);
+                            VoteRewardEvent event = new VoteRewardEvent(player, voteCount, unclaimedVoteCount);
                             Bukkit.getServer().getPluginManager().callEvent(event);
                             if(plugin.isDebugEnabled()) {
                                 SendConsoleMessage.debug("CALL VOTE REWARD EVENT");
@@ -423,18 +530,18 @@ public class RewardsManager {
                                     if (plugin.isDebugEnabled()) {
                                         SendConsoleMessage.debug("reward by world.");
                                     }
-                                    for (int x = 0; x < count; x++) {
+                                    for (int x = 0; x < unclaimedVoteCount; x++) {
                                         rewardRepeatingByWorld(playerName, world);
                                     }
-                                    rewardAmountByWorld(playerName, world, voteCount, count);
+                                    rewardAmountByWorld(playerName, world, voteCount, unclaimedVoteCount, -1);
                                 } else {
-                                    for (int x = 0; x < count; x++) {
+                                    for (int x = 0; x < unclaimedVoteCount; x++) {
                                         if (plugin.isDebugEnabled()) {
                                             SendConsoleMessage.debug("reward repeating.");
                                         }
                                         rewardRepeating(playerName);
                                     }
-                                    rewardAmount(playerName, voteCount, count);
+                                    rewardAmount(playerName, voteCount, unclaimedVoteCount, -1);
                                 }
                             } catch (Exception e) {
                                 SendConsoleMessage.error("Error trying to reward player: " + e.getMessage());
