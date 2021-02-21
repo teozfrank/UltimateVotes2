@@ -692,6 +692,7 @@ public class UltimateVotes extends JavaPlugin {
             getConfig().set("ultimatevotes.rewards.offline", true);
             saveConfig();
             reloadConfig();
+
             SendConsoleMessage.info("Config update completed successfully!");
             return;
         }
@@ -808,6 +809,31 @@ public class UltimateVotes extends JavaPlugin {
            SendConsoleMessage.info("Loading votes disabled as MySQL is disabled.");
            return;
         }
+
+        /*SendConsoleMessage.info("Loading Votes ENABLED.");
+        SendConsoleMessage.info("Now Loading Votes.");
+        try {
+            getVoteManager().allVotes = getDatabaseManager().voteAllTime();
+            getVoteManager().monthlyVotes = getDatabaseManager().voteMonthly();
+            lastVotesUpdate = System.currentTimeMillis();
+            SendConsoleMessage.info("Loading Votes Complete.");
+        } catch (Exception ex) {
+            SendConsoleMessage.error("Error loading votes into cache: " + ex.getMessage());
+        }*/
+
+        /*try {
+            SendConsoleMessage.info("Now loading sign wall.");
+            this.getServer().getScheduler().runTask(this, new Runnable() {
+
+                @Override
+                public void run() {
+                    getSignManager().updateTopVotersOnWall();
+                    SendConsoleMessage.info("Sign wall loading complete.");
+                }
+            });
+        } catch (Exception ex) {
+            SendConsoleMessage.error("Error loading sign wall: " + ex.getMessage());
+        }*/
 
         try {
             Bukkit.getScheduler().runTaskTimerAsynchronously(this,
