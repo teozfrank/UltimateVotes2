@@ -7,6 +7,7 @@ import net.teozfrank.ultimatevotes.api.UUIDFetcher;
 import net.teozfrank.ultimatevotes.api.WorldEditSelectionHelper;
 import net.teozfrank.ultimatevotes.discord.DiscordFileManager;
 import net.teozfrank.ultimatevotes.discord.DiscordWebhookManager;
+import net.teozfrank.ultimatevotes.threads.VoteSpamPreventionThread;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -49,6 +50,7 @@ public class UltimateVotes extends JavaPlugin {
     private MaterialHelper materialHelper;
     private DiscordFileManager discordFileManager;
     private DiscordWebhookManager discordWebhookManager;
+    private Util util;
 
     public UltimateVotes() {
         super();
@@ -102,7 +104,7 @@ public class UltimateVotes extends JavaPlugin {
         this.voteManager = new VoteManager(this);
         this.guiManager = new GUIManager(this);
         this.signManager = new SignManager(this);
-
+        this.util = new Util(this);
         new SetSignLocation(this);
         new PlayerJoin(this);
         new CheckVotes(this);
@@ -121,6 +123,17 @@ public class UltimateVotes extends JavaPlugin {
         this.registerCommands();
         this.checkForUpdates();
         this.submitStats();
+        this.checkVoteSpamPrevention();
+    }
+
+    private void checkVoteSpamPrevention() {
+        if(fileManager.isVoteSpamPrevention()) {
+            int timeOut = getFileManager().getVoteSpamPreventionTimeout();
+            if(this.isDebugEnabled()) {
+                SendConsoleMessage.debug("Vote spam prevention thread starting for: " + timeOut + " Minutes");
+            }
+            Bukkit.getScheduler().runTaskTimer(this, new VoteSpamPreventionThread(this), (20L * 60) * timeOut, (20L * 60) * timeOut);
+        }
     }
 
     private void submitStats() {
@@ -148,7 +161,7 @@ public class UltimateVotes extends JavaPlugin {
             errorCount++;
         }
 
-        if(getConfig().getDouble("ultimatevotes.configversion") != 2.9) {
+        if(getConfig().getDouble("ultimatevotes.configversion") != 3.0) {
             SendConsoleMessage.warning("Your " + ChatColor.AQUA + "config.yml " +
                     ChatColor.RED + " is out of date!");
             SendConsoleMessage.info("Updating config.yml file.");
@@ -665,7 +678,20 @@ public class UltimateVotes extends JavaPlugin {
             return;
         }
 
-        if(!(getConfig().getDouble("ultimatevotes.configversion") == 2.9)) {
+        if(getConfig().getDouble("ultimatevotes.configversion") == 2.9) {
+            SendConsoleMessage.debug("Config version of config.yml is 2.9, updating to 3.0");
+            getConfig().set("ultimatevotes.configversion", 3.0);
+            getConfig().set("ultimatevotes.votes.votespampreventionenabled", true);
+            getConfig().set("ultimatevotes.votes.votespampreventiontimeout", 5);
+
+            saveConfig();
+            reloadConfig();
+
+            SendConsoleMessage.info("Config update completed successfully!");
+            return;
+        }
+
+        if(!(getConfig().getDouble("ultimatevotes.configversion") == 3.0)) {
             SendConsoleMessage.warning("Error in updating config. No update found for the config version you are using! Have you changed it?");
         }
 
@@ -936,5 +962,9 @@ public class UltimateVotes extends JavaPlugin {
 
     public MaterialHelper getMaterialHelper() {
         return materialHelper;
+    }
+
+    public Util getUtil() {
+        return util;
     }
 }
