@@ -716,6 +716,9 @@ public class UltimateVotes extends JavaPlugin {
         if (!(new File(getDataFolder(), "messages.yml")).exists()) {
             getFileManager().saveDefaultMessages();
         }
+        /*if (!(new File(getDataFolder(), "discord.yml")).exists()) {
+            getFileManager().saveDefaultDiscord();
+        }*/
     }
 
     @Override
