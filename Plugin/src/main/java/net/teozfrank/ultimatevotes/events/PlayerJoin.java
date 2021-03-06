@@ -145,6 +145,7 @@ public class PlayerJoin implements Listener {
                                 for (String joinMessage : joinMessages) {
                                     joinMessage = ChatColor.translateAlternateColorCodes('&', joinMessage);
                                     joinMessage = joinMessage.replaceAll("%votecount%", voteCount);
+                                    joinMessage = joinMessage.replaceAll("%player%", playerName);
                                     messages.append(joinMessage + "\n");
                                 }
 
