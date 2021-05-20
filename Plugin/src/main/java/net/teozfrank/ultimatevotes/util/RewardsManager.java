@@ -466,7 +466,7 @@ public class RewardsManager {
             SendConsoleMessage.debug("Player " + playerName + " has an offline reward value of " + unclaimedVotesCount + ".");
         }
 
-        VoteRewardEvent event = new VoteRewardEvent(player, voteCount, unclaimedVotesCount);
+        VoteRewardEvent event = new VoteRewardEvent(player, voteCount, claimAmount);
         Bukkit.getServer().getPluginManager().callEvent(event);
         if(plugin.isDebugEnabled()) {
             SendConsoleMessage.debug("CALL VOTE REWARD EVENT");
