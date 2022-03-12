@@ -22,6 +22,8 @@ public class DatabaseManager {
     private HashMap<String, UUID> cachedUUIDs;
     private List<UUID> uuidList;
     public Map<UUID, String> uuidToOrigionalName;
+    private String mysql5ConnectorString = "com.mysql.jdbc.Driver";
+    private String mysql8ConnectorString = "com.mysql.cj.jdbc.Driver";
 
     public DatabaseManager(final UltimateVotes plugin) {
         this.plugin = plugin;
@@ -138,7 +140,18 @@ public class DatabaseManager {
 
     public void setupTopVoters() {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            try {
+                Class.forName(mysql8ConnectorString);
+            } catch (ClassNotFoundException ex1) {
+                try {
+                    Class.forName(mysql5ConnectorString);
+                    if(plugin.isDebugEnabled()) {
+                        SendConsoleMessage.debug("Using mysql 5 driver");
+                    }
+                } catch (ClassNotFoundException ex2) {
+
+                }
+            }
             String query = "SHOW TABLES LIKE 'TOPVOTERS'";
             if(plugin.isDebugEnabled()) {
                 SendConsoleMessage.debug("Preparing initial sql statement for TopVoters.");
@@ -178,13 +191,11 @@ public class DatabaseManager {
                     connection.close();
                 }
             } else {
-                if(plugin.isDebugEnabled()) {
+                if (plugin.isDebugEnabled()) {
                     SendConsoleMessage.debug("Table TopVoters exists, ignoring!");
                 }
 
             }
-        } catch (ClassNotFoundException ex) {
-            SendConsoleMessage.warning("DatabaseManager driver wasn't found!");
         } catch (Exception e) {
             e.printStackTrace();
             //SendConsoleMessage.warning("DatabaseManager could not establish a connection when trying to setup all votes: " + e.printStackTrace(););
@@ -341,7 +352,18 @@ public class DatabaseManager {
 
     public void setupVoteLog() {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            try {
+                Class.forName(mysql8ConnectorString);
+            } catch (ClassNotFoundException ex1) {
+                try {
+                    Class.forName(mysql5ConnectorString);
+                    if(plugin.isDebugEnabled()) {
+                        SendConsoleMessage.debug("Using mysql 5 driver");
+                    }
+                } catch (ClassNotFoundException ex2) {
+
+                }
+            }
             String query = "SHOW TABLES LIKE 'VOTELOG'";
             if(plugin.isDebugEnabled()) {
                 SendConsoleMessage.debug("Preparing initial sql statement for VoteLog.");
@@ -417,17 +439,25 @@ public class DatabaseManager {
                 }
 
             }
-        } catch (ClassNotFoundException ex) {
+        } catch (Exception ex) {
             SendConsoleMessage.warning("DatabaseManager driver wasn't found!");
-        } catch (Exception e) {
-            e.printStackTrace();
-            //SendConsoleMessage.warning("DatabaseManager could not establish a connection when trying to setup all votes: " + e.printStackTrace(););
         }
     }
 
     public void setupAllVotes() {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            try {
+                Class.forName(mysql8ConnectorString);
+            } catch (ClassNotFoundException ex1) {
+                try {
+                    Class.forName(mysql5ConnectorString);
+                    if(plugin.isDebugEnabled()) {
+                        SendConsoleMessage.debug("Using mysql 5 driver");
+                    }
+                } catch (ClassNotFoundException ex2) {
+
+                }
+            }
             String query = "SHOW TABLES LIKE 'ALLVOTES'";
             if(plugin.isDebugEnabled()) {
                 SendConsoleMessage.debug("Preparing initial sql statement for AllVotes.");
@@ -471,18 +501,26 @@ public class DatabaseManager {
                 }
 
             }
-        } catch (ClassNotFoundException ex) {
+        } catch (Exception ex) {
             SendConsoleMessage.warning("DatabaseManager driver wasn't found!");
-        } catch (Exception e) {
-            e.printStackTrace();
-            //SendConsoleMessage.warning("DatabaseManager could not establish a connection when trying to setup all votes: " + e.printStackTrace(););
         }
     }
 
     public void setupMonthlyVotes() {
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            try {
+                Class.forName(mysql8ConnectorString);
+            } catch (ClassNotFoundException ex1) {
+                try {
+                    Class.forName(mysql5ConnectorString);
+                    if(plugin.isDebugEnabled()) {
+                        SendConsoleMessage.debug("Using mysql 5 driver");
+                    }
+                } catch (ClassNotFoundException ex2) {
+
+                }
+            }
             String query = "SHOW TABLES LIKE 'MONTHLYVOTES'";
             if(plugin.isDebugEnabled()) {
                 SendConsoleMessage.debug("Preparing initial sql statement for MonthlyVotes.");
@@ -526,8 +564,6 @@ public class DatabaseManager {
                     SendConsoleMessage.debug("Table MONTHLYVOTES exists, ignoring!");
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            SendConsoleMessage.warning("DatabaseManager driver wasn't found!");
         } catch (Exception e) {
             SendConsoleMessage.warning("DatabaseManager could not establish a connection when trying to setup monthly votes: " + e);
         }
@@ -535,8 +571,18 @@ public class DatabaseManager {
 
     public void setupLastReset() {
         try {
+            try {
+                Class.forName(mysql8ConnectorString);
+            } catch (ClassNotFoundException ex1) {
+                try {
+                    Class.forName(mysql5ConnectorString);
+                    if(plugin.isDebugEnabled()) {
+                        SendConsoleMessage.debug("Using mysql 5 driver");
+                    }
+                } catch (ClassNotFoundException ex2) {
 
-            Class.forName("com.mysql.jdbc.Driver");
+                }
+            }
             String query = "SHOW TABLES LIKE 'LASTRESET'";
             if(plugin.isDebugEnabled()) {
                 SendConsoleMessage.debug("Preparing initial sql statement for LastReset.");
@@ -575,9 +621,6 @@ public class DatabaseManager {
                 setInitialLastReset("MONTHLYVOTES");
 
             }
-
-        } catch (ClassNotFoundException ex) {
-            SendConsoleMessage.warning("DatabaseManager driver wasn't found!");
         } catch (Exception e) {
             SendConsoleMessage.warning("DatabaseManager could not establish a connection when trying to setup last reset table: " + e);
         }
@@ -585,8 +628,20 @@ public class DatabaseManager {
 
     public void setupDailyTarget() {
         try {
+            try {
+                Class.forName(mysql8ConnectorString);
+            } catch (ClassNotFoundException ex1) {
+                try {
+                    Class.forName(mysql5ConnectorString);
+                    if(plugin.isDebugEnabled()) {
+                        if(plugin.isDebugEnabled()) {
+                            SendConsoleMessage.debug("Using mysql 5 driver");
+                        }
+                    }
+                } catch (ClassNotFoundException ex2) {
 
-            Class.forName("com.mysql.jdbc.Driver");
+                }
+            }
             SendConsoleMessage.info("Attempting to connect to DatabaseManager.");
             String query = "SHOW TABLES LIKE 'DAILYTARGET'";
             PreparedStatement statement = getConnection().prepareStatement(query);
@@ -630,8 +685,6 @@ public class DatabaseManager {
                 }
             }
 
-        } catch (ClassNotFoundException ex) {
-            SendConsoleMessage.warning("DatabaseManager driver wasn't found!");
         } catch (Exception e) {
             SendConsoleMessage.warning("DatabaseManager could not establish a connection: " + e);
         }
