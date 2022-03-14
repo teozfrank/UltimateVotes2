@@ -293,7 +293,7 @@ public class DatabaseManager {
 
                 sqlDatabaseConnection = DriverManager.getConnection("jdbc:mysql://" +
                         MySqlHost + ":" + MySqlPort + "/" + MySqlDatabase +
-                        "?autoReconnect=true&useSSL=false&retrievePublickey=true", MySqlUsername, MySqlPassword);
+                        "?autoReconnect=true&useSSL=false&retrievePublickey=true?characterEncoding=utf8", MySqlUsername, MySqlPassword);
                 if(plugin.isDebugEnabled()) {
                     SendConsoleMessage.debug("Connection to MySQL database successful.");
                 }
@@ -302,7 +302,7 @@ public class DatabaseManager {
             } else {
                 sqlDatabaseConnection = DriverManager.getConnection("jdbc:mysql://" +
                         MySqlHost + ":" + MySqlPort + "/" + MySqlDatabase +
-                        "?useSSL=false&retrievePublickey=true", MySqlUsername, MySqlPassword);
+                        "?useSSL=false&retrievePublickey=true?characterEncoding=utf8", MySqlUsername, MySqlPassword);
                 if(plugin.isDebugEnabled()) {
                     SendConsoleMessage.debug("Connection to MySQL database successful.");
                 }
