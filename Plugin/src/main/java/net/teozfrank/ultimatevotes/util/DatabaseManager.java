@@ -289,6 +289,18 @@ public class DatabaseManager {
             }
 
             Connection sqlDatabaseConnection;
+            try {
+                Class.forName(mysql8ConnectorString);
+            } catch (ClassNotFoundException ex1) {
+                try {
+                    Class.forName(mysql5ConnectorString);
+                    if(plugin.isDebugEnabled()) {
+                        SendConsoleMessage.debug("Using mysql 5 driver");
+                    }
+                } catch (ClassNotFoundException ex2) {
+
+                }
+            }
             if (plugin.getFileManager().isMaintainConnection()) {
 
                 sqlDatabaseConnection = DriverManager.getConnection("jdbc:mysql://" +
