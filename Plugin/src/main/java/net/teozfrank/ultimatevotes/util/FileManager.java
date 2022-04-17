@@ -468,6 +468,10 @@ public class FileManager {
         return plugin.getConfig().getInt("ultimatevotes.votes.votespampreventiontimeout");
     }
 
+    public boolean isRewardOnJoin() {
+        return plugin.getConfig().getBoolean("ultimatevotes.rewards.onjoin");
+    }
+
     public void reloadDiscord() {
         if (discordFile == null) {
             discordFile = new File(plugin.getDataFolder(), "discord.yml");
