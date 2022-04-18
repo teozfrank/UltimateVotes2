@@ -127,6 +127,13 @@ public class PlayerJoin implements Listener {
 
         }
 
+        if(! fm.cacheHasVotedOnJoin()) {
+            if(plugin.isDebugEnabled()) {
+                SendConsoleMessage.debug("Cache on join has voted disabled not checking has player voted");
+            }
+            return;
+        }
+
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
 
             @Override

@@ -23,6 +23,9 @@ ultimatevotes:
         user: 'root'
         pass: ''
         maintainconnection: true
+    cache:
+        onjoin:
+            hasvoted: true
 # reward settings
     rewards:
         enabled: true

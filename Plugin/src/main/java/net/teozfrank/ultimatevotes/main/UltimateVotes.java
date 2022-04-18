@@ -695,6 +695,7 @@ public class UltimateVotes extends JavaPlugin {
             SendConsoleMessage.debug("Config version of config.yml is 3.0, updating to 3.1");
             getConfig().set("ultimatevotes.configversion", 3.1);
             getConfig().set("ultimatevotes.rewards.onjoin", true);
+            getConfig().set("ultimatevotes.cache.onjoin.hasvoted", true);
 
             saveConfig();
             reloadConfig();

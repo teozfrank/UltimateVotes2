@@ -472,6 +472,10 @@ public class FileManager {
         return plugin.getConfig().getBoolean("ultimatevotes.rewards.onjoin");
     }
 
+    public boolean cacheHasVotedOnJoin() {
+        return plugin.getConfig().getBoolean("ultimatevotes.cache.onjoin.hasvoted");
+    }
+
     public void reloadDiscord() {
         if (discordFile == null) {
             discordFile = new File(plugin.getDataFolder(), "discord.yml");
