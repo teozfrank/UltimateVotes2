@@ -99,7 +99,7 @@
         </executions>
         <configuration>
           <injar>${project.artifactId}-orig.jar</injar>
-          <outjar>${project.artifactId}.jar</outjar>
+          <outjar>${project.artifactId}_${project.version}_${git.commit.id.abbrev}.jar</outjar>
           <maxMemory>1024m</maxMemory>
           <proguardInclude>${basedir}/proguard.conf</proguardInclude>
           <exclusions>
