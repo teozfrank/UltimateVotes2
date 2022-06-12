@@ -191,7 +191,7 @@
                 </executions>
                 <configuration>
                     <!-- Our application is so big that ProGuard had ran out of memory -->
-                    <injar>${project.artifactId}-orig.jar</injar>
+                    <injar>${project.artifactId}.jar</injar>
                     <outjar>${project.artifactId}_${project.version}_${git.commit.id.abbrev}.jar</outjar>
                     <maxMemory>1024m</maxMemory>
 
@@ -226,7 +226,7 @@
                 </configuration>
             </plugin>
         </plugins>
-        <finalName>${project.artifactId}-orig</finalName>
+        <finalName>${project.artifactId}</finalName>
     </build>
 
 
