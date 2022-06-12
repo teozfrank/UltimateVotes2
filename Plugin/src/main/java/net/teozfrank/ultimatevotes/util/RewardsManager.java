@@ -465,6 +465,17 @@ public class RewardsManager {
         if (plugin.isDebugEnabled()) {
             SendConsoleMessage.debug("Player " + playerName + " has an offline reward value of " + unclaimedVotesCount + ".");
         }
+
+        VoteRewardEvent event = new VoteRewardEvent(player, voteCount, claimAmount);
+        Bukkit.getServer().getPluginManager().callEvent(event);
+        if(plugin.isDebugEnabled()) {
+            SendConsoleMessage.debug("CALL VOTE REWARD EVENT");
+        }
+
+        if(event.isCancelled()) {
+            return true;
+        }
+
         Util.sendMsg(player, mm.getRewardMessage());
 
         if (fm.rewardByWorld()) {//if we are rewarding by world
