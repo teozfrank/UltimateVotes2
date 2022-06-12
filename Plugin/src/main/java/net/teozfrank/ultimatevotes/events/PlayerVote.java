@@ -34,6 +34,7 @@ public class PlayerVote implements Listener {
         final MessageManager mm = plugin.getMessageManager();
         final DiscordWebhookManager dwm = plugin.getDiscordWebhookManager();
         final DiscordFileManager dfm = plugin.getDiscordFileManager();
+        final Util util = plugin.getUtil();
 
         final Vote v = e.getVote();
         String serviceName = v.getServiceName();
@@ -96,10 +97,35 @@ public class PlayerVote implements Listener {
                                         Player player = Bukkit.getPlayer(username);
 
                                         if(fm.isVoteBroadcastEnabled() && !fm.isVoteBroadcastOnlineEnabled()) {
-                                            String voteAnnouncement = mm.getVoteBroadcastMessage();
-                                            voteAnnouncement = voteAnnouncement.replaceAll("%player%", username);
-                                            voteAnnouncement = voteAnnouncement.replaceAll("%service%", v.getServiceName());
-                                            Util.broadcast(voteAnnouncement);
+
+                                            if(fm.isVoteSpamPrevention()) {
+                                                if(! util.hasVoted(username)) {
+                                                    if(plugin.isDebugEnabled()) {
+                                                        SendConsoleMessage.debug("Vote broadcast is enabled, vote spam prevention is enabled, player has not voted " +
+                                                                "and vote broadcast online is not enabled. Broadcasting.");
+                                                    }
+                                                    String voteAnnouncement = mm.getVoteBroadcastMessage();
+                                                    voteAnnouncement = voteAnnouncement.replaceAll("%player%", username);
+                                                    voteAnnouncement = voteAnnouncement.replaceAll("%service%", v.getServiceName());
+                                                    Util.broadcast(voteAnnouncement);
+                                                } else {
+                                                    if(plugin.isDebugEnabled()) {
+                                                        SendConsoleMessage.debug("Vote broadcast is enabled, vote spam prevention is enabled, player has voted " +
+                                                                "not broadcasting");
+                                                    }
+                                                }
+
+                                            } else {
+                                                if(plugin.isDebugEnabled()) {
+                                                    SendConsoleMessage.debug("Vote broadcast is enabled, vote spam prevention is disabled " + "" +
+                                                            "and vote broadcast online is not enabled. Broadcasting.");
+                                                }
+                                                String voteAnnouncement = mm.getVoteBroadcastMessage();
+                                                voteAnnouncement = voteAnnouncement.replaceAll("%player%", username);
+                                                voteAnnouncement = voteAnnouncement.replaceAll("%service%", v.getServiceName());
+                                                Util.broadcast(voteAnnouncement);
+                                            }
+
                                         }
 
                                         /*if(dfm.isVoteWebhookEventEnabled()) {
@@ -117,10 +143,35 @@ public class PlayerVote implements Listener {
                                                 }
 
                                                 if(fm.isVoteBroadcastEnabled() && fm.isVoteBroadcastOnlineEnabled()) {
-                                                    String voteAnnouncement = mm.getVoteBroadcastMessage();
-                                                    voteAnnouncement = voteAnnouncement.replaceAll("%player%", username);
-                                                    voteAnnouncement = voteAnnouncement.replaceAll("%service%", v.getServiceName());
-                                                    Util.broadcast(voteAnnouncement);
+                                                    if(fm.isVoteSpamPrevention()) {
+                                                        if(! util.hasVoted(username)) {
+                                                            if(plugin.isDebugEnabled()) {
+                                                                SendConsoleMessage.debug("Vote broadcast is enabled, vote spam prevention is enabled " +
+                                                                        "and vote broadcast online is enabled. Broadcasting.");
+                                                            }
+
+                                                            String voteAnnouncement = mm.getVoteBroadcastMessage();
+                                                            voteAnnouncement = voteAnnouncement.replaceAll("%player%", username);
+                                                            voteAnnouncement = voteAnnouncement.replaceAll("%service%", v.getServiceName());
+                                                            Util.broadcast(voteAnnouncement);
+                                                        } else {
+                                                            if(plugin.isDebugEnabled()) {
+                                                                SendConsoleMessage.debug("Vote broadcast enabled, vote spam prevention is enabled, " +
+                                                                        "player voted not broadcasting");
+                                                            }
+                                                        }
+
+                                                    } else {
+                                                        if(plugin.isDebugEnabled()) {
+                                                            SendConsoleMessage.debug("Vote broadcast is enabled, vote spam prevention is disabled " +
+                                                                    "and vote broadcast online is enabled. Broadcasting.");
+                                                        }
+                                                        String voteAnnouncement = mm.getVoteBroadcastMessage();
+                                                        voteAnnouncement = voteAnnouncement.replaceAll("%player%", username);
+                                                        voteAnnouncement = voteAnnouncement.replaceAll("%service%", v.getServiceName());
+                                                        Util.broadcast(voteAnnouncement);
+                                                    }
+
                                                 }
 
 
@@ -135,6 +186,12 @@ public class PlayerVote implements Listener {
                                             }
 
 
+                                        }
+                                        if (fm.isVoteSpamPrevention() && fm.isVoteBroadcastEnabled() && ! util.hasVoted(username)) {
+                                            if(plugin.isDebugEnabled()) {
+                                                SendConsoleMessage.debug("Vote spam prevention enabled, vote broadcasts enabled, broadcast complete, adding username to cache.");
+                                            }
+                                            util.addVotedPlayer(username);
                                         }
                                     }
                                 });
