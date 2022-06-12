@@ -54,9 +54,12 @@ public class PlayerJoin implements Listener {
 
             @Override
             public void run() {
-                if (rm.hasUnclaimedRewards(playerUUID) && !fm.useClaimCommand() && fm.isRewardsEnabled()) { //if the player has offline rewards and we are not using the claim command
-                    rm.rewardPlayer(player);
+                if(fm.isRewardOnJoin() && fm.isRewardsEnabled()) {
+                    if (rm.hasUnclaimedRewards(playerUUID) && !fm.useClaimCommand()) { //if the player has offline rewards and we are not using the claim command
+                        rm.rewardPlayer(player);
+                    }
                 }
+
                 if (fm.isUpdateCheckEnabled() && player.hasPermission("ultimatevotes.admin.updatenotification")) {
 
                     if(plugin.getDescription().getVersion().contains("SNAPSHOT")) {
@@ -124,6 +127,13 @@ public class PlayerJoin implements Listener {
 
         }
 
+        if(! fm.cacheHasVotedOnJoin()) {
+            if(plugin.isDebugEnabled()) {
+                SendConsoleMessage.debug("Cache on join has voted disabled not checking has player voted");
+            }
+            return;
+        }
+
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
 
             @Override
@@ -145,6 +155,7 @@ public class PlayerJoin implements Listener {
                                 for (String joinMessage : joinMessages) {
                                     joinMessage = ChatColor.translateAlternateColorCodes('&', joinMessage);
                                     joinMessage = joinMessage.replaceAll("%votecount%", voteCount);
+                                    joinMessage = joinMessage.replaceAll("%player%", playerName);
                                     messages.append(joinMessage + "\n");
                                 }
 

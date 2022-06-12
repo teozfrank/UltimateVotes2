@@ -460,6 +460,22 @@ public class FileManager {
         return plugin.getConfig().getBoolean("ultimatevotes.votes.listenerenabled");
     }
 
+    public boolean isVoteSpamPrevention() {
+        return plugin.getConfig().getBoolean("ultimatevotes.votes.votespampreventionenabled");
+    }
+
+    public int getVoteSpamPreventionTimeout() {
+        return plugin.getConfig().getInt("ultimatevotes.votes.votespampreventiontimeout");
+    }
+
+    public boolean isRewardOnJoin() {
+        return plugin.getConfig().getBoolean("ultimatevotes.rewards.onjoin");
+    }
+
+    public boolean cacheHasVotedOnJoin() {
+        return plugin.getConfig().getBoolean("ultimatevotes.cache.onjoin.hasvoted");
+    }
+
     public void reloadDiscord() {
         if (discordFile == null) {
             discordFile = new File(plugin.getDataFolder(), "discord.yml");

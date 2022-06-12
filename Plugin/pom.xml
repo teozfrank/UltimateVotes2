@@ -7,7 +7,7 @@
     <artifactId>UltimateVotes</artifactId>
     <packaging>jar</packaging>
     <name>UltimateVotesPlugin</name>
-    <version>2.0.3</version>
+    <version>2.1.0-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -191,8 +191,8 @@
                 </executions>
                 <configuration>
                     <!-- Our application is so big that ProGuard had ran out of memory -->
-                    <injar>${project.artifactId}-orig.jar</injar>
-                    <outjar>${project.artifactId}.jar</outjar>
+                    <injar>${project.artifactId}.jar</injar>
+                    <outjar>${project.artifactId}_${project.version}_${git.commit.id.abbrev}.jar</outjar>
                     <maxMemory>1024m</maxMemory>
 
                     <!-- File with proguard configuration -->
@@ -226,7 +226,7 @@
                 </configuration>
             </plugin>
         </plugins>
-        <finalName>${project.artifactId}-orig</finalName>
+        <finalName>${project.artifactId}</finalName>
     </build>
 
 

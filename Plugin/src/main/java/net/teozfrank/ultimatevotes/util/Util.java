@@ -16,6 +16,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -30,9 +31,36 @@ import java.util.UUID;
 public class Util {
 
     private UltimateVotes plugin;
+    private List<String> votedPlayers;
 
     public Util(UltimateVotes plugin){
         this.plugin = plugin;
+        this.votedPlayers = new ArrayList<String>();
+    }
+
+    /**
+     * add a player that has voted to the list
+     * @param voterName the voters name
+     */
+    public void addVotedPlayer(String voterName) {
+        if(!getVotedPlayers().contains(voterName)) {
+            getVotedPlayers().add(voterName);
+        }
+    }
+
+    public boolean hasVoted(String voterName) {
+        if(getVotedPlayers().contains(voterName)) {
+            return true;
+        }
+        return false;
+    }
+
+    public List<String> getVotedPlayers() {
+        return votedPlayers;
+    }
+
+    public void clearVotedPlayers() {
+        getVotedPlayers().clear();
     }
 
     public static String LINE_BREAK = UltimateVotes.getLineBreak();

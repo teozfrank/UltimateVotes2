@@ -9,7 +9,7 @@
 # %postion% the postion in the top 10 voters they are can be a value of 1-10
 # %playername% the players name
 ultimatevotes:
-    configversion: 2.9
+    configversion: 3.1
     checkforupdates: true
     commands:
 # should we swap vote with vote sites? If true when a user uses /vote it will display vote sites instead of the normal command list.
@@ -23,9 +23,14 @@ ultimatevotes:
         user: 'root'
         pass: ''
         maintainconnection: true
+    cache:
+        onjoin:
+            hasvoted: true
 # reward settings
     rewards:
         enabled: true
+# enable rewarding when a player joins
+        onjoin: true
         rewardsbyworld: false
         cumulativerewards:
 #if set to true, the vote count from the monthly votes will be used for cumulative rewards, if set to false, it will use the count of the alltime vote count.
@@ -40,6 +45,8 @@ ultimatevotes:
         limit: 5
 # vote settings
     votes:
+        votespampreventionenabled: true
+        votespampreventiontimeout: 5
         listenerenabled: true
         autoresetmonthlyvotes: false
         usingbungeecord: false
