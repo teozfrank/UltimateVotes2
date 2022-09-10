@@ -55,6 +55,15 @@ public class PlayerVote implements Listener {
             return;//ignored
         }
 
+        Player player = Bukkit.getPlayer(username);
+
+        if(player == null && !fm.isRewardOffline()) { // Player is offline and we are not rewarding offline
+            if(plugin.isDebugEnabled()) {
+                SendConsoleMessage.debug("Player : " + username + " is offline, not rewarding.");
+            }
+            return;
+        }
+
         if (!(v.getUsername().equals(""))) {//to prevent votes that put in no username being counted
             if(plugin.isDebugEnabled()) {
                 SendConsoleMessage.debug("logging vote for player: " + v.getUsername());
