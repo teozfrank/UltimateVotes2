@@ -32,6 +32,8 @@ ultimatevotes:
 # enable rewarding when a player joins
         onjoin: true
         rewardsbyworld: false
+# should we record a vote if the player is offline?
+        offline: true
         cumulativerewards:
 #if set to true, the vote count from the monthly votes will be used for cumulative rewards, if set to false, it will use the count of the alltime vote count.
             rewardbymonthlyvotescount: true

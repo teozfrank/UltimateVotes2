@@ -369,6 +369,10 @@ public class FileManager {
         return plugin.getConfig().getBoolean("ultimatevotes.rewards.claiming.rewardonline");
     }
 
+    public boolean isRewardOffline() {
+        return plugin.getConfig().getBoolean("ultimatevotes.rewards.offline");
+    }
+
     public boolean isUsingBungeeCord() {
         return plugin.getConfig().getBoolean("ultimatevotes.votes.usingbungeecord");
     }
