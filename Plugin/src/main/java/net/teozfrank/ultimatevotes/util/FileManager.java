@@ -518,4 +518,11 @@ public class FileManager {
         }
     }
 
+    public boolean isVoteReminderEnabled() {
+        return plugin.getConfig().getBoolean("ultimatevotes.votes.votereminder.enabled");
+    }
+
+    public long getVoteReminderInterval() {
+        return plugin.getConfig().getLong("ultimatevotes.votes.votereminder.interval");
+    }
 }

@@ -592,23 +592,18 @@ public class UltimateVotes extends JavaPlugin {
         if(getConfig().getDouble("ultimatevotes.configversion") == 2.4) {
             SendConsoleMessage.debug("Config version of config.yml is 2.4, updating to 2.5");
             getConfig().set("ultimatevotes.configversion", 2.5);
-
             boolean useClaimCommand = getConfig().getBoolean("ultimatevotes.rewards.useclaimcommand");
             boolean useClaimGUI = getConfig().getBoolean("ultimatevotes.rewards.useclaimgui");
             SendConsoleMessage.debug("Current use claim command: " + useClaimCommand);
             SendConsoleMessage.debug("Current use claim gui: " + useClaimGUI);
-
-
             SendConsoleMessage.debug("removing settings from config.");
             getConfig().set("ultimatevotes.rewards.useclaimcommand", null);
             getConfig().set("ultimatevotes.rewards.useclaimgui", null);
-
             String newBasepath = "ultimatevotes.rewards.claiming.";
             SendConsoleMessage.debug("setting new config paths.");
             getConfig().set(newBasepath + "useclaimcommand", useClaimCommand);
             getConfig().set(newBasepath + "useclaimgui", useClaimGUI);
             getConfig().set(newBasepath + "rewardonline", useClaimGUI);
-
             saveConfig();
             reloadConfig();
 
@@ -629,14 +624,11 @@ public class UltimateVotes extends JavaPlugin {
         if(getConfig().getDouble("ultimatevotes.configversion") == 2.5) {
             SendConsoleMessage.debug("Config version of config.yml is 2.5, updating to 2.6");
             getConfig().set("ultimatevotes.configversion", 2.6);
-
             getConfig().set("ultimatevotes.topvoterslog.enabled", true);
             getConfig().set("ultimatevotes.topvoterslog.limit", 5);
             getConfig().set("ultimatevotes.rewards.cumulativerewards.rewardbymonthlyvotescount", true);
-
             saveConfig();
             reloadConfig();
-
             SendConsoleMessage.info("Config update completed successfully!");
             return;
         }
@@ -645,10 +637,8 @@ public class UltimateVotes extends JavaPlugin {
             SendConsoleMessage.debug("Config version of config.yml is 2.6, updating to 2.7");
             getConfig().set("ultimatevotes.configversion", 2.7);
             getConfig().set("ultimatevotes.votes.autoresetmonthlyvotes", true);
-
             saveConfig();
             reloadConfig();
-
             SendConsoleMessage.info("Config update completed successfully!");
             return;
         }
@@ -658,10 +648,8 @@ public class UltimateVotes extends JavaPlugin {
             getConfig().set("ultimatevotes.configversion", 2.8);
             getConfig().set("ultimatevotes.commands.swapvotewithvotesites", false);
             getConfig().set("ultimatevotes.votes.loadonstartup", null);
-
             saveConfig();
             reloadConfig();
-
             SendConsoleMessage.info("Config update completed successfully!");
             return;
         }
@@ -670,10 +658,8 @@ public class UltimateVotes extends JavaPlugin {
             SendConsoleMessage.debug("Config version of config.yml is 2.8, updating to 2.9");
             getConfig().set("ultimatevotes.configversion", 2.9);
             getConfig().set("ultimatevotes.votes.listenerenabled", true);
-
             saveConfig();
             reloadConfig();
-
             SendConsoleMessage.info("Config update completed successfully!");
             return;
         }
@@ -683,10 +669,8 @@ public class UltimateVotes extends JavaPlugin {
             getConfig().set("ultimatevotes.configversion", 3.0);
             getConfig().set("ultimatevotes.votes.votespampreventionenabled", true);
             getConfig().set("ultimatevotes.votes.votespampreventiontimeout", 5);
-
             saveConfig();
             reloadConfig();
-
             SendConsoleMessage.info("Config update completed successfully!");
             return;
         }
@@ -696,10 +680,8 @@ public class UltimateVotes extends JavaPlugin {
             getConfig().set("ultimatevotes.configversion", 3.1);
             getConfig().set("ultimatevotes.rewards.onjoin", true);
             getConfig().set("ultimatevotes.cache.onjoin.hasvoted", true);
-
             saveConfig();
             reloadConfig();
-
             SendConsoleMessage.info("Config update completed successfully!");
             return;
         }
@@ -708,10 +690,8 @@ public class UltimateVotes extends JavaPlugin {
             SendConsoleMessage.debug("Config version of config.yml is 3.1, updating to 3.2");
             getConfig().set("ultimatevotes.configversion", 3.2);
             getConfig().set("ultimatevotes.rewards.offline", true);
-
             saveConfig();
             reloadConfig();
-
             SendConsoleMessage.info("Config update completed successfully!");
             return;
         }
@@ -735,9 +715,6 @@ public class UltimateVotes extends JavaPlugin {
         if (!(new File(getDataFolder(), "messages.yml")).exists()) {
             getFileManager().saveDefaultMessages();
         }
-        /*if (!(new File(getDataFolder(), "discord.yml")).exists()) {
-            getFileManager().saveDefaultDiscord();
-        }*/
     }
 
     @Override
@@ -832,53 +809,32 @@ public class UltimateVotes extends JavaPlugin {
            return;
         }
 
-        /*SendConsoleMessage.info("Loading Votes ENABLED.");
-        SendConsoleMessage.info("Now Loading Votes.");
         try {
-            getVoteManager().allVotes = getDatabaseManager().voteAllTime();
-            getVoteManager().monthlyVotes = getDatabaseManager().voteMonthly();
-            lastVotesUpdate = System.currentTimeMillis();
-            SendConsoleMessage.info("Loading Votes Complete.");
-        } catch (Exception ex) {
-            SendConsoleMessage.error("Error loading votes into cache: " + ex.getMessage());
-        }*/
-
-        /*try {
-            SendConsoleMessage.info("Now loading sign wall.");
-            this.getServer().getScheduler().runTask(this, new Runnable() {
-
-                @Override
-                public void run() {
-                    getSignManager().updateTopVotersOnWall();
-                    SendConsoleMessage.info("Sign wall loading complete.");
-                }
-            });
-        } catch (Exception ex) {
-            SendConsoleMessage.error("Error loading sign wall: " + ex.getMessage());
-        }*/
-
-        try {
-            /*if (!(getVoteManager().monthlyVotes.size() <= 0 && getVoteManager().allVotes.size() <= 0)) {
-                SendConsoleMessage.info("Auto-Reload Interval set to " + ChatColor.AQUA + reloadInterval + ChatColor.GREEN + " Ticks, Task Starting!");
-                Bukkit.getScheduler().runTaskTimerAsynchronously(this, new AutoReloadVotesThread(this), 20L * 10, reloadInterval);
-            } else {
-                SendConsoleMessage.info("Auto-Reloading " + ChatColor.RED + "DISABLED " + ChatColor.GREEN +
-                        "as their are not any vote records to reload, when votes do exist, please " + ChatColor.AQUA + "reload the server.");
-            }*/
-            Bukkit.getScheduler().runTaskTimerAsynchronously(this, new AutoReloadVotesThread(this), 20L * 10, reloadInterval);
-            Bukkit.getScheduler().runTaskTimer(this, new TimedCmdThread(this), 20L * 60, 20L * 60);
+            Bukkit.getScheduler().runTaskTimerAsynchronously(this,
+                    new AutoReloadVotesThread(this),
+                    20L * 10,
+                    reloadInterval);
+            Bukkit.getScheduler().runTaskTimer(this,
+                    new TimedCmdThread(this),
+                    20L * 60,
+                    20L * 60);
         } catch (Exception ex) {
             SendConsoleMessage.error("Error trying to create setup reloading task." + ex.getMessage());
         }
     }
 
     public void remindPlayers() {
-        if (this.getConfig().getBoolean("ultimatevotes.votes.votereminder.enabled")) {
-            long remindInterval = this.getConfig().getLong("ultimatevotes.votes.votereminder.interval");
-            SendConsoleMessage.info("Vote reminders ENABLED.");
-
-            Bukkit.getScheduler().runTaskTimer(this, new RemindPlayersToVoteThread(this), remindInterval, remindInterval);
+        if (!fileManager.isVoteReminderEnabled()) {
+            return;
         }
+
+        long remindInterval = fileManager.getVoteReminderInterval();
+        SendConsoleMessage.info("Vote reminders ENABLED.");
+
+        Bukkit.getScheduler().runTaskTimer(this,
+                new RemindPlayersToVoteThread(this),
+                remindInterval,
+                remindInterval);
     }
 
     /**

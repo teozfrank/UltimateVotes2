@@ -45,6 +45,10 @@ public class RemindPlayersToVoteThread implements Runnable {
 
                         @Override
                         public void run() {
+                            if(!plugin.getFileManager().cacheHasVotedOnJoin()) {
+                                SendConsoleMessage.warning("Vote reminders disabled due to cache not being populated on join");
+                                return;
+                            }
                             for(String voteReminderIn: voteReminder) {
                                 voteReminderIn = ChatColor.translateAlternateColorCodes('&', voteReminderIn);
                                 voteReminderIn = voteReminderIn.replaceAll("%votecount%", String.valueOf(databaseManager.checkUserVotes(playerUUID, "MONTHLYVOTES")));
