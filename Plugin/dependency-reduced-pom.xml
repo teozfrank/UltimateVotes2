@@ -33,7 +33,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.2.4</version>
+        <version>3.0.0</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -126,12 +126,16 @@
   </build>
   <repositories>
     <repository>
-      <id>worldedit-repo</id>
-      <url>http://maven.sk89q.com/repo/</url>
+      <id>papermc</id>
+      <url>https://repo.papermc.io/repository/maven-public/</url>
     </repository>
     <repository>
-      <id>nuvotifier-repo</id>
-      <url>https://dl.bintray.com/nuvotifier/maven/</url>
+      <id>jitpack.io</id>
+      <url>https://jitpack.io</url>
+    </repository>
+    <repository>
+      <id>elmakers-repo</id>
+      <url>https://maven.elmakers.com/repository/</url>
     </repository>
     <repository>
       <id>spigot-repo</id>
@@ -146,9 +150,9 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
-      <groupId>com.vexsoftware.nuvotifier-bukkit</groupId>
-      <artifactId>nuvotifier-bukkit</artifactId>
-      <version>2.3.4</version>
+      <groupId>com.github.NuVotifier</groupId>
+      <artifactId>NuVotifier</artifactId>
+      <version>2.7.2</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -156,6 +160,32 @@
       <artifactId>worldedit-bukkit</artifactId>
       <version>7.0.1-SNAPSHOT</version>
       <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>worldedit-core</artifactId>
+          <groupId>com.sk89q.worldedit</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>bukkit</artifactId>
+          <groupId>com.sk89q.worldedit.worldedit-libs</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>bukkit</artifactId>
+          <groupId>org.bukkit</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>paperlib</artifactId>
+          <groupId>io.papermc</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>log4j-slf4j-impl</artifactId>
+          <groupId>org.apache.logging.log4j</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>bstats-bukkit</artifactId>
+          <groupId>org.bstats</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>com.github.seeseemelk</groupId>
@@ -183,8 +213,9 @@
     </dependency>
   </dependencies>
   <properties>
+    <spigot.version>1.16.2-R0.1-SNAPSHOT</spigot.version>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <bukkit.version>1.16.2-R0.1-SNAPSHOT</bukkit.version>
   </properties>
 </project>
+
