@@ -12,19 +12,19 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <bukkit.version>1.16.2-R0.1-SNAPSHOT</bukkit.version>
+        <spigot.version>1.16.2-R0.1-SNAPSHOT</spigot.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>${bukkit.version}</version>
+            <version>${spigot.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.vexsoftware.nuvotifier-bukkit</groupId>
-            <artifactId>nuvotifier-bukkit</artifactId>
-            <version>2.3.4</version>
+            <groupId>com.github.NuVotifier</groupId>
+            <artifactId>NuVotifier</artifactId>
+            <version>2.7.2</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -85,12 +85,16 @@
 
     <repositories>
         <repository>
-            <id>worldedit-repo</id>
-            <url>http://maven.sk89q.com/repo/</url>
+            <id>papermc</id>
+            <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
         <repository>
-            <id>nuvotifier-repo</id>
-            <url>https://dl.bintray.com/nuvotifier/maven/</url>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+        <repository>
+            <id>elmakers-repo</id>
+            <url>https://maven.elmakers.com/repository/</url>
         </repository>
         <repository>
             <id>spigot-repo</id>
