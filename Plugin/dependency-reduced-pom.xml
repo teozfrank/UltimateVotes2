@@ -33,7 +33,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.0.0</version>
+        <version>3.2.4</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -47,6 +47,13 @@
                   <include>teozfrank.ultimatevotes:*</include>
                 </includes>
               </artifactSet>
+              <transformers>
+                <transformer>
+                  <manifestEntries>
+                    <Class-Path>lib/mysql-connector-java.jar</Class-Path>
+                  </manifestEntries>
+                </transformer>
+              </transformers>
             </configuration>
           </execution>
         </executions>
@@ -149,32 +156,6 @@
       <artifactId>worldedit-bukkit</artifactId>
       <version>7.0.1-SNAPSHOT</version>
       <scope>provided</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>worldedit-core</artifactId>
-          <groupId>com.sk89q.worldedit</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>bukkit</artifactId>
-          <groupId>com.sk89q.worldedit.worldedit-libs</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>bukkit</artifactId>
-          <groupId>org.bukkit</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>paperlib</artifactId>
-          <groupId>io.papermc</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>log4j-slf4j-impl</artifactId>
-          <groupId>org.apache.logging.log4j</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>bstats-bukkit</artifactId>
-          <groupId>org.bstats</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>com.github.seeseemelk</groupId>
@@ -207,4 +188,3 @@
     <bukkit.version>1.16.2-R0.1-SNAPSHOT</bukkit.version>
   </properties>
 </project>
-
